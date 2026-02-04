@@ -22,7 +22,6 @@ dist/
 *.whl
 
 # Databases / local data
-chroma_db/
 *.sqlite3
 *.bin
 *.pickle
