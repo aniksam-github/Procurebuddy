@@ -1,0 +1,29 @@
+# ---------- Core ----------
+python-dotenv==1.0.1
+streamlit==1.31.0
+
+# ---------- LangChain (Classic – Stable) ----------
+langchain==0.1.16
+langchain-core==0.1.53
+langchain-community==0.0.38
+langchain-text-splitters==0.0.2
+langsmith==0.1.147
+
+# ---------- Embeddings ----------
+sentence-transformers==2.2.2
+transformers==4.37.2
+torch==2.1.2
+
+# ---------- Vector Database ----------
+chromadb==0.4.24
+
+# ---------- LLM Client ----------
+groq==0.37.1
+
+# ---------- PDF Processing ----------
+pypdf==4.0.1
+
+# ---------- Utilities ----------
+numpy==1.26.4
+requests==2.32.5
+tqdm==4.66.1
