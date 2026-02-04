@@ -61,5 +61,4 @@ def create_vector_db():
 
     print(f" Success! Database ready at '{DB_PATH}'")
 
-if __name__ == "__main__":
-    create_vector_db()
+create_vector_db()
