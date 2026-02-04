@@ -10,10 +10,7 @@ langchain-text-splitters==0.0.2
 langsmith==0.1.147
 
 # ---------- Embeddings ----------
-sentence-transformers==2.2.2
-transformers==4.37.2
-torch==2.1.2
-huggingface-hub==0.16.4
+sentence-transformers>=2.6.0
 
 # ---------- Vector Database ----------
 chromadb==0.4.24
