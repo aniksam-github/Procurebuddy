@@ -208,3 +208,9 @@ DO NOT:
 USE:
 - Groq client directly (groq.Groq)
 - LangChain only for RAG logic
+
+
+## 🚀 Live App
+
+👉 Streamlit App: https://procurebuddy-ai.streamlit.app
+
