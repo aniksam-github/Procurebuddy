@@ -25,8 +25,8 @@ def get_resources():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     if not os.path.exists("./chroma_db"):
-        st.error("Databases does not found!!! Please run ingest.py first...")
-        return None,None
+        import ingest
+        ingest.create_vector_db()
 
     vector_db = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
     retriever = vector_db.as_retriever(search_kwargs={"k": 5})
