@@ -6,11 +6,9 @@ from groq import Groq
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
-# Sahi Import Paths ye hain:
 from langchain.chains import create_retrieval_chain
 from langchain.chains.combine_documents import create_stuff_documents_chain
 from langchain_core.prompts import ChatPromptTemplate
-# --------------------------------------
 
 load_dotenv()
 
@@ -18,15 +16,18 @@ st.set_page_config(page_title="C.B.R.I ProcureBuddy", page_icon="🤖")
 st.title("🤖 C.B.R.I Purchase Assistant")
 st.caption("powered by Groq (Llama 3) & GFR Rules")
 
-# ----------INIT SESSION STATE -------------
+# ------------------ SESSION STATE INIT ------------------
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
 if "busy" not in st.session_state:
     st.session_state.busy = False
 
-#2. Database & Model Setup
+if "pending_input" not in st.session_state:
+    st.session_state.pending_input = None
 
+
+# ------------------ DB & MODEL ------------------
 @st.cache_resource
 def get_resources():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
@@ -46,61 +47,50 @@ def get_resources():
 retriever, client = get_resources()
 
 
-# ------------------------ SHOW CHAT HISTORY ------------------------------
+# ------------------ SHOW CHAT HISTORY ------------------
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
 
-# ---------------------------INPUT BOX (LOCKED WHEN BUSY) --------------------------
-if "busy" not in st.session_state:
-    st.session_state.busy = False
-
+# ------------------ INPUT (LOCK WHEN BUSY) ------------------
 user_input = st.chat_input(
     "Ask about purchase rules (GFR 2017)...",
     disabled=st.session_state.busy
 )
 
+# If user submits and not busy, queue it
 if user_input and not st.session_state.busy:
     st.session_state.busy = True
+    st.session_state.pending_input = user_input
+    st.rerun()
 
 
-# ---------------------------------------------- CHAT USER INTERFACE --------------------------------------- #
-if retriever and client:
+# ------------------ PROCESS QUEUED MESSAGE ------------------
+if st.session_state.pending_input and retriever and client:
+    user_input = st.session_state.pending_input
+    st.session_state.pending_input = None
 
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
+    # Save user message
+    st.session_state.messages.append({"role": "user", "content": user_input})
 
-    # Show chat history
-    for msg in st.session_state.messages:
-        with st.chat_message(msg["role"]):
-            st.markdown(msg["content"])
+    with st.chat_message("user"):
+        st.markdown(user_input)
 
-    # User input
-    # user_input = st.chat_input("Ask about CBRI purchase rules (GFR 2017)...")
+    with st.chat_message("assistant"):
+        with st.spinner("📘 Analyzing GFR Rules..."):
 
-    if user_input:
-        st.session_state.messages.append(
-            {"role": "user", "content": user_input}
-        )
+            # -------- RETRIEVE CONTEXT --------
+            docs = retriever.get_relevant_documents(user_input)
+            context = "\n\n".join(d.page_content for d in docs)
 
-        with st.chat_message("user"):
-            st.markdown(user_input)
-
-        with st.chat_message("assistant"):
-            with st.spinner("📘 Analyzing GFR Rules..."):
-
-                # -------- RETRIEVE CONTEXT --------
-                docs = retriever.get_relevant_documents(user_input)
-                context = "\n\n".join(d.page_content for d in docs)
-
-                # -------- GROQ CALL --------
-                response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=[
-                        {
-                            "role": "system",
-                            "content": """
+            # -------- GROQ CALL --------
+            response = client.chat.completions.create(
+                model="llama-3.1-8b-instant",
+                messages=[
+                    {
+                        "role": "system",
+                        "content": """
 You are ProcureBuddy, an expert procurement assistant for CBRI (CSIR), strictly based on GFR 2017.
 
 STRICT RULES (MANDATORY):
@@ -148,25 +138,27 @@ IF INFORMATION IS MISSING:
 - If the answer is NOT clearly present in the provided context, reply EXACTLY:
   "This information is not found in GFR 2017."
 """
-                        },
-                        {
-                            "role": "user",
-                            "content": f"""
+                    },
+                    {
+                        "role": "user",
+                        "content": f"""
 Context:
 {context}
 
 Question:
 {user_input}
 """
-                        }
-                    ],
-                    temperature=0.3
-                )
+                    }
+                ],
+                temperature=0.3
+            )
 
-                answer = response.choices[0].message.content
-                st.markdown(answer)
+            answer = response.choices[0].message.content
+            st.markdown(answer)
 
-                st.session_state.messages.append(
-                    {"role": "assistant", "content": answer}
-                )
+            # Save assistant message
+            st.session_state.messages.append({"role": "assistant", "content": answer})
+
+    # Unlock input AFTER response is done
     st.session_state.busy = False
+    st.rerun()
