@@ -25,3 +25,6 @@ pypdf==4.0.1
 numpy==1.26.4
 requests==2.32.5
 tqdm==4.66.1
+pandas==2.1.4
+pandas-stubs==2.1.4.231227
+

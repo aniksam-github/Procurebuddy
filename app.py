@@ -124,6 +124,26 @@ if user_input and not st.session_state.busy:
     st.session_state.pending_input = user_input
     st.rerun()
 
+
+# ------------------ EXTRA FUNCTIONALITIES ------------------
+import pandas as pd
+
+def show_process_table():
+    data = [
+        ["Up to ₹2,00,000", "Direct Purchase", "No", "No", "-", "Indent + Certificate", "Indent → Approval → Purchase"],
+        ["₹2,00,001 – ₹10,00,000", "LPC", "No (Market survey)", "Yes", "LPC", "Indent + LPC Certificate", "Indent → LPC → Approval → Purchase"],
+        ["₹10,00,001 – ₹25,00,000", "LTE", "Yes (Limited)", "Yes", "T&PC", "Indent + NIT + Eval Report", "Indent → Tender → T&PC → PO"],
+        ["Above ₹25,00,000", "Open / Global Tender", "Yes (Open)", "Yes", "T&PC + BOC", "Indent + NIT + Bid Minutes", "Indent → Tender → Committees → PO"],
+    ]
+
+    df = pd.DataFrame(data, columns=[
+        "Cost Slab (₹)", "Procurement Mode", "Quotation / Tender",
+        "Committee Required", "Which Committee", "Key Documents", "Short Process"
+    ])
+
+    st.table(df)
+
+
 # ------------------ PROCESS QUEUED MESSAGE ------------------
 if st.session_state.pending_input and retriever and client:
     user_input = st.session_state.pending_input
@@ -166,7 +186,12 @@ if st.session_state.pending_input and retriever and client:
 
             # Case 3: Valid purchase query → continue to RAG + LLM
             else:
-                # Valid purchase query → RAG + LLM
+                # Valid purchase query
+
+                st.markdown("### 📊 CBRI / CSIR Purchase Process (Cost-wise)")
+                show_process_table()
+
+                # (Optional) Phir niche LLM ka explanation dikha sakte ho
                 docs = retriever.get_relevant_documents(user_input)
                 context = "\n\n".join(d.page_content for d in docs)
 
@@ -265,7 +290,10 @@ Question:
                 )
 
                 answer = response.choices[0].message.content
+                st.markdown("---")
+                st.markdown("### 🧾 Aapke case ka summary")
                 st.markdown(answer)
+
 
     # Save assistant message
     st.session_state.messages.append({"role": "assistant", "content": answer})
