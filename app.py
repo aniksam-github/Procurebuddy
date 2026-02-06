@@ -49,6 +49,13 @@ def is_purchase_query(text):
     text = text.lower()
     return any(k in text for k in keywords)
 
+def is_table_query(text):
+    keywords = ["table", "slab", "slab wise", "slab-wise", "cost wise", "cost-wise",
+                "procedure", "process table", "overview", "chart"
+    ]
+    text = text.lower()
+    return any(k in text for k in keywords)
+
 
 # ------------------ CHAT HISTORY -----------------------
 HISTORY_FILE = "chat_history.json"
@@ -161,9 +168,15 @@ if st.session_state.pending_input and retriever and client:
 
             amount = extract_amount(user_input)
             purchase_intent = is_purchase_query(user_input)
+            table_intent = is_table_query(user_input)
+
+            # Case 0: User wants an overview table
+            if table_intent:
+                st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
+                show_process_table()
 
             # Case 1: User is asking about purchase but amount is missing
-            if purchase_intent and amount is None:
+            elif purchase_intent and amount is None:
                 answer = (
                     "🙂 Samajh aa raha hai aap purchase ke baare me pooch rahe ho, "
                     "lekin amount mention nahi hua.\n\n"
