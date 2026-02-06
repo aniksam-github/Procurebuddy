@@ -18,6 +18,13 @@ st.set_page_config(page_title="C.B.R.I ProcureBuddy", page_icon="🤖")
 st.title("🤖 C.B.R.I Purchase Assistant")
 st.caption("powered by Groq (Llama 3) & GFR Rules")
 
+# ----------INIT SESSION STATE -------------
+if "messages" not in st.session_state:
+    st.session_state.messages = []
+
+if "busy" not in st.session_state:
+    st.session_state.busy = False
+
 #2. Database & Model Setup
 
 @st.cache_resource
@@ -37,6 +44,20 @@ def get_resources():
 
 
 retriever, client = get_resources()
+
+
+# ------------------------ SHOW CHAT HISTORY ------------------------------
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        st.markdown(msg["content"])
+
+
+# ---------------------------INPUT BOX (LOCKED WHEN BUSY) --------------------------
+user_input = st.chat_input(
+    "Ask about purchase rules (GFR 2017)...",
+    disabled=st.session_state.busy
+)
+
 
 # ---------------------------------------------- CHAT USER INTERFACE --------------------------------------- #
 if retriever and client:
@@ -142,3 +163,4 @@ Question:
                 st.session_state.messages.append(
                     {"role": "assistant", "content": answer}
                 )
+    st.session_state.busy = False
