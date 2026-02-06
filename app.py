@@ -171,9 +171,12 @@ if st.session_state.pending_input and retriever and client:
             table_intent = is_table_query(user_input)
 
             # Case 0: User wants an overview table
+            # Case 0: User wants an overview table
             if table_intent:
                 st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
                 show_process_table()
+                answer = "📊 CBRI / CSIR Purchase Process – Cost Slab Wise table shown."
+
 
             # Case 1: User is asking about purchase but amount is missing
             elif purchase_intent and amount is None:
@@ -309,6 +312,7 @@ Question:
 
 
     # Save assistant message
+if "answer" in locals():
     st.session_state.messages.append({"role": "assistant", "content": answer})
     save_history(st.session_state.messages)
 
