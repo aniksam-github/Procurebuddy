@@ -16,9 +16,40 @@ st.set_page_config(page_title="C.B.R.I ProcureBuddy", page_icon="🤖")
 st.title("🤖 C.B.R.I Purchase Assistant")
 st.caption("powered by Groq (Llama 3) & GFR Rules")
 
+
+
+
+# ------------------ CHAT HISTORY -----------------------
+import json
+HISTORY_FILE = "chat_history.json"
+
+def save_history(messages):
+    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
+        json.dump(messages, f, ensure_ascii=False, indent=2)
+
+def load_history():
+    if os.path.exists(HISTORY_FILE):
+        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+        return []
+
+
+# ----------------- FUNCTION IN SIDEBAR ---------------
+with st.sidebar:
+    if st.button("🕘 Load Old Chats"):
+        st.session_state.messages = load_history()
+        st.rerun()
+
+    if st.button("🗑️ Clear Chats"):
+        st.session_state.messages = []
+        save_history([])
+        st.rerun()
+
+
+
 # ------------------ SESSION STATE INIT ------------------
 if "messages" not in st.session_state:
-    st.session_state.messages = []
+    st.session_state.messages = load_history()
 
 if "busy" not in st.session_state:
     st.session_state.busy = False
@@ -73,6 +104,7 @@ if st.session_state.pending_input and retriever and client:
 
     # Save user message
     st.session_state.messages.append({"role": "user", "content": user_input})
+    save_history(st.session_state.messages)
 
     with st.chat_message("user"):
         st.markdown(user_input)
@@ -158,6 +190,7 @@ Question:
 
             # Save assistant message
             st.session_state.messages.append({"role": "assistant", "content": answer})
+            save_history(st.session_state.messages)
 
     # Unlock input AFTER response is done
     st.session_state.busy = False
