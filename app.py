@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import os
 import re
 import json
@@ -50,11 +51,13 @@ def is_purchase_query(text):
     return any(k in text for k in keywords)
 
 def is_table_query(text):
-    keywords = ["table", "slab", "slab wise", "slab-wise", "cost wise", "cost-wise",
-                "procedure", "process table", "overview", "chart"
+    keywords = [
+        "table", "slab", "slab wise", "slab-wise", "cost wise", "cost-wise",
+        "procedure", "process table", "overview", "chart"
     ]
     text = text.lower()
     return any(k in text for k in keywords)
+
 
 
 # ------------------ CHAT HISTORY -----------------------
@@ -86,6 +89,8 @@ with st.sidebar:
         st.session_state.messages = []
         save_history([])
         st.rerun()
+
+
 
 # ------------------ SESSION STATE INIT ------------------
 if "messages" not in st.session_state:
@@ -150,6 +155,9 @@ def show_process_table():
 
     st.table(df)
 
+    if st.button("test table"):
+        show_process_table()
+
 
 # ------------------ PROCESS QUEUED MESSAGE ------------------
 if st.session_state.pending_input and retriever and client:
@@ -171,12 +179,9 @@ if st.session_state.pending_input and retriever and client:
             table_intent = is_table_query(user_input)
 
             # Case 0: User wants an overview table
-            # Case 0: User wants an overview table
             if table_intent:
                 st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
                 show_process_table()
-                answer = "📊 CBRI / CSIR Purchase Process – Cost Slab Wise table shown."
-
 
             # Case 1: User is asking about purchase but amount is missing
             elif purchase_intent and amount is None:
@@ -195,19 +200,16 @@ if st.session_state.pending_input and retriever and client:
                     "📝 Tum kaise bhi pooch sakte ho, jaise:\n"
                     "• I want to purchase an item worth ₹25000\n"
                     "• ₹35000 ka item lena hai, process kya hoga?\n"
-                    "• Mujhe 10 lakh ka equipment lena hai\n\n"
-                    "👉 Bas amount mention kar do, baaki main handle kar lunga 🙂"
+                    "• Show me a table of procurement process as per cost slabs in CBRI\n\n"
+                    "👉 Bas amount mention kar do, ya bolo 'table dikha do' 🙂"
                 )
                 st.markdown(answer)
 
             # Case 3: Valid purchase query → continue to RAG + LLM
             else:
-                # Valid purchase query
-
                 st.markdown("### 📊 CBRI / CSIR Purchase Process (Cost-wise)")
                 show_process_table()
 
-                # (Optional) Phir niche LLM ka explanation dikha sakte ho
                 docs = retriever.get_relevant_documents(user_input)
                 context = "\n\n".join(d.page_content for d in docs)
 
