@@ -155,8 +155,7 @@ def show_process_table():
 
     st.table(df)
 
-    if st.button("test table"):
-        show_process_table()
+
 
 
 # ------------------ PROCESS QUEUED MESSAGE ------------------
