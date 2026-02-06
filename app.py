@@ -181,7 +181,9 @@ if st.session_state.pending_input and retriever and client:
             if table_intent:
                 st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
                 show_process_table()
-                answer = "📊 CBRI / CSIR Purchase Process – Cost Slab Wise table shown."
+
+
+                # answer = "📊 CBRI / CSIR Purchase Process – Cost Slab Wise table shown."
 
             # Case 1: User is asking about purchase but amount is missing
             elif purchase_intent and amount is None:
