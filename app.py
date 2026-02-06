@@ -77,7 +77,7 @@ if retriever and client:
             st.markdown(msg["content"])
 
     # User input
-    user_input = st.chat_input("Ask about CBRI purchase rules (GFR 2017)...")
+    # user_input = st.chat_input("Ask about CBRI purchase rules (GFR 2017)...")
 
     if user_input:
         st.session_state.messages.append(
