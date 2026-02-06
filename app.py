@@ -1,5 +1,7 @@
 import streamlit as st
 import os
+import re
+import json
 from dotenv import load_dotenv
 
 from groq import Groq
@@ -16,11 +18,20 @@ st.set_page_config(page_title="C.B.R.I ProcureBuddy", page_icon="🤖")
 st.title("🤖 C.B.R.I Purchase Assistant")
 st.caption("powered by Groq (Llama 3) & GFR Rules")
 
+# ------------------ HELPERS ------------------
 
+def extract_amount(text):
+    match = re.search(r'(\d{3,})', text.replace(",", ""))
+    if match:
+        return int(match.group(1))
+    return None
 
+def is_purchase_query(text):
+    keywords = ["purchase", "buy", "procure", "item", "rs", "₹", "worth", "amount", "price"]
+    text = text.lower()
+    return any(k in text for k in keywords)
 
 # ------------------ CHAT HISTORY -----------------------
-import json
 HISTORY_FILE = "chat_history.json"
 
 def save_history(messages):
@@ -31,10 +42,9 @@ def load_history():
     if os.path.exists(HISTORY_FILE):
         with open(HISTORY_FILE, "r", encoding="utf-8") as f:
             return json.load(f)
-        return []
+    return []
 
-
-# ----------------- FUNCTION IN SIDEBAR ---------------
+# ----------------- SIDEBAR -----------------
 with st.sidebar:
     if st.button("🆕 New Chat"):
         st.session_state.messages = []
@@ -51,8 +61,6 @@ with st.sidebar:
         save_history([])
         st.rerun()
 
-
-
 # ------------------ SESSION STATE INIT ------------------
 if "messages" not in st.session_state:
     st.session_state.messages = load_history()
@@ -62,7 +70,6 @@ if "busy" not in st.session_state:
 
 if "pending_input" not in st.session_state:
     st.session_state.pending_input = None
-
 
 # ------------------ DB & MODEL ------------------
 @st.cache_resource
@@ -80,28 +87,23 @@ def get_resources():
 
     return retriever, client
 
-
 retriever, client = get_resources()
-
 
 # ------------------ SHOW CHAT HISTORY ------------------
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-
-# ------------------ INPUT (LOCK WHEN BUSY) ------------------
+# ------------------ INPUT ------------------
 user_input = st.chat_input(
     "Ask about purchase rules (GFR 2017)...",
     disabled=st.session_state.busy
 )
 
-# If user submits and not busy, queue it
 if user_input and not st.session_state.busy:
     st.session_state.busy = True
     st.session_state.pending_input = user_input
     st.rerun()
-
 
 # ------------------ PROCESS QUEUED MESSAGE ------------------
 if st.session_state.pending_input and retriever and client:
@@ -118,17 +120,30 @@ if st.session_state.pending_input and retriever and client:
     with st.chat_message("assistant"):
         with st.spinner("📘 Analyzing GFR Rules..."):
 
-            # -------- RETRIEVE CONTEXT --------
-            docs = retriever.get_relevant_documents(user_input)
-            context = "\n\n".join(d.page_content for d in docs)
+            amount = extract_amount(user_input)
+            purchase_intent = is_purchase_query(user_input)
 
-            # -------- GROQ CALL --------
-            response = client.chat.completions.create(
-                model="llama-3.1-8b-instant",
-                messages=[
-                    {
-                        "role": "system",
-                        "content": """
+            if amount is None or not purchase_intent:
+                # Not a purchase query
+                answer = (
+                    "👋 Hi! Main CBRI Purchase Rules (GFR 2017) ke hisaab se help karta hoon.\n\n"
+                    "👉 Aise poochho:\n"
+                    "- I want to purchase an item worth ₹25000\n"
+                    "- ₹35000 ka item lena hai, process kya hoga?\n"
+                )
+                st.markdown(answer)
+
+            else:
+                # Valid purchase query → RAG + LLM
+                docs = retriever.get_relevant_documents(user_input)
+                context = "\n\n".join(d.page_content for d in docs)
+
+                response = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=[
+                        {
+                            "role": "system",
+                            "content": """
 You are ProcureBuddy, an expert procurement assistant for CBRI (CSIR), strictly based on GFR 2017.
 
 STRICT RULES (MANDATORY):
@@ -163,41 +178,39 @@ STRICT RULES (MANDATORY):
 ANSWER STYLE:
 
 - Clear, natural Hinglish (simple Hindi + English)
-- NOT word-by-word translation
 - Short, bulleted, practical
 - Clearly mention:
   • Purchase value
   • Applicable slab
   • Whether committee is required (Yes / No)
-- No jokes, no fillers, no repetition
 
 IF INFORMATION IS MISSING:
 
 - If the answer is NOT clearly present in the provided context, reply EXACTLY:
   "This information is not found in GFR 2017."
 """
-                    },
-                    {
-                        "role": "user",
-                        "content": f"""
+                        },
+                        {
+                            "role": "user",
+                            "content": f"""
 Context:
 {context}
 
 Question:
 {user_input}
 """
-                    }
-                ],
-                temperature=0.3
-            )
+                        }
+                    ],
+                    temperature=0.3
+                )
 
-            answer = response.choices[0].message.content
-            st.markdown(answer)
+                answer = response.choices[0].message.content
+                st.markdown(answer)
 
-            # Save assistant message
-            st.session_state.messages.append({"role": "assistant", "content": answer})
-            save_history(st.session_state.messages)
+    # Save assistant message
+    st.session_state.messages.append({"role": "assistant", "content": answer})
+    save_history(st.session_state.messages)
 
-    # Unlock input AFTER response is done
+    # Unlock input
     st.session_state.busy = False
     st.rerun()
