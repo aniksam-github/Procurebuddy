@@ -53,10 +53,16 @@ for msg in st.session_state.messages:
 
 
 # ---------------------------INPUT BOX (LOCKED WHEN BUSY) --------------------------
+if "busy" not in st.session_state:
+    st.session_state.busy = False
+
 user_input = st.chat_input(
     "Ask about purchase rules (GFR 2017)...",
     disabled=st.session_state.busy
 )
+
+if user_input and not st.session_state.busy:
+    st.session_state.busy = True
 
 
 # ---------------------------------------------- CHAT USER INTERFACE --------------------------------------- #
