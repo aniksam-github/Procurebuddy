@@ -36,6 +36,12 @@ def load_history():
 
 # ----------------- FUNCTION IN SIDEBAR ---------------
 with st.sidebar:
+    if st.button("🆕 New Chat"):
+        st.session_state.messages = []
+        st.session_state.pending_input = None
+        st.session_state.busy = False
+        st.rerun()
+
     if st.button("🕘 Load Old Chats"):
         st.session_state.messages = load_history()
         st.rerun()
