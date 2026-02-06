@@ -21,15 +21,34 @@ st.caption("powered by Groq (Llama 3) & GFR Rules")
 # ------------------ HELPERS ------------------
 
 def extract_amount(text):
-    match = re.search(r'(\d{3,})', text.replace(",", ""))
-    if match:
-        return int(match.group(1))
+    text = text.replace(",", "").lower()
+
+    # Handle ₹, rs, inr, etc.
+    patterns = [
+        r'₹\s*([\d]+)',
+        r'rs\.?\s*([\d]+)',
+        r'inr\s*([\d]+)',
+        r'worth\s*([\d]+)',
+        r'amount\s*([\d]+)',
+        r'([\d]{4,})'  # fallback: any big number
+    ]
+
+    for p in patterns:
+        match = re.search(p, text)
+        if match:
+            return int(match.group(1))
+
     return None
 
+
 def is_purchase_query(text):
-    keywords = ["purchase", "buy", "procure", "item", "rs", "₹", "worth", "amount", "price"]
+    keywords = [
+        "purchase", "buy", "procure", "lena", "khareed", "item",
+        "worth", "amount", "price", "rs", "₹", "rupaye"
+    ]
     text = text.lower()
     return any(k in text for k in keywords)
+
 
 # ------------------ CHAT HISTORY -----------------------
 HISTORY_FILE = "chat_history.json"
@@ -123,16 +142,29 @@ if st.session_state.pending_input and retriever and client:
             amount = extract_amount(user_input)
             purchase_intent = is_purchase_query(user_input)
 
-            if amount is None or not purchase_intent:
-                # Not a purchase query
+            # Case 1: User is asking about purchase but amount is missing
+            if purchase_intent and amount is None:
                 answer = (
-                    "👋 Hi! Main CBRI Purchase Rules (GFR 2017) ke hisaab se help karta hoon.\n\n"
-                    "👉 Aise poochho:\n"
-                    "- I want to purchase an item worth ₹25000\n"
-                    "- ₹35000 ka item lena hai, process kya hoga?\n"
+                    "🙂 Samajh aa raha hai aap purchase ke baare me pooch rahe ho, "
+                    "lekin amount mention nahi hua.\n\n"
+                    "👉 Please bata do: item ki estimated cost kitni hai? "
+                    "(jaise ₹25000, ₹3 lakh, ₹10,00,000)"
                 )
                 st.markdown(answer)
 
+            # Case 2: Not a purchase-related query at all
+            elif not purchase_intent:
+                answer = (
+                    "👋 Hi! Main CBRI / CSIR Purchase Rules (GFR 2017 + CSIR Manual) ke hisaab se help karta hoon.\n\n"
+                    "📝 Tum kaise bhi pooch sakte ho, jaise:\n"
+                    "• I want to purchase an item worth ₹25000\n"
+                    "• ₹35000 ka item lena hai, process kya hoga?\n"
+                    "• Mujhe 10 lakh ka equipment lena hai\n\n"
+                    "👉 Bas amount mention kar do, baaki main handle kar lunga 🙂"
+                )
+                st.markdown(answer)
+
+            # Case 3: Valid purchase query → continue to RAG + LLM
             else:
                 # Valid purchase query → RAG + LLM
                 docs = retriever.get_relevant_documents(user_input)
@@ -149,6 +181,9 @@ You are ProcureBuddy, an expert procurement assistant for CBRI (CSIR), strictly 
 - General Financial Rules (GFR) 2017 (updated till 31 July 2025)
 - CSIR Manual on Procurement of Goods 2019 (MPG 2019)
 - Special provisions for Scientific Departments (DoE OM)
+- The user may ask in Hindi, English, or Hinglish.
+- You must infer intent and amount even if the question is informal or incomplete, and ask a clarification only if amount is missing.
+
 
 STRICT RULES (MANDATORY):
 
