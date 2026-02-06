@@ -312,7 +312,7 @@ Question:
 
 
     # Save assistant message
-if "answer" in locals():
+if "answer" in locals() and answer.strip():
     st.session_state.messages.append({"role": "assistant", "content": answer})
     save_history(st.session_state.messages)
 
