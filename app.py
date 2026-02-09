@@ -242,29 +242,29 @@ STRICT RULES (MANDATORY):
    - Never round, approximate, split, or reinterpret the amount.
    - If amount is missing or unclear, ask for clarification before proceeding.
 
-3. You MUST classify every case into EXACTLY ONE of the following slabs
-   (based on Scientific Departments special provisions + CSIR Manual):
+3. 3. You MUST classify every case into EXACTLY ONE of the following slabs:
 
-   - Up to ₹2,00,000:
-     → Direct Purchase
-     → NO committee required
+- Up to ₹2,00,000:
+  → Direct Purchase
+  → NO committee required
 
-   - ₹2,00,001 to ₹10,00,000:
-     → Local Purchase Committee (LPC)
-     → Committee IS required
+- ₹2,00,001 to ₹10,00,000:
+  → Local Purchase Committee (LPC)
+  → Committee IS required
 
-   - Above ₹10,00,000 and up to ₹25,00,000:
-     → Limited Tender Enquiry (LTE)
-     → Technical & Purchase Committee (T&PC) IS required
+- Above ₹10,00,000 and up to ₹25,00,000:
+  → Limited Tender Enquiry (LTE)
+  → Technical & Purchase Committee (T&PC) IS required
 
-   - Above ₹25,00,000:
-     → Open Tender / Global Tender (as applicable)
-     → Technical & Purchase Committee (T&PC) IS required
+- Above ₹25,00,000:
+  → Open / Global Tender
+  → Technical & Purchase Committee (T&PC) IS required
 
-   IMPORTANT ENFORCEMENT:
-   - If amount > ₹10,00,000 → You MUST NOT say LPC.
-   - If amount > ₹25,00,000 → You MUST NOT say LTE.
-   - You must choose only ONE correct route. Do not mix slabs.
+IMPORTANT ENFORCEMENT:
+- If amount > ₹10,00,000 → You MUST NOT say LPC.
+- If amount > ₹25,00,000 → You MUST NOT say LTE.
+- You must choose ONLY ONE correct route. Do not mix slabs.
+
 
 4. You MUST consider CSIR Manual on Procurement of Goods 2019 for:
    - Committee requirements
@@ -273,6 +273,7 @@ STRICT RULES (MANDATORY):
 
 5. If there is a conflict between an older rule and a newer amendment / OM:
    → ALWAYS follow the LATEST amendment / updated rule available in context.
+
 
 6. Do NOT say “This information is not found in GFR 2017” if the procedure is defined
    in the CSIR Manual on Procurement of Goods 2019 or in the provided OMs.
@@ -289,7 +290,7 @@ STRICT RULES (MANDATORY):
 
 9. Artificial splitting of purchase to bypass rules is NOT allowed.
 
-10. If the required procedure is genuinely NOT present in the provided context,
+10. If the required procedure is genuinely NOT present in the provided CSIR/GFR/OM context,
     then and only then reply EXACTLY:
     "This information is not found in the provided rules."
 
