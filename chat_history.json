@@ -1,0 +1,114 @@
+[
+  {
+    "role": "user",
+    "content": "show me a table of procurement process as per cost slabs in cbri"
+  },
+  {
+    "role": "user",
+    "content": "show me a table of procurement process as per cost slabs in cbri\n\n"
+  },
+  {
+    "role": "assistant",
+    "content": "📊 CBRI / CSIR Purchase Process – Cost Slab Wise table shown."
+  },
+  {
+    "role": "user",
+    "content": "old rule aur new rule me conflict ho to kya follow hoga?"
+  },
+  {
+    "role": "assistant",
+    "content": "**Rule/Principle:** Old rule aur new rule me conflict ho to pehle se hi applicable new rule follow karna chahiye.\n\n**Stage:** Yeh rule purchase request ki processing ke dauran lagu hoti hai.\n\n**Conditions:** Jab koi purchase request pehle se hi applicable new rule ke under aayegi, to uske liye new rule ka follow karna hoga, chaahe uski processing pehle se hi shuru ho chuki ho ya nahin."
+  },
+  {
+    "role": "user",
+    "content": "show me a table of procurement process as per cost slabs in cbri"
+  },
+  {
+    "role": "assistant",
+    "content": "📊 CBRI / CSIR Purchase Process – Cost Slab Wise table shown."
+  },
+  {
+    "role": "user",
+    "content": "show me a table of procurement process as per cost slabs in cbri\n\n"
+  },
+  {
+    "role": "user",
+    "content": "show me a table of procurement process as per cost slabs in cbri\n\n"
+  },
+  {
+    "role": "assistant",
+    "content": "__TABLE_SHOWN__"
+  },
+  {
+    "role": "user",
+    "content": "i want to buy equipment worth 3 lakh"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n- Purchase value: ₹3,00,000\n- Item: Equipment\n- Which cost slab/category it falls into: Up to ₹2,00,000 (Direct Purchase)\n\n**Applicable Procurement Mode & Reason**\n- Direct Purchase applies\n- As per CSIR Manual on Procurement of Goods 2019, purchases up to ₹2,00,000 can be made through Direct Purchase.\n\n**Committee Involvement**\n- Committee is NOT required\n- No committee involvement is needed for Direct Purchase.\n\n**Step-by-Step Process**\n1. Prepare the Indent with specifications.\n2. Stores & Purchase will verify the requirements and prepare the necessary documents.\n3. No committee is required for Direct Purchase.\n4. Approval by competent authority is not needed for Direct Purchase.\n5. Place the order with the supplier and issue a Purchase Order (PO).\n6. Receive the equipment, inspect it, and make payment.\n\n**Key Documents / Outputs**\n- Indent\n- Purchase Order (PO)\n\n**One-line Summary (TL;DR)**\nDirect Purchase of equipment worth ₹3,00,000 can be done without committee involvement.\n\n```mermaid\ngraph LR\nA[Prepare Indent] --> B[Verify Requirements]\nB --> C[Prepare Documents]\nC --> D[Place Order & Issue PO]\nD --> E[Receive Equipment]\nE --> F[Inspect & Payment]\n```"
+  },
+  {
+    "role": "user",
+    "content": "i want to buy equipment worth 300000\n\n"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n- Purchase value: ₹3,00,000\n- Item: Equipment\n- Which cost slab/category it falls into: ₹2,00,001 to ₹10,00,000\n\n**Applicable Procurement Mode & Reason**\n- LPC (Local Purchase Committee) applies because the purchase value is between ₹2,00,001 to ₹10,00,000 as per CSIR Manual on Procurement of Goods 2019.\n- LPC is required for purchases in this slab category.\n\n**Committee Involvement**\n- Committee is required: Yes\n- Which committee: Local Purchase Committee (LPC)\n- Role of LPC: To conduct market survey, collect quotations/rates, prepare comparative statement, and give reasonableness certificate.\n\n**Step-by-Step Process**\n- Step 1: Prepare indent with specifications and send it to Stores & Purchase for further action.\n- Step 2: Stores & Purchase will conduct market survey and collect quotations/rates from at least three vendors.\n- Step 3: Prepare comparative statement and get reasonableness certificate from LPC.\n- Step 4: LPC will review and give recommendation.\n- Step 5: Get approval from competent authority.\n- Step 6: Issue PO, ensure delivery, inspect, and make payment.\n\n**Key Documents / Outputs**\n- Indent\n- LPC minutes/proceedings\n- Comparative statement\n- Reasonableness certificate\n- Approval note\n- PO\n\n**One-line Summary (TL;DR)**\nPurchase of equipment worth ₹3,00,000 requires LPC approval.\n\n```mermaid\ngraph LR\n  A[Prepare Indent] --> B{Market Survey & Quotations}\n  B --> C[Comparative Statement & Reasonableness Certificate]\n  C --> D[LPC Recommendation]\n  D --> E[Approval]\n  E --> F[PO Issue & Payment]\n```"
+  },
+  {
+    "role": "user",
+    "content": "i want to buy equipment worth 3 lacs\n"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n- Purchase value: ₹3,00,000\n- Item: Equipment\n- Which cost slab/category it falls into: Up to ₹2,00,000 (Direct Purchase)\n\n**Applicable Procurement Mode & Reason**\n- Which mode applies: Direct Purchase\n- Why this mode applies: As per CSIR Manual on Procurement of Goods 2019, purchases up to ₹2,00,000 can be made through Direct Purchase.\n\n**Committee Involvement**\n- Whether committee is required: No\n- Which committee: Not applicable\n- What is the role of this committee: Not required\n\n**Step-by-Step Process**\n- Step 1: Prepare an indent with specifications and send it to Stores & Purchase.\n- Step 2: Stores & Purchase will verify the requirements and prepare a comparative statement.\n- Step 3: Reasonableness certificate will be obtained from the concerned authority.\n- Step 4: Approval will be obtained from the competent authority.\n- Step 5: Purchase Order (PO) will be issued to the supplier.\n- Step 6: The equipment will be delivered, inspected, and payment will be made.\n\n**Key Documents / Outputs**\n- Indent\n- Comparative statement\n- Reasonableness certificate\n- Purchase Order (PO)\n\n**One-line Summary (TL;DR)**\nDirect Purchase of equipment worth ₹3,00,000 through Stores & Purchase.\n\n```mermaid\ngraph LR\n    A[Prepare Indent] -->|Send to Stores & Purchase|> B[Verify Requirements]\n    B -->|Prepare Comparative Statement|> C[Obtain Reasonableness Certificate]\n    C -->|Approval|> D[Issue Purchase Order]\n    D -->|Delivery & Inspection|> E[Payment]\n    style A fill:#f9f,stroke:#333,stroke-width:2px\n    style B fill:#f9f,stroke:#333,stroke-width:2px\n    style C fill:#f9f,stroke:#333,stroke-width:2px\n    style D fill:#f9f,stroke:#333,stroke-width:2px\n    style E fill:#f9f,stroke:#333,stroke-width:2px\n```"
+  },
+  {
+    "role": "user",
+    "content": "i want to buy equipment worth 3 lacs\n"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n- Purchase value: ₹3,00,000\n- Item: Equipment\n- Cost slab/category: Up to ₹2,00,000 (Direct Purchase)\n\n**Applicable Procurement Mode & Reason**\n- Direct Purchase applies because the purchase value is up to ₹2,00,000.\n- As per CSIR Manual on Procurement of Goods 2019, Direct Purchase is allowed for purchases up to ₹2,00,000.\n\n**Committee Involvement**\n- Committee is NOT required.\n- No committee involvement is needed for Direct Purchase.\n\n**Step-by-Step Process**\n- Step 1: Prepare an indent with specifications of the required equipment.\n- Step 2: Submit the indent to Stores & Purchase for action.\n- Step 3: Stores & Purchase will verify the requirements and prepare a comparative statement.\n- Step 4: Reasonableness certificate will be obtained from the concerned authority.\n- Step 5: Approval will be obtained from the competent authority.\n- Step 6: Purchase Order (PO) will be issued, and the equipment will be delivered, inspected, and paid for.\n\n**Key Documents / Outputs**\n- Indent\n- Comparative Statement\n- Reasonableness Certificate\n- Approval Note\n- Purchase Order (PO)\n\n**One-line Summary (TL;DR)**\nDirect Purchase of equipment worth ₹3,00,000 is allowed without committee involvement.\n\n**FLOWCHART**\n```mermaid\ngraph LR\n  A[Prepare Indent] --> B[Submit to Stores & Purchase]\n  B --> C[Verify Requirements & Comparative Statement]\n  C --> D[Reasonableness Certificate]\n  D --> E[Approval from Competent Authority]\n  E --> F[Issue Purchase Order]\n  F --> G[Delivery, Inspection, Payment]\n```"
+  },
+  {
+    "role": "user",
+    "content": "i want to buy equipment worth 3 lakhs\n\n"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n- Purchase value: ₹3,00,000\n- Item: Equipment\n- Which cost slab/category it falls into: Up to ₹2,00,000 (Direct Purchase)\n\n**Applicable Procurement Mode & Reason**\n- Direct Purchase applies because the purchase value is less than ₹2,00,000 as per CSIR Manual on Procurement of Goods 2019.\n\n**Committee Involvement**\n- Committee is NOT required (No)\n- No committee is involved in this process.\n\n**Step-by-Step Process**\n- Step 1: Prepare an Indent with specifications of the required equipment.\n- Step 2: Submit the Indent to the Stores & Purchase department for approval.\n- Step 3: Stores & Purchase department will verify the requirements and prepare a comparative statement.\n- Step 4: Approval from the competent authority is required.\n- Step 5: After approval, the Stores & Purchase department will issue a Purchase Order (PO) to the supplier.\n- Step 6: The supplier will deliver the equipment, and it will be inspected and paid for.\n\n**Key Documents / Outputs**\n- Indent\n- Comparative statement\n- Purchase Order (PO)\n\n**One-line Summary (TL;DR)**\nDirect Purchase of equipment worth ₹3,00,000, no committee required.\n\n```mermaid\ngraph LR\n    A[Prepare Indent] --> B{Submit to Stores & Purchase}\n    B --> C[Verify Requirements]\n    C --> D[Prepare Comparative Statement]\n    D --> E[Approval from Competent Authority]\n    E --> F[Issue Purchase Order]\n    F --> G[Delivery & Inspection]\n    G --> H[Payment]\n```"
+  },
+  {
+    "role": "user",
+    "content": "i want to buy equipment worth 3 lacs\n\n"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n- Purchase value: ₹3,00,000\n- Item: Equipment\n- Which cost slab/category it falls into: Up to ₹2,00,000 (Direct Purchase)\n\n**Applicable Procurement Mode & Reason**\n- Direct Purchase applies\n- This mode applies because the purchase value is up to ₹2,00,000, as per CSIR Manual on Procurement of Goods 2019.\n\n**Committee Involvement**\n- Committee is NOT required\n- No committee is required for purchases up to ₹2,00,000.\n\n**Step-by-Step Process**\n- Step 1: Prepare the indent with specifications and send it to Stores & Purchase for verification.\n- Step 2: Stores & Purchase verifies the indent and ensures that all specifications are correct.\n- Step 3: Stores & Purchase places the order directly with the supplier.\n- Step 4: The equipment is delivered, inspected, and accepted by the user.\n- Step 5: The payment is made to the supplier after acceptance of the equipment.\n\n**Key Documents / Outputs**\n- Indent\n- Stores & Purchase verification note\n- Supplier's invoice\n- Payment receipt\n\n**One-line Summary (TL;DR)**\nDirect purchase of equipment worth ₹3,00,000 can be done without committee involvement.\n\n**FLOWCHART (Mermaid)**\n```mermaid\ngraph LR\n    A[Prepare Indent] -->|Verify by Stores & Purchase|> B[Stores & Purchase Verification]\n    B -->|Place Order|> C[Order with Supplier]\n    C -->|Delivery & Inspection|> D[Acceptance]\n    D -->|Payment|> E[Payment to Supplier]\n```"
+  },
+  {
+    "role": "user",
+    "content": "purchase of laptop worth 1,50,000"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n\n- Purchase value: ₹1,50,000\n- Item: Laptop\n- Which cost slab/category it falls into: Up to ₹2,00,000 (Direct Purchase)\n\n**Applicable Procurement Mode & Reason**\n\n- Which mode applies: Direct Purchase\n- Why this mode applies: As per CSIR Manual on Procurement of Goods 2019, purchases up to ₹2,00,000 can be made through Direct Purchase.\n\n**Committee Involvement**\n\n- Whether committee is required: No\n- Which committee: Not applicable\n- What is the role of this committee: No committee is required for Direct Purchase.\n\n**Step-by-Step Process**\n\n1. **Indent + specifications**: Prepare an indent with specifications of the required laptop.\n2. **Action by Stores & Purchase**: Stores & Purchase will verify the indent and specifications.\n3. **No committee required**: As the purchase value is within the Direct Purchase slab, no committee is required.\n4. **Approval by competent authority**: The indent will be approved by the competent authority.\n5. **PO issue, delivery, inspection, payment**: After approval, a Purchase Order (PO) will be issued, and the laptop will be delivered, inspected, and payment will be made.\n\n**Key Documents / Outputs**\n\n- Indent\n- Specifications\n- Purchase Order (PO)\n\n**One-line Summary (TL;DR)**\n\nPurchase of laptop worth ₹1,50,000 can be made through Direct Purchase, without involving any committee.\n\n```mermaid\ngraph LR\n    A[Prepare Indent] --> B[Verify Indent by Stores & Purchase]\n    B --> C[Approval by Competent Authority]\n    C --> D[Issue PO & Delivery]\n    D --> E[Inspection & Payment]\n```"
+  },
+  {
+    "role": "user",
+    "content": "purchase of laboratory equipment worth 8,00,000. show me the complete process with a flowchart"
+  },
+  {
+    "role": "assistant",
+    "content": "__TABLE_SHOWN__"
+  },
+  {
+    "role": "user",
+    "content": "purchase of laboratory equipment worth 8,00,000. show me the complete process with a flowchart\n"
+  },
+  {
+    "role": "assistant",
+    "content": "**Case Summary**\n\n- Purchase value: ₹8,00,000\n- Item: Laboratory equipment\n- Cost slab/category: ₹2,00,000 to ₹10,00,000 (LPC)\n\n**Applicable Procurement Mode & Reason**\n\n- LPC (Local Purchase Committee) applies because the purchase value is between ₹2,00,000 and ₹10,00,000 as per CSIR Manual on Procurement of Goods 2019.\n- This mode applies because the purchase value falls within the LPC slab.\n\n**Committee Involvement**\n\n- Committee is required: Yes\n- Which committee: Local Purchase Committee (LPC)\n- Role of LPC: To evaluate quotations, prepare comparative statement, and recommend the best option.\n\n**Step-by-Step Process**\n\n1. **Indent + specifications**: Prepare an indent with detailed specifications of the required laboratory equipment.\n2. **Action by Stores & Purchase**: Stores & Purchase will prepare a market survey to identify potential suppliers and collect quotations.\n3. **Quotations/rates collection**: Collect quotations from at least three suppliers.\n4. **Comparative statement**: Prepare a comparative statement to evaluate the quotations.\n5. **Reasonableness certificate**: Obtain a reasonableness certificate from the Head of the Department.\n6. **LPC minutes**: The LPC will meet to discuss and finalize the selection.\n7. **Approval**: The LPC will submit their recommendation to the competent authority for approval.\n8. **PO issue, delivery, inspection, payment**: Once approved, the Purchase Order will be issued, and the equipment will be delivered, inspected, and paid for.\n\n**Key Documents / Outputs**\n\n- Indent\n- Market survey report\n- Quotations from suppliers\n- Comparative statement\n- Reasonableness certificate\n- LPC minutes\n- Purchase Order (PO)\n\n**One-line Summary (TL;DR)**\n\nProcurement of laboratory equipment worth ₹8,00,000 will be done through the Local Purchase Committee (LPC) process.\n\n**FLOWCHART (Mermaid)**\n\n```mermaid\ngraph LR\n    A[Indent + specifications] -->|Prepare detailed specifications|> B[Stores & Purchase]\n    B -->|Market survey|> C[Quotations/rates collection]\n    C -->|Collect quotations|> D[Comparative statement]\n    D -->|Evaluate quotations|> E[Reasonableness certificate]\n    E -->|Obtain reasonableness certificate|> F[LPC minutes]\n    F -->|LPC recommendation|> G[Approval]\n    G -->|Competent authority approval|> H[PO issue, delivery, inspection, payment]\n    H -->|Purchase Order issued|> I[Delivery and inspection]\n    I -->|Payment made|> J[Procurement completed]\n```"
+  }
+]

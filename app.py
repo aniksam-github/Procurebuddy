@@ -29,24 +29,35 @@ def extract_mermaid(text: str):
     return None
 
 def extract_amount(text):
-    text = text.replace(",", "").lower()
+    t = text.lower().replace(",", "").strip()
 
-    # Handle ₹, rs, inr, etc.
+    # 1) Handle crore
+    m = re.search(r'(\d+(\.\d+)?)\s*(crore|cr)', t)
+    if m:
+        return int(float(m.group(1)) * 10000000)
+
+    # 2) Handle lakh / lac / lacs
+    m = re.search(r'(\d+(\.\d+)?)\s*(lakh|lac|lacs)', t)
+    if m:
+        return int(float(m.group(1)) * 100000)
+
+    # 3) Handle ₹, rs, inr, plain numbers
     patterns = [
         r'₹\s*([\d]+)',
         r'rs\.?\s*([\d]+)',
         r'inr\s*([\d]+)',
         r'worth\s*([\d]+)',
         r'amount\s*([\d]+)',
-        r'([\d]{4,})'  # fallback: any big number
+        r'([\d]{4,})'  # fallback: any big number like 300000
     ]
 
     for p in patterns:
-        match = re.search(p, text)
+        match = re.search(p, t)
         if match:
             return int(match.group(1))
 
     return None
+
 
 
 # def is_purchase_query(text):
@@ -67,13 +78,19 @@ def extract_amount(text):
 
 def detect_intent(text: str):
     t = text.lower()
-    if any(k in t for k in ["table", "slab", "list", "show table", "chart", "overview"]):
-        return "TABLE"
-    if any(k in t for k in ["approval", "minister", "cppp", "publication", "single tender", "proprietary", "rule", "om", "conflict", "amendment", "stage"]):
-        return "POLICY"
+
+    # If amount present, prefer PROCESS
     if any(k in t for k in ["₹", "rs", "lakh", "crore", "worth", "price", "value", "kitne ka"]):
         return "PROCESS"
+
+    if any(k in t for k in ["approval", "minister", "cppp", "publication", "single tender", "proprietary", "rule", "om", "conflict", "amendment", "stage"]):
+        return "POLICY"
+
+    if any(k in t for k in ["table", "slab", "list", "show table", "overview"]):
+        return "TABLE"
+
     return "HELP"
+
 
 # ------------------- PROMPTS --------------------------
 PROCESS_PROMPT = """You are ProcureBuddy, an expert procurement assistant for CBRI (CSIR), strictly based on:
@@ -337,24 +354,8 @@ def get_resources():
 
     return retriever, client
 
-retriever, client = get_resources()
-
-# ------------------ SHOW CHAT HISTORY ------------------
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        st.markdown(msg["content"])
-
-# ------------------ INPUT ------------------
-user_input = st.chat_input(
-    "Ask about CSIR / CBRI purchase rules, process, approvals...",
-    disabled=st.session_state.busy
-)
-
-if user_input and not st.session_state.busy:
-    st.session_state.busy = True
-    st.session_state.pending_input = user_input
-    st.rerun()
-
+# retriever, client = get_resources()
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
 # ------------------ EXTRA FUNCTIONALITIES ------------------
 import pandas as pd
@@ -377,8 +378,33 @@ def show_process_table():
 
 
 
+# ------------------ SHOW CHAT HISTORY ------------------
+for msg in st.session_state.messages:
+    with st.chat_message(msg["role"]):
+        if msg["content"] == "__TABLE_SHOWN__":
+            st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
+            show_process_table()
+        else:
+            st.markdown(msg["content"])
+
+
+# ------------------ INPUT ------------------
+user_input = st.chat_input(
+    "Ask about CSIR / CBRI purchase rules, process, approvals...",
+    disabled=st.session_state.busy
+)
+
+if user_input and not st.session_state.busy:
+    st.session_state.busy = True
+    st.session_state.pending_input = user_input
+    st.rerun()
+
+
+
+
+
 # ------------------ PROCESS QUEUED MESSAGE ------------------
-if st.session_state.pending_input and retriever and client:
+if st.session_state.pending_input and client:
     user_input = st.session_state.pending_input
     st.session_state.pending_input = None
 
@@ -393,15 +419,17 @@ if st.session_state.pending_input and retriever and client:
 
             intent = detect_intent(user_input)
             amount = extract_amount(user_input)
+            st.write("DEBUG: ", intent, amount)
 
             if intent == "TABLE":
                 st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
                 show_process_table()
-                # answer = ""
+                answer = "__TABLE_SHOWN__"
+
+
 
             elif intent == "POLICY":
-                docs = retriever.get_relevant_documents(user_input)
-                context = "\n\n".join(d.page_content for d in docs)
+                context = "TEST CONTEXT"
 
                 response = client.chat.completions.create(
                     model="llama-3.1-8b-instant",
@@ -421,8 +449,7 @@ if st.session_state.pending_input and retriever and client:
                     answer = "🙂 Purchase process batane ke liye amount bata do (jaise ₹8,00,000 / 8 lakh)."
                     st.markdown(answer)
                 else:
-                    docs = retriever.get_relevant_documents(user_input)
-                    context = "\n\n".join(d.page_content for d in docs)
+                    context = "Use only the rules provided in the knowledge base."
 
                     response = client.chat.completions.create(
                         model="llama-3.1-8b-instant",

@@ -1,9 +1,11 @@
 # ---------- Core ----------
 python-dotenv==1.0.1
 streamlit==1.31.0
-streamlit-mermaid>=0.3.0
 
-# ---------- LangChain (Classic – Stable) ----------
+# Streamlit Mermaid (for flowcharts)
+streamlit-mermaid==0.3.0
+
+# ---------- LangChain (Stable Classic) ----------
 langchain==0.1.16
 langchain-core==0.1.53
 langchain-community==0.0.38
@@ -11,7 +13,7 @@ langchain-text-splitters==0.0.2
 langsmith==0.1.147
 
 # ---------- Embeddings ----------
-sentence-transformers>=2.6.0
+sentence-transformers==2.6.1
 
 # ---------- Vector Database ----------
 chromadb==0.4.24
@@ -28,3 +30,7 @@ requests==2.32.5
 tqdm==4.66.1
 pandas==2.1.4
 pandas-stubs==2.1.4.231227
+
+# ---------- Compatibility Fix ----------
+rich<14
+pyarrow==14.0.2
