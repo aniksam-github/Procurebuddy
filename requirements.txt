@@ -1,7 +1,7 @@
 # ---------- Core ----------
 python-dotenv==1.0.1
 streamlit==1.31.0
-streamlit-mermaid>=0.3.2
+streamlit-mermaid>=0.3.0
 
 # ---------- LangChain (Classic – Stable) ----------
 langchain==0.1.16
