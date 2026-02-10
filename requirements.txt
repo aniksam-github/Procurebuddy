@@ -1,6 +1,7 @@
 # ---------- Core ----------
 python-dotenv==1.0.1
 streamlit==1.31.0
+streamlit-mermaid>=0.3.2
 
 # ---------- LangChain (Classic – Stable) ----------
 langchain==0.1.16
@@ -27,4 +28,3 @@ requests==2.32.5
 tqdm==4.66.1
 pandas==2.1.4
 pandas-stubs==2.1.4.231227
-
