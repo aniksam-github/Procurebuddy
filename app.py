@@ -397,7 +397,7 @@ if st.session_state.pending_input and retriever and client:
             if intent == "TABLE":
                 st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
                 show_process_table()
-                answer = ""
+                # answer = ""
 
             elif intent == "POLICY":
                 docs = retriever.get_relevant_documents(user_input)
