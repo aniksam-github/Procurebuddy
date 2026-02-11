@@ -10,15 +10,44 @@ from groq import Groq
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
 
+
+
+from ui import render_chat, render_header, render_input, render_sidebar, floating_scroll_button
+
 # from langchain.chains import create_retrieval_chain
 # from langchain.chains.combine_documents import create_stuff_documents_chain
 # from langchain_core.prompts import ChatPromptTemplate
+import uuid
 
 load_dotenv()
 
-st.set_page_config(page_title="C.B.R.I ProcureBuddy", page_icon="🤖")
-st.title("🤖 C.B.R.I Purchase Assistant")
-st.caption("powered by Groq (Llama 3) & GFR Rules")
+if "conversations" not in st.session_state:
+    cid = str(uuid.uuid4())
+    st.session_state.conversations = [{
+        "id": cid,
+        "title": "New Chat",
+        "messages": []
+    }]
+    st.session_state.current_chat_id = cid
+
+def get_current_chat():
+    for c in st.session_state.conversations:
+        if c["id"] == st.session_state.current_chat_id:
+            return c
+    return None
+
+def new_chat():
+    cid = str(uuid.uuid4())
+    st.session_state.conversations.insert(0, {
+        "id": cid,
+        "title": "New Chat",
+        "messages": []
+    })
+    st.session_state.current_chat_id = cid
+
+def select_chat(chat_id):
+    st.session_state.current_chat_id = chat_id
+
 
 # ------------------ HELPERS ------------------
 
@@ -296,46 +325,12 @@ Keep it audit-friendly.
 """
 
 
-# ------------------ CHAT HISTORY -----------------------
-HISTORY_FILE = "chat_history.json"
-
-def save_history(messages):
-    with open(HISTORY_FILE, "w", encoding="utf-8") as f:
-        json.dump(messages, f, ensure_ascii=False, indent=2)
-
-def load_history():
-    if os.path.exists(HISTORY_FILE):
-        with open(HISTORY_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    return []
-
-# ----------------- SIDEBAR -----------------
-with st.sidebar:
-    if st.button("🆕 New Chat"):
-        st.session_state.messages = []
-        st.session_state.pending_input = None
-        st.session_state.busy = False
-        st.rerun()
-
-    if st.button("🕘 Load Old Chats"):
-        st.session_state.messages = load_history()
-        st.rerun()
-
-    if st.button("🗑️ Clear Chats"):
-        st.session_state.messages = []
-        save_history([])
-        st.rerun()
-
 
 # ------------------ SESSION STATE INIT ------------------
 if "messages" not in st.session_state:
-    st.session_state.messages = load_history()
+    st.session_state.messages = []
 
-if "busy" not in st.session_state:
-    st.session_state.busy = False
 
-if "pending_input" not in st.session_state:
-    st.session_state.pending_input = None
 
 
 # ------------------ DB & MODEL ------------------
@@ -376,61 +371,51 @@ def show_process_table():
     st.table(df)
 
 
+# ------------------ PROCESS QUEUED MESSAGE ------------------
 
 
-# ------------------ SHOW CHAT HISTORY ------------------
-for msg in st.session_state.messages:
-    with st.chat_message(msg["role"]):
-        if msg["content"] == "__TABLE_SHOWN__":
-            st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
-            show_process_table()
-        else:
-            st.markdown(msg["content"])
 
 
-# ------------------ INPUT ------------------
-user_input = st.chat_input(
-    "Ask about CSIR / CBRI purchase rules, process, approvals...",
-    disabled=st.session_state.busy
+# ------------------ USER INTERFACE ---------------------------
+
+render_header()
+
+render_sidebar(
+    st.session_state.conversations,
+    st.session_state.current_chat_id,
+    on_new_chat=new_chat,
+    on_select_chat=select_chat
 )
 
-if user_input and not st.session_state.busy:
-    st.session_state.busy = True
-    st.session_state.pending_input = user_input
-    st.rerun()
+current_chat = get_current_chat()
+render_chat(current_chat["messages"], show_process_table)
+user_input = render_input(False)
 
 
+current_chat = get_current_chat()
 
+if user_input:
+    # title set if first user message
+    if current_chat["title"] == "New Chat":
+        current_chat["title"] = user_input[:30]
 
-
-# ------------------ PROCESS QUEUED MESSAGE ------------------
-if st.session_state.pending_input and client:
-    user_input = st.session_state.pending_input
-    st.session_state.pending_input = None
-
-    st.session_state.messages.append({"role": "user", "content": user_input})
-    save_history(st.session_state.messages)
+    current_chat["messages"].append({"role": "user", "content": user_input})
 
     with st.chat_message("user"):
         st.markdown(user_input)
 
     with st.chat_message("assistant"):
         with st.spinner("📘 Analyzing rules..."):
-
             intent = detect_intent(user_input)
             amount = extract_amount(user_input)
-            st.write("DEBUG: ", intent, amount)
 
             if intent == "TABLE":
                 st.markdown("### 📊 CBRI / CSIR Purchase Process – Cost Slab Wise")
                 show_process_table()
                 answer = "__TABLE_SHOWN__"
 
-
-
             elif intent == "POLICY":
                 context = "TEST CONTEXT"
-
                 response = client.chat.completions.create(
                     model="llama-3.1-8b-instant",
                     messages=[
@@ -442,15 +427,12 @@ if st.session_state.pending_input and client:
                 answer = response.choices[0].message.content
                 st.markdown(answer)
 
-
-
             elif intent == "PROCESS":
                 if amount is None:
                     answer = "🙂 Purchase process batane ke liye amount bata do (jaise ₹8,00,000 / 8 lakh)."
                     st.markdown(answer)
                 else:
                     context = "Use only the rules provided in the knowledge base."
-
                     response = client.chat.completions.create(
                         model="llama-3.1-8b-instant",
                         messages=[
@@ -477,8 +459,6 @@ if st.session_state.pending_input and client:
                 st.markdown(answer)
 
     if "answer" in locals() and answer.strip():
-        st.session_state.messages.append({"role": "assistant", "content": answer})
-        save_history(st.session_state.messages)
+        current_chat["messages"].append({"role": "assistant", "content": answer})
 
-    st.session_state.busy = False
     st.rerun()
