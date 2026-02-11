@@ -72,12 +72,12 @@ def extract_amount(text):
 
     # 3) Handle ₹, rs, inr, plain numbers
     patterns = [
-        r'₹\s*([\d]+)',
-        r'rs\.?\s*([\d]+)',
-        r'inr\s*([\d]+)',
-        r'worth\s*([\d]+)',
-        r'amount\s*([\d]+)',
-        r'([\d]{4,})'  # fallback: any big number like 300000
+        r'₹\s*(\d+)',
+        r'rs\.?\s*(\d+)',
+        r'inr\s*(\d+)',
+        r'worth\s*(\d+)',
+        r'amount\s*(\d+)',
+        r'\b(\d{5,})\b'   # ✅ only full 5+ digit numbers, whole match
     ]
 
     for p in patterns:
@@ -86,6 +86,7 @@ def extract_amount(text):
             return int(match.group(1))
 
     return None
+
 
 
 
