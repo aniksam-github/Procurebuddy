@@ -428,17 +428,31 @@ if user_input:
                 answer = response.choices[0].message.content
                 st.markdown(answer)
 
+
             elif intent == "PROCESS":
+
                 if amount is None:
-                    answer = "🙂 Purchase process batane ke liye amount bata do (jaise ₹8,00,000 / 8 lakh)."
-                    st.markdown(answer)
+
+                    ...
+
                 else:
                     context = "Use only the rules provided in the knowledge base."
                     response = client.chat.completions.create(
                         model="llama-3.1-8b-instant",
                         messages=[
                             {"role": "system", "content": PROCESS_PROMPT},
-                            {"role": "user", "content": f"Context:\n{context}\n\nQuestion:\n{user_input}"}
+                            {"role": "user", "content": f"""
+                            Context:
+                            {context}
+
+                            User question:
+                            {user_input}
+
+                            IMPORTANT:
+                            The exact extracted purchase amount is: {amount}
+                            You MUST use this exact number and MUST NOT reinterpret, scale, or change it.
+                            """}
+
                         ],
                         temperature=0.3
                     )
