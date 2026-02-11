@@ -431,10 +431,9 @@ if user_input:
 
 
             elif intent == "PROCESS":
-
                 if amount is None:
-
-                    ...
+                    answer = "🙂 Purchase process batane ke liye exact amount bata do (jaise ₹8,00,000 / 8 lakh)."
+                    st.markdown(answer)
 
                 else:
                     context = "Use only the rules provided in the knowledge base."
@@ -469,8 +468,22 @@ if user_input:
                     else:
                         expected_mode = "Open/Global Tender"
 
-                    # Agar model galat slab/mode bol de, to correct note add karo
-                    if expected_mode not in answer:
+                    lower_answer = answer.lower()
+
+
+                    def mode_mismatch(expected, text):
+                        if expected == "Direct Purchase":
+                            return "direct" not in text
+                        if expected == "LPC":
+                            return "lpc" not in text
+                        if expected == "LTE":
+                            return "lte" not in text
+                        if expected == "Open/Global Tender":
+                            return "open" not in text and "global" not in text
+                        return False
+
+
+                    if mode_mismatch(expected_mode, lower_answer):
                         answer = f"""⚠️ Correction based on rules:
                     Exact amount: ₹{amount}
                     Correct applicable mode: {expected_mode}
