@@ -106,11 +106,11 @@ def extract_amount(text):
 #     return any(k in text for k in keywords)
 
 def detect_intent(text: str):
-    t = text.lower()
-
-    # If amount present, prefer PROCESS
-    if any(k in t for k in ["₹", "rs", "lakh", "crore", "worth", "price", "value", "kitne ka"]):
+    # Agar amount nikal aaya, to DIRECT PROCESS
+    if extract_amount(text) is not None:
         return "PROCESS"
+
+    t = text.lower()
 
     if any(k in t for k in ["approval", "minister", "cppp", "publication", "single tender", "proprietary", "rule", "om", "conflict", "amendment", "stage"]):
         return "POLICY"
