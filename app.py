@@ -426,6 +426,7 @@ if user_input:
                     temperature=0.3
                 )
                 answer = response.choices[0].message.content
+
                 st.markdown(answer)
 
 
@@ -457,6 +458,26 @@ if user_input:
                         temperature=0.3
                     )
                     answer = response.choices[0].message.content
+
+                    # ---------- SAFETY OVERRIDE BASED ON EXACT AMOUNT ----------
+                    if amount <= 200000:
+                        expected_mode = "Direct Purchase"
+                    elif 200000 < amount <= 1000000:
+                        expected_mode = "LPC"
+                    elif 1000000 < amount <= 2500000:
+                        expected_mode = "LTE"
+                    else:
+                        expected_mode = "Open/Global Tender"
+
+                    # Agar model galat slab/mode bol de, to correct note add karo
+                    if expected_mode not in answer:
+                        answer = f"""⚠️ Correction based on rules:
+                    Exact amount: ₹{amount}
+                    Correct applicable mode: {expected_mode}
+
+                    """ + answer
+                    # -----------------------------------------------------------
+
                     st.markdown(answer)
 
                     diagram = extract_mermaid(answer)
