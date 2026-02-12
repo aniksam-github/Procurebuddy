@@ -429,74 +429,110 @@ if user_input:
 
                 st.markdown(answer)
 
-
             elif intent == "PROCESS":
                 if amount is None:
                     answer = "🙂 Purchase process batane ke liye exact amount bata do (jaise ₹8,00,000 / 8 lakh)."
                     st.markdown(answer)
 
                 else:
-                    context = "Use only the rules provided in the knowledge base."
-                    response = client.chat.completions.create(
-                        model="llama-3.1-8b-instant",
-                        messages=[
-                            {"role": "system", "content": PROCESS_PROMPT},
-                            {"role": "user", "content": f"""
-                            Context:
-                            {context}
-
-                            User question:
-                            {user_input}
-
-                            IMPORTANT:
-                            The exact extracted purchase amount is: {amount}
-                            You MUST use this exact number and MUST NOT reinterpret, scale, or change it.
-                            """}
-
-                        ],
-                        temperature=0.3
-                    )
-                    answer = response.choices[0].message.content
-
-                    # ---------- SAFETY OVERRIDE BASED ON EXACT AMOUNT ----------
+                    # ---- HARD SLAB DECISION IN PYTHON (FINAL AUTHORITY) ----
                     if amount <= 200000:
-                        expected_mode = "Direct Purchase"
+                        slab = "Up to ₹2,00,000"
+                        mode = "Direct Purchase"
+                        committee = "No committee"
+                        committee_required = "No"
+
                     elif 200000 < amount <= 1000000:
-                        expected_mode = "LPC"
+                        slab = "₹2,00,001 to ₹10,00,000"
+                        mode = "LPC"
+                        committee = "Local Purchase Committee (LPC)"
+                        committee_required = "Yes"
+
                     elif 1000000 < amount <= 2500000:
-                        expected_mode = "LTE"
+                        slab = "₹10,00,001 to ₹25,00,000"
+                        mode = "LTE"
+                        committee = "Technical & Purchase Committee (T&PC)"
+                        committee_required = "Yes"
+
                     else:
-                        expected_mode = "Open/Global Tender"
+                        slab = "Above ₹25,00,000"
+                        mode = "Open / Global Tender"
+                        committee = "Technical & Purchase Committee (T&PC)"
+                        committee_required = "Yes"
 
-                    lower_answer = answer.lower()
+                # --------------------------------------------------------
 
+                # LLM ko sirf STEPS / DOCUMENTS likhne bolo, numbers/mode change na kare
 
-                    def mode_mismatch(expected, text):
-                        if expected == "Direct Purchase":
-                            return "direct" not in text
-                        if expected == "LPC":
-                            return "lpc" not in text
-                        if expected == "LTE":
-                            return "lte" not in text
-                        if expected == "Open/Global Tender":
-                            return "open" not in text and "global" not in text
-                        return False
+                response = client.chat.completions.create(
+                    model="llama-3.1-8b-instant",
+                    messages=[
+                        {"role": "system", "content": PROCESS_PROMPT},
+                        {"role": "user", "content": f"""
+                           The exact purchase amount is: {amount}
+                           The slab is: {slab}
+                           The applicable mode is: {mode}
+                           The committee is: {committee}
 
+                           IMPORTANT:
+                           - DO NOT write Case Summary.
+                           - DO NOT write Applicable Procurement Mode.
+                           - DO NOT write Committee Involvement.
+                           - ONLY write these sections:
 
-                    if mode_mismatch(expected_mode, lower_answer):
-                        answer = f"""⚠️ Correction based on rules:
-                    Exact amount: ₹{amount}
-                    Correct applicable mode: {expected_mode}
+                           Step-by-Step Process
+                           Key Documents / Outputs
+                           One-line Summary (TL;DR)
+                           FLOWCHART (Mermaid)
 
-                    """ + answer
-                    # -----------------------------------------------------------
+                           Write in simple Hinglish.
+                           Do NOT repeat headings already given.
 
-                    st.markdown(answer)
+                           User question:
+                           {user_input}
+                        """}
+                    ],
+                    temperature=0.3
+                )
 
-                    diagram = extract_mermaid(answer)
-                    if diagram:
-                        st.subheader("📊 Process Flowchart")
-                        st_mermaid(diagram)
+                llm_text = response.choices[0].message.content
+                # ---- CLEAN DUPLICATE HEADERS IF MODEL STILL PRINTS THEM ----
+                for bad in [
+                    "Case Summary",
+                    "Applicable Procurement Mode",
+                    "Applicable Procurement Mode & Reason",
+                    "Committee Involvement",
+                ]:
+                    llm_text = llm_text.replace(bad, "")
+                # -----------------------------------------------------------
+
+                # FINAL ANSWER: Header Python se, details LLM se
+                answer = f"""
+                ## Case Summary
+                - Purchase value: ₹{amount}
+                - Item: Not mentioned
+                - Which cost slab/category it falls into: {slab}
+
+                ## Applicable Procurement Mode & Reason
+                - Which mode applies: {mode}
+                - Why this mode applies: As per CSIR Manual on Procurement of Goods 2019, this amount falls in this slab.
+
+                ## Committee Involvement
+                - Whether committee is required: {committee_required}
+                - Which committee: {committee}
+
+                {llm_text}
+                
+
+            """
+                st.markdown(answer)
+
+                diagram = extract_mermaid(answer)
+
+                if diagram:
+                    st.subheader("📊 Process Flowchart")
+
+                    st_mermaid(diagram)
 
             else:
                 answer = (
