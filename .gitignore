@@ -42,6 +42,7 @@ dist/
 conversations.json
 users.json
 pending_users.json
+application.py
 
 # Secrets
 .env
