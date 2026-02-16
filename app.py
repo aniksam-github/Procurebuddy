@@ -9,7 +9,10 @@ from dotenv import load_dotenv
 from groq import Groq
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-
+from auth import (
+create_user, authenticate_user, reset_password, change_password, is_official_email
+)
+from ui import render_auth_screen, render_force_change_password
 
 
 from ui import render_chat, render_header, render_input, render_sidebar, floating_scroll_button
@@ -87,24 +90,6 @@ def extract_amount(text):
 
     return None
 
-
-
-
-# def is_purchase_query(text):
-#     keywords = [
-#         "purchase", "buy", "procure", "lena", "khareed", "item",
-#         "worth", "amount", "price", "rs", "₹", "rupaye"
-#     ]
-#     text = text.lower()
-#     return any(k in text for k in keywords)
-
-# def is_table_query(text):
-#     keywords = [
-#         "table", "slab", "slab wise", "slab-wise", "cost wise", "cost-wise",
-#         "procedure", "process table", "overview", "chart"
-#     ]
-#     text = text.lower()
-#     return any(k in text for k in keywords)
 
 def detect_intent(text: str):
     # Agar amount nikal aaya, to DIRECT PROCESS
@@ -331,7 +316,20 @@ Keep it audit-friendly.
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
+if "user" not in st.session_state:
+    st.session_state.user = None
 
+if "force_change_pw" not in st.session_state:
+    st.session_state.force_change_pw = False
+
+if "pending_email" not in st.session_state:
+    st.session_state.pending_email = None
+
+# /*
+# Flow -> if user clicks create account -> call start_createacount(email) -> set pending_email
+#         if pending_email exists -> show OTP screen -> call verify_otp_and_create_user(...)
+#
+# */
 
 
 # ------------------ DB & MODEL ------------------
@@ -372,12 +370,38 @@ def show_process_table():
     st.table(df)
 
 
-# ------------------ PROCESS QUEUED MESSAGE ------------------
-
-
-
+auth_handlers = {
+    "login": authenticate_user,
+    "create": create_user,
+    "reset":reset_password
+}
 
 # ------------------ USER INTERFACE ---------------------------
+
+if st.session_state.user is None:
+    result = render_auth_screen(auth_handlers)
+
+    if result.get("action") == "login_success":
+        st.session_state.user = result["user"]
+        st.session_state.force_change_pw = result["user_record"].get("must_change", False)
+        st.rerun()
+
+    st.stop()
+
+if st.session_state.force_change_pw:
+    res = render_force_change_password()
+    if res.get("action") == "change_password":
+        ok, msg = change_password(st.session_state.user, res["new_password"])
+        if ok:
+            st.success("Password changed successfully. Please login again.")
+            st.session_state.user = None
+            st.session_state.force_change_pw = False
+            st.rerun()
+        else:
+            st.error(msg)
+    st.stop()
+
+
 
 render_header()
 

@@ -37,3 +37,16 @@ dist/
 
 # Jupyter
 .ipynb_checkpoints/
+
+# Runtime / data files
+conversations.json
+users.json
+pending_users.json
+
+# Secrets
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+

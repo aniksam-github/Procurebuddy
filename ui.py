@@ -116,5 +116,91 @@ def render_input(is_busy: bool):
         "Ask about CSIR/CBRI purchase rules, process, approvals...",
         disabled=is_busy
     )
-
     return user_input
+
+def render_auth_screen(auth_handlers):
+    """
+    auth_handlers = {
+        "login": fn(email, password) -> (ok, result_or_msg),
+        "create": fn(email) -> (ok, temp_password_or_msg),
+        "reset": fn(email) -> (ok, temp_password_or_msg),
+    }
+    """
+
+    st.title("🔐 CBRI ProcureBuddy - Login")
+    tab = st.radio("Choose option", ["Login", "Create Account", "Reset Password"], horizontal=True)
+
+    if tab == "Login":
+        email = st.text_input("Official Email")
+        password = st.text_input("Password", type="password")
+
+        if st.button("Login", type="primary"):
+            ok, result = auth_handlers["login"](email, password)
+            if not ok:
+                st.error(result)
+            else:
+                st.success("Login successful !!!")
+                return {"action": "login_success", "user": email, "user_record": result}
+
+    elif tab == "Create Account":
+        email = st.text_input("Official Email (CBRI)")
+
+        if st.button("Create Account", type="primary"):
+            ok, result = auth_handlers["create"](email)
+            if not ok:
+                st.error(result)
+            else:
+                st.success("Account Created!!!")
+                st.info(f"Your temporary password is: {result}\n\nPlease login and change it immediately.")
+
+    elif tab == "Reset Password":
+        email = st.text_input("Official Email")
+
+        if st.button("Reset Password", type="primary"):
+            ok, result = auth_handlers["reset"](email)
+            if not ok:
+                st.error(result)
+            else:
+                st.success("Password Reset Successful!")
+                st.info(f"Your new temporary password is: {result}\n\nPlease login and change it immediately.")
+
+    return {"action": "none"}
+
+
+def render_force_change_password():
+    st.title("🔑 Change Your Password")
+
+    new_pw = st.text_input("New Password", type="password")
+    confirm_pw = st.text_input("Confirm New Password", type="password")
+
+    if st.button("Change Password", type="primary"):
+        if not new_pw or not confirm_pw:
+            st.error("Please fill both fields.")
+        elif new_pw != confirm_pw:
+            st.error("Passwords do not match.")
+        else:
+            return {"action": "change_password", "new_password": new_pw}
+
+    return {"action": "none"}
+
+def render_verify_otp_screen(email):
+    st.title("📩 Verify OTP")
+
+    otp = st.text_input("Enter OTP")
+    pw1 = st.text_input("New Password", type="password")
+    pw2 = st.text_input("Confirm Password", type="password")
+
+    if st.button("Verify & Create Account"):
+        if pw1 != pw2:
+            st.error("Passwords do not match.")
+        else:
+            return {
+                "action":"verify_otp",
+                "email": email,
+                "otp": otp,
+                "password": pw1
+            }
+
+    return {
+        "action" : "none"
+    }
