@@ -74,6 +74,9 @@ def render_sidebar(conversations, current_chat_id, on_new_chat, on_select_chat):
                 on_select_chat(c["id"])
                 st.rerun()
 
+    if st.button("⚙️ Settings"):
+        st.session_state.show_settings = True
+        st.rerun()
 
 
 
@@ -201,6 +204,59 @@ def render_verify_otp_screen(email):
                 "password": pw1
             }
 
+    return {
+        "action" : "none"
+    }
+
+def render_totp_verify_screen():
+    st.title("🔐 Two-Factor Authentication")
+
+    code = st.text_input("Enter 6-digit code from Authenticator App", max_chars=6)
+    if st.button("verify", type="primary"):
+        if not code or len(code) != 6:
+            st.error("Please enter a valid 6-digit code.")
+        else:
+            return {"action": "verify_totp", "code": code}
+
+    return {
+        "action" : "none"
+    }
+
+
+def render_enable_totp_screen(qr_base64):
+    st.title("Enable Two-Factor Authentication")
+    st.markdown("Scan this QR code in Google/Microsoft Authenticator: ")
+    st.image(f"data:image/png;base64, {qr_base64}")
+    code = st.text_input("enter 6-dit code to confirm", max_chars=6)
+
+    if st.button("confirm & Enable", type="primary"):
+        if not code or len(code) != 6:
+            st.error("Enter valid 6-digit code")
+        else:
+            return {"action" : "confirm_totp", "code":code}
+
+    return {
+        "action" : "none"
+    }
+
+def render_settings_screen(is_totp_enabled):
+    st.title("⚙️ Settings")
+    st.markdown("### 🔐 Security")
+
+    if not is_totp_enabled:
+        if st.button("Enable 2FA (TOTP)", type="primary"):
+            return {
+                "action" : "enable_totp"
+            }
+    else:
+        st.success("✅ Two-Factor Authentication is already enabled")
+
+    st.markdown("---")
+
+    if st.button("⬅ Back"):
+        return {
+            "action" : "back"
+        }
     return {
         "action" : "none"
     }

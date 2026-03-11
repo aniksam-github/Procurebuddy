@@ -1,25 +1,18 @@
+import pyotp
 import streamlit as st
 from streamlit_mermaid import st_mermaid
-# import pandas as pd
+import pandas as pd
 import os
 import re
-import json
 from dotenv import load_dotenv
 
-from groq import Groq
+from openai import OpenAI
 from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-from auth import (
-create_user, authenticate_user, reset_password, change_password, is_official_email
-)
-from ui import render_auth_screen, render_force_change_password
+from backend.auth import create_user, authenticate_user, reset_password, change_password, is_totp_enabled, verify_user_totp, generate_totp_setup, enable_totp_for_user
 
+from ui import render_auth_screen, render_settings_screen ,render_enable_totp_screen, render_totp_verify_screen ,render_force_change_password, render_chat, render_header, render_input, render_sidebar
 
-from ui import render_chat, render_header, render_input, render_sidebar, floating_scroll_button
-
-# from langchain.chains import create_retrieval_chain
-# from langchain.chains.combine_documents import create_stuff_documents_chain
-# from langchain_core.prompts import ChatPromptTemplate
 import uuid
 
 load_dotenv()
@@ -104,7 +97,7 @@ def detect_intent(text: str):
     if any(k in t for k in ["table", "slab", "list", "show table", "overview"]):
         return "TABLE"
 
-    return "HELP"
+    return "POLICY"
 
 
 # ------------------- PROMPTS --------------------------
@@ -310,6 +303,10 @@ Generate a clean table of procurement process as per cost slabs strictly from th
 Keep it audit-friendly.
 """
 
+# ------------------- Login Success block ------------------
+
+
+
 
 
 # ------------------ SESSION STATE INIT ------------------
@@ -331,6 +328,29 @@ if "pending_email" not in st.session_state:
 #
 # */
 
+if "need_totp" not in st.session_state:
+    st.session_state.need_totp = False
+
+if "pending_totp_secret" not in st.session_state:
+    st.session_state.pending_totp_secret = None
+
+if "show_settings" in st.session_state:
+    st.session_state.show_settings = False
+
+
+# ------------------ TOTP VERIFICATION GATE --------------------------
+if st.session_state.user and st.session_state.need_totp:
+    res = render_totp_verify_screen()
+    if res.get("action") == "verify_totp":
+        ok = verify_user_totp(st.session_state.user, res["code"])
+        if ok:
+            st.session_state.need_totp = False
+            st.success("2FA verified successfully!")
+            st.rerun()
+        else:
+            st.error("Invalid code. Try again.")
+    st.stop()
+
 
 # ------------------ DB & MODEL ------------------
 @st.cache_resource
@@ -338,22 +358,20 @@ def get_resources():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
     if not os.path.exists("./chroma_db"):
-        import ingest
+        from backend import ingest
         ingest.create_vector_db()
 
     vector_db = Chroma(persist_directory="./chroma_db", embedding_function=embeddings)
     retriever = vector_db.as_retriever(search_kwargs={"k": 5})
 
-    client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-    return retriever, client
+    # return retriever, client
 
-# retriever, client = get_resources()
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+retriever, client = get_resources()
+client = OpenAI(api_key=os.getenv("GROQ_API_KEY"))
+
 
 # ------------------ EXTRA FUNCTIONALITIES ------------------
-import pandas as pd
-
 def show_process_table():
     data = [
         ["Up to ₹2,00,000", "Direct Purchase", "No", "No", "-", "Indent + Certificate", "Indent → Approval → Purchase"],
@@ -377,6 +395,26 @@ auth_handlers = {
 }
 
 # ------------------ USER INTERFACE ---------------------------
+if st.session_state.get("show_settings"):
+    res = render_settings_screen(is_totp_enabled(st.session_state.user))
+
+    if res.get("action") == "enable_totp":
+        ok, data = generate_totp_setup(st.session_state.user)
+        if ok:
+            st.session_state.pending_totp_secret = data["secret"]
+            st.session_state.pending_totp_qr = data["qr_base64"]
+            st.session_state.show_totp_setup = True
+        else:
+            st.error(data)
+
+    if res.get("action") == "back":
+        st.session_state.show_settings = False
+        st.rerun()
+
+    st.stop()  # ⛔ important: yahin ruk jao, chat UI render na ho
+
+
+
 
 if st.session_state.user is None:
     result = render_auth_screen(auth_handlers)
@@ -384,6 +422,13 @@ if st.session_state.user is None:
     if result.get("action") == "login_success":
         st.session_state.user = result["user"]
         st.session_state.force_change_pw = result["user_record"].get("must_change", False)
+
+        if is_totp_enabled(st.session_state.user):
+            st.session_state.need_totp = True
+            st.rerun()
+        else:
+            st.session_state.need_totp = False
+
         st.rerun()
 
     st.stop()
@@ -400,6 +445,8 @@ if st.session_state.force_change_pw:
         else:
             st.error(msg)
     st.stop()
+
+
 
 
 
@@ -439,10 +486,15 @@ if user_input:
                 show_process_table()
                 answer = "__TABLE_SHOWN__"
 
+
             elif intent == "POLICY":
-                context = "TEST CONTEXT"
+
+                docs = retriever.get_relevant_documents(user_input)
+                context = "\n\n".join([d.page_content for d in docs])
+
+                # print("MODEL BEING USED: ", model)
                 response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
+                    model="meta-llama/llama-3.1-8b-instruct",
                     messages=[
                         {"role": "system", "content": POLICY_PROMPT},
                         {"role": "user", "content": f"Context:\n{context}\n\nQuestion:\n{user_input}"}
@@ -489,9 +541,8 @@ if user_input:
                 # LLM ko sirf STEPS / DOCUMENTS likhne bolo, numbers/mode change na kare
 
                 response = client.chat.completions.create(
-                    model="llama-3.1-8b-instant",
-                    messages=[
-                        {"role": "system", "content": PROCESS_PROMPT},
+                    model="meta-llama/llama-3.1-8b-instruct",
+                    messages=[{"role": "system", "content": PROCESS_PROMPT},
                         {"role": "user", "content": f"""
                            The exact purchase amount is: {amount}
                            The slab is: {slab}
@@ -571,3 +622,45 @@ if user_input:
         current_chat["messages"].append({"role": "assistant", "content": answer})
 
     st.rerun()
+
+if st.session_state.get("show_settings"):
+    res = render_settings_screen(is_totp_enabled(st.session_state.user))
+
+    if res.get("action") == "enable_totp":
+        ok, data = generate_totp_setup(st.session_state.user)
+        if ok:
+            st.session_state.pending_totp_secret = data["secret"]
+            st.session_state.pending_totp_qr = data["qr_base64"]
+            st.session_state.show_totp_setup = True
+        else:
+            st.error(data)
+
+    if res.get("action") == "back":
+        st.session_state.show_settings = False
+        st.rerun()
+
+    st.stop()
+
+
+if st.session_state.get("show_totp_setup"):
+    res = render_enable_totp_screen(st.session_state.pending_totp_qr)
+    if res.get("action") == "confirm_totp":
+
+        secret = st.session_state.pending_totp_secret
+        totp = pyotp.TOTP(secret)
+        if totp.verify(res["code"]):
+            ok, msg = enable_totp_for_user(st.session_state.user, secret)
+            if ok:
+                st.success("2FA enabled successfully!!!")
+                st.session_state.show_totp_setup = False
+                st.session_state.pending_totp_secret = None
+                st.session_state.need_totp = False
+                st.rerun()
+            else:
+                st.error(msg)
+        else:
+            st.error("Invalid code. Please try again.")
+    st.stop()
+
+
+# aniksam2000.cbri@csir.res.in
