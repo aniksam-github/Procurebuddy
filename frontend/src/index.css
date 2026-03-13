@@ -8,9 +8,17 @@
 
 body {
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
-  background-color: #0d0c0a;
-  color: #e8e6e0;
+  min-width: 320px;
+  font-family: 'Sora', sans-serif;
+  background-color: var(--bg, #fff7fc);
+  color: var(--text-primary, #2d133c);
+}
+
+.prose-custom,
+.prose-custom p,
+.prose-custom li,
+.prose-custom td {
+  color: inherit;
 }
 
 ::-webkit-scrollbar {
@@ -20,7 +28,7 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #4a4540;
+  background: var(--border-hover, rgba(192, 132, 252, 0.3));
   border-radius: 2px;
 }
 
@@ -31,13 +39,13 @@ body {
 .prose-custom code {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.82em;
-  background: rgba(255,255,255,0.08);
+  background: var(--accent-light, rgba(255,255,255,0.08));
   padding: 0.15em 0.4em;
   border-radius: 4px;
 }
 .prose-custom pre {
-  background: rgba(0,0,0,0.4);
-  border: 1px solid #4a4540;
+  background: var(--card-bg, rgba(0,0,0,0.4));
+  border: 1px solid var(--border, #4a4540);
   border-radius: 8px;
   padding: 1rem;
   overflow-x: auto;
@@ -56,13 +64,13 @@ body {
   margin: 0.25rem 0;
 }
 .prose-custom strong {
-  color: #fbbf24;
+  color: var(--accent, #fbbf24);
   font-weight: 600;
 }
 .prose-custom h1,
 .prose-custom h2,
 .prose-custom h3 {
-  color: #f4f3f0;
+  color: inherit;
   font-weight: 600;
   margin: 0.75rem 0 0.35rem;
 }
@@ -75,19 +83,16 @@ body {
   white-space: nowrap;
 }
 .prose-custom thead {
-  background: rgba(251, 191, 36, 0.08);
+  background: var(--accent-light, rgba(251, 191, 36, 0.08));
 }
 .prose-custom th,
 .prose-custom td {
-  border: 1px solid #4a4540;
+  border: 1px solid var(--border, #4a4540);
   padding: 0.7rem 0.8rem;
   text-align: left;
   vertical-align: top;
 }
 .prose-custom th {
-  color: #f4f3f0;
+  color: inherit;
   font-weight: 600;
-}
-.prose-custom td {
-  color: #e8e6e0;
 }
