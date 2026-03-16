@@ -14,7 +14,7 @@ import pyotp
 import qrcode
 from sqlalchemy.orm import Session
 
-from backend.models import PendingOTP, User
+from models import PendingOTP, User
 
 ALLOWED_DOMAINS = [".cbri@csir.res.in", "@outlook.com", "@gmail.com"]
 ADMIN_EMAIL = "aniksam2000@outlook.com"

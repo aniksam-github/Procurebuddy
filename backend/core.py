@@ -9,7 +9,7 @@ from langchain_chroma import Chroma
 from langchain_huggingface import HuggingFaceEmbeddings
 from pypdf import PdfReader
 
-from backend.ingest import create_vector_db
+from ingest import create_vector_db
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 ENV_FILE = PROJECT_ROOT / ".env"

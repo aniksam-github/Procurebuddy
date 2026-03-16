@@ -16,11 +16,11 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
-import backend.auth as auth_service
-from backend.core import ask_question
-from backend.database import get_db, init_db
-from backend.ingest import SUPPORTED_DOC_EXTENSIONS, create_vector_db
-from backend.models import Message
+import auth as auth_service
+from core import ask_question
+from database import get_db, init_db
+from ingest import SUPPORTED_DOC_EXTENSIONS, create_vector_db
+from models import Message
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
@@ -29,16 +29,46 @@ load_dotenv(dotenv_path=PROJECT_ROOT / "backend" / ".env")
 
 app = FastAPI(title="CBRI ProcureBuddy API")
 
+
+def _split_origins(value: str) -> list[str]:
+    return [origin.strip().rstrip("/") for origin in value.split(",") if origin.strip()]
+
+
+def _cors_options() -> dict:
+    configured = os.getenv("CORS_ALLOWED_ORIGINS", "").strip()
+    origin_regex = os.getenv("CORS_ALLOWED_ORIGIN_REGEX", "").strip() or None
+
+    if configured:
+        origins = _split_origins(configured)
+        if "*" in origins:
+            # This API does not use cookie-based auth, so wildcard origins are safe
+            # as long as credentials are not enabled.
+            return {
+                "allow_origins": ["*"],
+                "allow_credentials": False,
+                "allow_origin_regex": None,
+            }
+        return {
+            "allow_origins": origins,
+            "allow_credentials": True,
+            "allow_origin_regex": origin_regex,
+        }
+
+    # Safe defaults for split frontend/backend deployments.
+    return {
+        "allow_origins": ["*"],
+        "allow_credentials": False,
+        "allow_origin_regex": origin_regex,
+    }
+
+
+_cors = _cors_options()
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:4173",
-        "http://127.0.0.1:4173",
-        "http://127.0.0.1:8000",
-    ],
-    allow_credentials=True,
+    allow_origins=_cors["allow_origins"],
+    allow_origin_regex=_cors["allow_origin_regex"],
+    allow_credentials=_cors["allow_credentials"],
     allow_methods=["*"],
     allow_headers=["*"],
 )
