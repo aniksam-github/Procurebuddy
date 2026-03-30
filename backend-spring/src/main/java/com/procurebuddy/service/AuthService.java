@@ -19,6 +19,7 @@ import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
+import java.util.LinkedHashMap;
 import java.util.Base64;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +82,8 @@ public class AuthService {
 
         UserEntity user = new UserEntity();
         user.setEmail(normalizedEmail);
+        user.setDisplayName(defaultDisplayName(normalizedEmail));
+        user.setUsername(defaultUsername(normalizedEmail));
         user.setPasswordHash(passwordEncoder.encode(password));
         user.setMustChange(false);
         user.setTotpEnabled(false);
@@ -107,14 +110,17 @@ public class AuthService {
         UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
 
-        return Map.of(
-                "success", true,
-                "email", user.getEmail(),
-                "must_change", user.isMustChange(),
-                "totp_enabled", user.isTotpEnabled(),
-                "is_admin", isAdminEmail(user.getEmail()),
-                "created_at", user.getCreatedAt()
-        );
+        Map<String, Object> response = new LinkedHashMap<>();
+        response.put("success", true);
+        response.put("email", user.getEmail());
+        response.put("display_name", nullToEmpty(user.getDisplayName()));
+        response.put("username", nullToEmpty(user.getUsername()));
+        response.put("avatar_base64", nullToEmpty(user.getAvatarBase64()));
+        response.put("must_change", user.isMustChange());
+        response.put("totp_enabled", user.isTotpEnabled());
+        response.put("is_admin", isAdminEmail(user.getEmail()));
+        response.put("created_at", user.getCreatedAt() == null ? null : user.getCreatedAt().toString());
+        return response;
     }
 
     @Transactional
@@ -130,6 +136,30 @@ public class AuthService {
         user.setMustChange(false);
         userRepository.save(user);
         return Map.of("success", true, "message", "Password changed successfully.");
+    }
+
+    @Transactional
+    public Map<String, Object> updateProfile(String email, String displayName, String username, String avatarBase64) {
+        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User not found."));
+
+        String sanitizedDisplayName = sanitizeDisplayName(displayName);
+        String sanitizedUsername = sanitizeUsername(username);
+        user.setDisplayName(sanitizedDisplayName);
+        user.setUsername(sanitizedUsername);
+        user.setAvatarBase64(sanitizeAvatar(avatarBase64));
+        userRepository.save(user);
+
+        return Map.of(
+                "success", true,
+                "message", "Profile updated successfully.",
+                "profile", Map.of(
+                        "email", user.getEmail(),
+                        "display_name", user.getDisplayName(),
+                        "username", user.getUsername(),
+                        "avatar_base64", user.getAvatarBase64() == null ? "" : user.getAvatarBase64()
+                )
+        );
     }
 
     @Transactional
@@ -250,14 +280,97 @@ public class AuthService {
     public record LoginResponse(
             boolean success,
             String email,
+            @JsonProperty("display_name") String displayName,
+            String username,
+            @JsonProperty("avatar_base64") String avatarBase64,
             @JsonProperty("must_change") boolean mustChange,
             @JsonProperty("totp_required") boolean totpRequired,
             @JsonProperty("totp_enabled") boolean totpEnabled,
             @JsonProperty("is_admin") boolean isAdmin
     ) {
         public static LoginResponse from(UserEntity user, boolean isAdmin) {
-            return new LoginResponse(true, user.getEmail(), user.isMustChange(), user.isTotpEnabled(), user.isTotpEnabled(), isAdmin);
+            return new LoginResponse(
+                    true,
+                    user.getEmail(),
+                    nullToEmpty(user.getDisplayName()),
+                    nullToEmpty(user.getUsername()),
+                    nullToEmpty(user.getAvatarBase64()),
+                    user.isMustChange(),
+                    user.isTotpEnabled(),
+                    user.isTotpEnabled(),
+                    isAdmin
+            );
         }
+    }
+
+    private static String nullToEmpty(String value) {
+        return value == null ? "" : value;
+    }
+
+    private String defaultDisplayName(String email) {
+        String local = email == null ? "ProcureBuddy User" : email.split("@")[0];
+        String[] parts = local.replaceAll("[^A-Za-z0-9._-]", " ").split("[._-]+");
+        StringBuilder builder = new StringBuilder();
+        for (String part : parts) {
+            if (part == null || part.isBlank()) continue;
+            if (!builder.isEmpty()) {
+                builder.append(' ');
+            }
+            builder.append(Character.toUpperCase(part.charAt(0)));
+            if (part.length() > 1) {
+                builder.append(part.substring(1));
+            }
+        }
+        return builder.isEmpty() ? "ProcureBuddy User" : builder.toString();
+    }
+
+    private String defaultUsername(String email) {
+        if (email == null || email.isBlank()) {
+            return "user";
+        }
+        return sanitizeUsername(email.split("@")[0]);
+    }
+
+    private String sanitizeDisplayName(String value) {
+        if (value == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Display name is required.");
+        }
+        String normalized = value.strip().replaceAll("\\s+", " ");
+        if (normalized.length() < 2) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Display name must be at least 2 characters.");
+        }
+        if (normalized.length() > 80) {
+            normalized = normalized.substring(0, 80).trim();
+        }
+        return normalized;
+    }
+
+    private String sanitizeUsername(String value) {
+        if (value == null) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Username is required.");
+        }
+        String normalized = value.strip().toLowerCase().replaceAll("[^a-z0-9._-]", "");
+        if (normalized.length() < 3) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Username must be at least 3 characters.");
+        }
+        if (normalized.length() > 32) {
+            normalized = normalized.substring(0, 32);
+        }
+        return normalized;
+    }
+
+    private String sanitizeAvatar(String avatarBase64) {
+        if (avatarBase64 == null || avatarBase64.isBlank()) {
+            return null;
+        }
+        String normalized = avatarBase64.strip();
+        if (normalized.length() > 2_000_000) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Profile photo is too large.");
+        }
+        if (!normalized.startsWith("data:image/")) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Profile photo must be a valid image.");
+        }
+        return normalized;
     }
 
     private static final class RandomString {

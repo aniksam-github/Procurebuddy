@@ -5,14 +5,18 @@ import com.procurebuddy.dto.response.ChatSummaryResponse;
 import com.procurebuddy.entity.ChatEntity;
 import com.procurebuddy.entity.FolderEntity;
 import com.procurebuddy.entity.MessageEntity;
+import com.procurebuddy.entity.MessageRevisionEntity;
 import com.procurebuddy.entity.UserEntity;
 import com.procurebuddy.exception.ApiException;
 import com.procurebuddy.repository.ChatRepository;
 import com.procurebuddy.repository.FolderRepository;
 import com.procurebuddy.repository.MessageRepository;
+import com.procurebuddy.repository.MessageRevisionRepository;
+import com.procurebuddy.repository.FeedbackRepository;
 import com.procurebuddy.util.UserResolver;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -45,6 +49,9 @@ public class ChatService {
     private final UserResolver userResolver;
     private final PythonBridgeService pythonBridgeService;
     private final AdminService adminService;
+    private final PromptAnalyticsService promptAnalyticsService;
+    private final MessageRevisionRepository messageRevisionRepository;
+    private final FeedbackRepository feedbackRepository;
 
     @Cacheable(cacheNames = "chatLists")
     @Transactional(readOnly = true)
@@ -105,6 +112,7 @@ public class ChatService {
 
         UserEntity user = userResolver.requireByEmail(email);
         ChatEntity chat = chatRepository.findByIdAndUser(chatId, user).orElseGet(() -> createChat(chatId, user));
+        promptAnalyticsService.trackPrompt(text.trim());
 
         List<ChatMessageResponse> history = expandMessages(chat, null, null);
         String reply;
@@ -120,9 +128,60 @@ public class ChatService {
         exchange.setMessage(text.trim());
         exchange.setResponse(reply);
         exchange.setTimestamp(LocalDateTime.now());
-        messageRepository.save(exchange);
+        exchange = messageRepository.save(exchange);
+        storeResponseRevision(exchange, reply, "initial");
 
         updateChatMetadata(chat, exchange);
+        chatRepository.save(chat);
+
+        List<ChatMessageResponse> allMessages = expandMessages(chat, null, null);
+        LinkedHashMap<String, Object> response = new LinkedHashMap<>();
+        response.put("reply", reply);
+        response.put("chat", toSummary(chat, messageRepository.countByChat(chat)));
+        response.put("messages", allMessages);
+        return CompletableFuture.completedFuture(response);
+    }
+
+    @Async("aiTaskExecutor")
+    @CacheEvict(cacheNames = {"chatLists", "chatMessages"}, allEntries = true)
+    @Transactional
+    public CompletableFuture<Map<String, Object>> regenerateLastResponseAsync(String chatId, String email) {
+        if (adminService.isBusy()) {
+            throw new ApiException(
+                    HttpStatus.SERVICE_UNAVAILABLE,
+                    "Knowledge base update in progress. Chat is temporarily paused until processing completes."
+            );
+        }
+        if (email == null || email.isBlank()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "User email is required.");
+        }
+
+        UserEntity user = userResolver.requireByEmail(email);
+        ChatEntity chat = chatRepository.findByIdAndUser(chatId, user)
+                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Chat not found."));
+        List<MessageEntity> exchanges = messageRepository.findAllByChatOrderByTimestampAscIdAsc(chat);
+        if (exchanges.isEmpty()) {
+            throw new ApiException(HttpStatus.BAD_REQUEST, "No assistant response is available to regenerate.");
+        }
+
+        MessageEntity latestExchange = exchanges.get(exchanges.size() - 1);
+        String reply;
+        try {
+            reply = pythonBridgeService.askQuestion(
+                    latestExchange.getMessage(),
+                    expandMessages(exchanges.subList(0, exchanges.size() - 1))
+            );
+        } catch (Exception ex) {
+            log.error("Chat reply regeneration failed", ex);
+            reply = AI_FALLBACK_MESSAGE;
+        }
+
+        latestExchange.setResponse(reply);
+        messageRepository.save(latestExchange);
+        storeResponseRevision(latestExchange, reply, "regenerated");
+
+        chat.setPreview(trimForSummary(reply, 120));
+        chat.setUpdatedAt(LocalDateTime.now());
         chatRepository.save(chat);
 
         List<ChatMessageResponse> allMessages = expandMessages(chat, null, null);
@@ -139,6 +198,8 @@ public class ChatService {
         UserEntity user = userResolver.requireByIdentifier(email, userId);
         ChatEntity chat = chatRepository.findByIdAndUser(chatId, user)
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "Chat not found."));
+        messageRevisionRepository.deleteAllByMessageChat(chat);
+        feedbackRepository.deleteAllByChatId(chatId);
         messageRepository.deleteAllByChat(chat);
         chatRepository.delete(chat);
         return Map.of("success", true, "message", "Chat deleted.");
@@ -174,7 +235,6 @@ public class ChatService {
 
     @Transactional(readOnly = true)
     public List<ChatMessageResponse> expandMessages(ChatEntity chat, Integer page, Integer size) {
-        List<ChatMessageResponse> messages = new ArrayList<>();
         List<MessageEntity> exchanges;
         Pageable pageable = buildPageable(page, size, Sort.by(Sort.Order.asc("timestamp"), Sort.Order.asc("id")));
         if (pageable.isPaged()) {
@@ -182,19 +242,7 @@ public class ChatService {
         } else {
             exchanges = messageRepository.findAllByChatOrderByTimestampAscIdAsc(chat);
         }
-        for (MessageEntity exchange : exchanges) {
-            messages.add(ChatMessageResponse.builder()
-                    .role("user")
-                    .content(exchange.getMessage())
-                    .timestamp(exchange.getTimestamp())
-                    .build());
-            messages.add(ChatMessageResponse.builder()
-                    .role("assistant")
-                    .content(exchange.getResponse())
-                    .timestamp(exchange.getTimestamp())
-                    .build());
-        }
-        return messages;
+        return expandMessages(exchanges);
     }
 
     @Transactional(readOnly = true)
@@ -223,7 +271,7 @@ public class ChatService {
 
     private void updateChatMetadata(ChatEntity chat, MessageEntity latestExchange) {
         if (chat.getTitle() == null || chat.getTitle().isBlank() || "New Chat".equals(chat.getTitle())) {
-            chat.setTitle(trimForSummary(latestExchange.getMessage(), 60));
+            chat.setTitle(generateAutoTitle(latestExchange.getMessage()));
         }
         chat.setPreview(trimForSummary(
                 latestExchange.getResponse() != null && !latestExchange.getResponse().isBlank()
@@ -251,6 +299,52 @@ public class ChatService {
         int resolvedPage = page == null || page < 0 ? 0 : page;
         int resolvedSize = size == null || size <= 0 ? 20 : Math.min(size, 200);
         return PageRequest.of(resolvedPage, resolvedSize, sort);
+    }
+
+    private List<ChatMessageResponse> expandMessages(List<MessageEntity> exchanges) {
+        List<ChatMessageResponse> messages = new ArrayList<>();
+        for (MessageEntity exchange : exchanges) {
+            messages.add(ChatMessageResponse.builder()
+                    .role("user")
+                    .content(exchange.getMessage())
+                    .timestamp(exchange.getTimestamp())
+                    .build());
+            messages.add(ChatMessageResponse.builder()
+                    .role("assistant")
+                    .content(exchange.getResponse())
+                    .timestamp(exchange.getTimestamp())
+                    .build());
+        }
+        return messages;
+    }
+
+    private void storeResponseRevision(MessageEntity exchange, String response, String source) {
+        MessageRevisionEntity revision = new MessageRevisionEntity();
+        revision.setMessage(exchange);
+        revision.setResponse(response);
+        revision.setSource(source);
+        messageRevisionRepository.save(revision);
+    }
+
+    private String generateAutoTitle(String value) {
+        if (value == null || value.isBlank()) {
+            return "New Chat";
+        }
+        String normalized = value.strip()
+                .replaceAll("\\s+", " ")
+                .replaceAll("^[\\p{Punct}\\s]+", "")
+                .replaceAll("[\\p{Punct}\\s]+$", "");
+        if (normalized.isBlank()) {
+            return "New Chat";
+        }
+
+        String[] words = normalized.split(" ");
+        int wordLimit = Math.min(words.length, 8);
+        String candidate = String.join(" ", Arrays.copyOfRange(words, 0, wordLimit));
+        if (candidate.length() > 60) {
+            candidate = candidate.substring(0, 60).trim();
+        }
+        return Character.toUpperCase(candidate.charAt(0)) + candidate.substring(1);
     }
 
     private String trimForSummary(String value, int maxLength) {

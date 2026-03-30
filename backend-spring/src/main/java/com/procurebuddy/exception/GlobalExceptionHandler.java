@@ -2,6 +2,7 @@ package com.procurebuddy.exception;
 
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -29,6 +30,14 @@ public class GlobalExceptionHandler {
             message = "Invalid request.";
         }
         return build(HttpStatus.BAD_REQUEST, message);
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    public ResponseEntity<ErrorResponse> handleDataAccess(DataAccessException ex) {
+        return build(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "Database schema needs a quick refresh. Restart the backend and try again."
+        );
     }
 
     @ExceptionHandler(Exception.class)

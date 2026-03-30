@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import LoginPage from './LoginPage';
 import Layout from './components/Layout';
-import { ChatView, SettingsModal, SettingsView } from './Views';
+import { ChatView, ProfileModal, SettingsModal, SettingsView } from './Views';
 import { useTheme } from './context/ThemeContext';
 import { useSeasonal } from './context/SeasonalContext';
 import { api } from './api';
@@ -66,6 +66,8 @@ export default function App() {
   const [session, setSession] = useState(() => readJson(SESSION_KEY, null));
   const [view, setView] = useState('chat');
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [feedbackByMessage, setFeedbackByMessage] = useState({});
   const { theme, setTheme } = useTheme();
   const { mode: seasonalMode, setMode: setSeasonalMode, activeFestival } = useSeasonal();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => readJson(SIDEBAR_COLLAPSED_KEY, false));
@@ -75,6 +77,7 @@ export default function App() {
   const [messages, setMessages] = useState([]);
   const [chatLoading, setChatLoading] = useState(false);
   const [sending, setSending] = useState(false);
+  const [exporting, setExporting] = useState(false);
   const [chatError, setChatError] = useState('');
   const [authError, setAuthError] = useState('');
   const canAccessAdmin = Boolean(session?.is_admin);
@@ -102,7 +105,14 @@ export default function App() {
       try {
         const status = await api.getAuthStatus(session.email);
         if (cancelled) return;
-        setSession((s) => s ? { ...s, totpEnabled: status.totp_enabled, is_admin: status.is_admin } : s);
+        setSession((s) => s ? {
+          ...s,
+          displayName: status.display_name || '',
+          username: status.username || '',
+          avatarBase64: status.avatar_base64 || '',
+          totpEnabled: status.totp_enabled,
+          is_admin: status.is_admin,
+        } : s);
         setAuthError('');
       } catch (err) {
         if (cancelled) return;
@@ -175,12 +185,12 @@ export default function App() {
 
   function handleAuthenticated(s) {
     setSession(s); setView('chat'); setChats([]); setMessages([]);
-    setChatTitle('New Chat'); setActiveChatId(null); setChatError(''); setAuthError(''); setSettingsOpen(false);
+    setChatTitle('New Chat'); setActiveChatId(null); setChatError(''); setAuthError(''); setSettingsOpen(false); setProfileOpen(false);
   }
 
   function handleLogout() {
     setSession(null); setView('chat'); setChats([]); setMessages([]);
-    setChatTitle('New Chat'); setActiveChatId(null); setChatError(''); setAuthError(''); setSettingsOpen(false);
+    setChatTitle('New Chat'); setActiveChatId(null); setChatError(''); setAuthError(''); setSettingsOpen(false); setProfileOpen(false);
   }
 
   function handleNewChat() {
@@ -217,12 +227,75 @@ export default function App() {
     finally { setSending(false); }
   }
 
+  async function handleRegenerateResponse() {
+    if (!session?.email || !activeChatId || sending) return;
+    setSending(true);
+    setChatError('');
+    try {
+      const data = await api.regenerateResponse(activeChatId, session.email);
+      setMessages(mapMessages(data.messages));
+      setChatTitle(data.chat?.title || chatTitle);
+      setChats((cur) => {
+        if (!data.chat) return cur;
+        return [data.chat, ...cur.filter((item) => item.chat_id !== data.chat.chat_id)];
+      });
+      await refreshChats(activeChatId);
+    } catch (err) {
+      setChatError(err.message);
+    } finally {
+      setSending(false);
+    }
+  }
+
+  async function handleFeedback(messageId, type) {
+    if (!session?.email || !activeChatId || !messageId) return;
+    try {
+      await api.sendFeedback({
+        user: session.email,
+        chatId: activeChatId,
+        messageId,
+        type,
+      });
+      setFeedbackByMessage((current) => ({
+        ...current,
+        [`${activeChatId}:${messageId}`]: type,
+      }));
+    } catch (err) {
+      setChatError(err.message);
+    }
+  }
+
+  async function handleExportChat() {
+    if (!session?.email || !activeChatId || exporting) return;
+    setExporting(true);
+    setChatError('');
+    try {
+      const file = await api.exportChatPdf(activeChatId, session.email);
+      const url = window.URL.createObjectURL(file);
+      const link = document.createElement('a');
+      const fallbackTitle = (chatTitle || 'procurebuddy-chat').replace(/[^a-zA-Z0-9_ -]/g, '').trim() || 'procurebuddy-chat';
+      link.href = url;
+      link.download = `${fallbackTitle.replace(/\s+/g, '-').toLowerCase()}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (err) {
+      setChatError(err.message);
+    } finally {
+      setExporting(false);
+    }
+  }
+
   if (!session) return <LoginPage onAuthenticated={handleAuthenticated} />;
 
   return (
     <Layout
       chatTitle={chatTitle}
       userEmail={session.email}
+      userDisplayName={session.displayName}
+      username={session.username}
+      avatarBase64={session.avatarBase64}
       activeView={view}
       setActiveView={setView}
       chats={chats}
@@ -234,7 +307,13 @@ export default function App() {
       onNewChat={handleNewChat}
       onOpenSettings={() => {
         setView('chat');
+        setProfileOpen(false);
         setSettingsOpen(true);
+      }}
+      onOpenProfile={() => {
+        setView('chat');
+        setSettingsOpen(false);
+        setProfileOpen(true);
       }}
       onLogout={handleLogout}
     >
@@ -244,9 +323,15 @@ export default function App() {
           messages={messages}
           loading={chatLoading}
           sending={sending}
+          exporting={exporting}
           error={chatError || authError}
           onSend={handleSendMessage}
           onNewChat={handleNewChat}
+          onRegenerate={handleRegenerateResponse}
+          onFeedback={handleFeedback}
+          onExport={handleExportChat}
+          feedbackByMessage={feedbackByMessage}
+          activeChatId={activeChatId}
         />
       )}
       {settingsOpen && (
@@ -261,6 +346,16 @@ export default function App() {
             onSessionUpdate={(changes) => setSession((s) => ({ ...s, ...changes }))}
           />
         </SettingsModal>
+      )}
+      {profileOpen && (
+        <ProfileModal
+          session={session}
+          onClose={() => setProfileOpen(false)}
+          onSaved={(profile) => {
+            setSession((current) => current ? { ...current, ...profile } : current);
+            setProfileOpen(false);
+          }}
+        />
       )}
     </Layout>
   );

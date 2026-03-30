@@ -24,7 +24,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <ThemeProvider>
       <SeasonalProvider>
         <SeasonalLayer />
-        <BrowserRouter>
+        <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
           <Suspense fallback={<AppLoader />}>
             <Routes>
               <Route path="/" element={<Home />} />

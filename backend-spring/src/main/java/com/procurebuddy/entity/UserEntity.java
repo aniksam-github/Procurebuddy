@@ -31,6 +31,15 @@ public class UserEntity {
     private String email;
 
     @Column(nullable = false)
+    private String displayName;
+
+    @Column(nullable = false)
+    private String username;
+
+    @Column(columnDefinition = "TEXT")
+    private String avatarBase64;
+
+    @Column(nullable = false)
     private String passwordHash;
 
     @Column(nullable = false)
@@ -48,6 +57,12 @@ public class UserEntity {
 
     @PrePersist
     public void onCreate() {
+        if (displayName == null || displayName.isBlank()) {
+            displayName = email;
+        }
+        if (username == null || username.isBlank()) {
+            username = email == null ? "user" : email.split("@")[0];
+        }
         if (createdAt == null) {
             createdAt = LocalDateTime.now();
         }

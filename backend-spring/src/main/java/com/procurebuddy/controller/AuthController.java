@@ -9,6 +9,7 @@ import com.procurebuddy.dto.request.TotpDisableRequest;
 import com.procurebuddy.dto.request.TotpEnableRequest;
 import com.procurebuddy.dto.request.TotpSetupRequest;
 import com.procurebuddy.dto.request.TotpVerifyRequest;
+import com.procurebuddy.dto.request.UpdateProfileRequest;
 import com.procurebuddy.service.AuthService;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -50,6 +51,16 @@ public class AuthController {
     @PostMapping("/change-password")
     public Map<String, Object> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
         return authService.changePassword(request.getEmail(), request.getNewPassword());
+    }
+
+    @PostMapping("/profile")
+    public Map<String, Object> updateProfile(@Valid @RequestBody UpdateProfileRequest request) {
+        return authService.updateProfile(
+                request.getEmail(),
+                request.getDisplayName(),
+                request.getUsername(),
+                request.getAvatarBase64()
+        );
     }
 
     @PostMapping("/reset-password")

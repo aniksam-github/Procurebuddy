@@ -48,18 +48,40 @@ function formatUpdatedAt(value) {
   });
 }
 
-export function ChatView({ title, messages, loading, sending, error, onSend, onNewChat }) {
+export function ChatView({
+  title,
+  messages,
+  loading,
+  sending,
+  exporting = false,
+  error,
+  onSend,
+  onNewChat,
+  onRegenerate,
+  onFeedback,
+  onExport,
+  feedbackByMessage = {},
+  activeChatId,
+}) {
   const [input, setInput] = useState('');
+  const [copiedMessageId, setCopiedMessageId] = useState('');
   const bottomRef = useRef(null);
   const textAreaRef = useRef(null);
   const { uiMode } = useTheme();
   const { mode: seasonalMode, activeFestival } = useSeasonal();
   const festiveActive = seasonalMode === 'always' || (seasonalMode === 'auto' && activeFestival?.id === 'navratri');
   const ChatShell = festiveActive ? 'div' : Panel;
+  const lastAssistantId = [...messages].reverse().find((item) => item.role === 'assistant')?.id;
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages, sending]);
+
+  useEffect(() => {
+    if (!copiedMessageId) return undefined;
+    const timeout = window.setTimeout(() => setCopiedMessageId(''), 1800);
+    return () => window.clearTimeout(timeout);
+  }, [copiedMessageId]);
 
   function resizeTextArea(nextValue) {
     setInput(nextValue);
@@ -125,7 +147,33 @@ export function ChatView({ title, messages, loading, sending, error, onSend, onN
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.22, delay: Math.min(index * 0.02, 0.16) }}
                 >
-                  <MessageBubble message={message} futuristic={uiMode === 'futuristic'} festive={festiveActive} />
+                  <MessageBubble
+                    message={message}
+                    futuristic={uiMode === 'futuristic'}
+                    festive={festiveActive}
+                    canRegenerate={message.role === 'assistant' && message.id === lastAssistantId}
+                    copied={copiedMessageId === message.id}
+                    feedbackValue={feedbackByMessage[`${activeChatId}:${message.id}`] || ''}
+                    onCopy={async () => {
+                      const content = message.content || '';
+                      if (navigator.clipboard?.writeText) {
+                        await navigator.clipboard.writeText(content);
+                      } else {
+                        const textArea = document.createElement('textarea');
+                        textArea.value = content;
+                        textArea.style.position = 'fixed';
+                        textArea.style.opacity = '0';
+                        document.body.appendChild(textArea);
+                        textArea.select();
+                        document.execCommand('copy');
+                        textArea.remove();
+                      }
+                      setCopiedMessageId(message.id);
+                    }}
+                    onFeedback={onFeedback}
+                    onRegenerate={onRegenerate}
+                    busy={sending}
+                  />
                 </motion.div>
               ))}
 
@@ -165,24 +213,25 @@ export function ChatView({ title, messages, loading, sending, error, onSend, onN
 
         <div
           className={cn(
-            'px-5 py-4 sm:px-6',
+            'px-3 py-4 sm:px-5',
             festiveActive ? 'relative z-20 border-t border-white/10 bg-transparent' : 'border-t border-[color:var(--border-soft)]'
           )}
         >
-          <div
-            className={cn(
-              'rounded-[28px] p-3',
-              festiveActive
-                ? 'festive-chat-composer'
-                : 'border border-[color:var(--border-soft)] bg-[color:var(--card-strong)] shadow-soft'
-            )}
-          >
-            <div className="flex flex-col gap-3 lg:flex-row lg:items-end">
+          <div className="mx-auto w-full max-w-[1248px]">
+            <div
+              className={cn(
+                'rounded-[24px] p-2.5',
+                festiveActive
+                  ? 'festive-chat-composer'
+                  : 'border border-[color:var(--border-soft)] bg-[color:var(--card-strong)] shadow-soft'
+              )}
+            >
+              <div className="flex items-end gap-2">
               <textarea
                 ref={textAreaRef}
                 rows={1}
                 value={input}
-                className="app-textarea min-h-[56px] flex-1 border-none bg-transparent px-3 py-2.5 text-sm leading-7 shadow-none focus:shadow-none"
+                className="app-textarea min-h-[44px] flex-1 border-none bg-transparent px-3 py-2 text-sm leading-6 shadow-none focus:shadow-none"
                 placeholder="Ask about process thresholds, approvals, committees, rules, or comparisons..."
                 onChange={(event) => resizeTextArea(event.target.value)}
                 onKeyDown={(event) => {
@@ -192,14 +241,37 @@ export function ChatView({ title, messages, loading, sending, error, onSend, onN
                   }
                 }}
               />
-              <Button className="w-full lg:w-auto" onClick={submit} disabled={sending}>
-                Send message
-                <ArrowUpIcon />
-              </Button>
+              <div className="flex shrink-0 items-center gap-2">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="chat-composer-action h-11 w-11 shrink-0 rounded-[18px] px-0"
+                  onClick={submit}
+                  disabled={sending}
+                  aria-label="Send message"
+                  title="Send message"
+                >
+                  <ArrowUpIcon />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="chat-composer-action h-11 w-11 shrink-0 rounded-[18px] px-0"
+                  onClick={onExport}
+                  disabled={messages.length === 0 || exporting}
+                  aria-label={exporting ? 'Exporting PDF' : 'Export PDF'}
+                  title={
+                    messages.length === 0
+                      ? 'Export becomes available after the chat has messages'
+                      : exporting
+                        ? 'Exporting PDF'
+                        : 'Export PDF'
+                  }
+                >
+                  <DownloadIcon />
+                </Button>
+              </div>
             </div>
-            <div className="mt-3 text-xs leading-6 text-[color:var(--text-tertiary)]">
-              Disclaimer: This is AI-generated guidance. Do not rely on it blindly, and please cross-check important
-              procurement or compliance decisions before taking action.
             </div>
           </div>
         </div>
@@ -715,6 +787,208 @@ export function SettingsModal({ children, onClose }) {
   );
 }
 
+export function ProfileModal({ session, onClose, onSaved }) {
+  const [displayName, setDisplayName] = useState(session?.displayName || '');
+  const [username, setUsername] = useState(session?.username || '');
+  const [avatarBase64, setAvatarBase64] = useState(session?.avatarBase64 || '');
+  const [submitting, setSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const fileInputRef = useRef(null);
+
+  useEffect(() => {
+    function handleKeyDown(event) {
+      if (event.key === 'Escape') onClose();
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
+
+  const previewName = displayName.trim() || username.trim() || session?.email || 'ProcureBuddy User';
+  const previewInitials = previewName
+    .split(/[\s._-]+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || '')
+    .join('') || 'PB';
+
+  async function handleFileChange(event) {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setError('Choose a valid image file.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === 'string' ? reader.result : '';
+      setAvatarBase64(result);
+      setError('');
+      setMessage('');
+    };
+    reader.onerror = () => {
+      setError('We could not read that image. Try another file.');
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async function handleSave() {
+    setSubmitting(true);
+    try {
+      const response = await api.updateProfile({
+        email: session.email,
+        displayName: displayName.trim(),
+        username: username.trim(),
+        avatarBase64: avatarBase64 || '',
+      });
+      const profile = response.profile || {};
+      onSaved({
+        displayName: profile.display_name || displayName.trim(),
+        username: profile.username || username.trim(),
+        avatarBase64: profile.avatar_base64 || '',
+      });
+    } catch (err) {
+      setError(err.message);
+      setMessage('');
+    } finally {
+      setSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
+      <button
+        type="button"
+        className="absolute inset-0 bg-slate-950/30 backdrop-blur-sm"
+        aria-label="Close profile editor"
+        onClick={onClose}
+      />
+      <Panel className="relative z-10 w-full max-w-[560px] p-5 sm:p-6">
+        <button
+          type="button"
+          onClick={onClose}
+          className="absolute right-5 top-5 inline-flex h-10 w-10 items-center justify-center rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--card-strong)] text-[color:var(--text-secondary)] transition duration-200 hover:border-[color:var(--border-strong)] hover:bg-[color:var(--card-hover)] hover:text-[color:var(--text-primary)]"
+          aria-label="Close profile editor"
+        >
+          <CloseIcon />
+        </button>
+
+        <div className="pr-12">
+          <h2 className="text-2xl font-semibold tracking-[-0.04em] text-[color:var(--text-primary)]">
+            Edit profile
+          </h2>
+          <p className="mt-2 text-sm leading-7 text-[color:var(--text-secondary)]">
+            Update how your account appears in the workspace.
+          </p>
+        </div>
+
+        {error && (
+          <div className="mt-4 rounded-2xl border border-rose-200/60 bg-rose-500/10 px-4 py-3 text-sm text-rose-600 dark:border-rose-500/20 dark:text-rose-300">
+            {error}
+          </div>
+        )}
+        {message && (
+          <div className="mt-4 rounded-2xl border border-emerald-200/60 bg-emerald-500/10 px-4 py-3 text-sm text-emerald-700 dark:border-emerald-500/20 dark:text-emerald-300">
+            {message}
+          </div>
+        )}
+
+        <div className="mt-6 flex flex-col items-center gap-4">
+          <div className="relative">
+            {avatarBase64 ? (
+              <img
+                src={avatarBase64}
+                alt={`${previewName} avatar`}
+                className="h-28 w-28 rounded-full object-cover shadow-soft"
+              />
+            ) : (
+              <div className="brand-gradient-bg flex h-28 w-28 items-center justify-center rounded-full text-4xl font-semibold text-white shadow-glow">
+                {previewInitials}
+              </div>
+            )}
+            <button
+              type="button"
+              onClick={() => fileInputRef.current?.click()}
+              className="absolute bottom-1 right-1 inline-flex h-9 w-9 items-center justify-center rounded-full border border-[color:var(--border-soft)] bg-[color:var(--card-bg)] text-[color:var(--text-secondary)] shadow-soft transition duration-200 hover:border-[color:var(--border-strong)] hover:text-[color:var(--text-primary)]"
+              aria-label="Upload profile photo"
+              title="Upload profile photo"
+            >
+              <CameraIcon />
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+            />
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-2">
+            <Button variant="secondary" size="sm" onClick={() => fileInputRef.current?.click()}>
+              Change photo
+            </Button>
+            {avatarBase64 && (
+              <Button
+                variant="ghost"
+                size="sm"
+                className="text-rose-500 hover:bg-rose-500/10 hover:text-rose-500"
+                onClick={() => setAvatarBase64('')}
+              >
+                Remove photo
+              </Button>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-6 space-y-4">
+          <label className="block">
+            <div className="mb-2 text-sm font-medium text-[color:var(--text-primary)]">Display name</div>
+            <input
+              className="app-input"
+              value={displayName}
+              onChange={(event) => {
+                setDisplayName(event.target.value);
+                setError('');
+              }}
+              placeholder="Your full name"
+            />
+          </label>
+
+          <label className="block">
+            <div className="mb-2 text-sm font-medium text-[color:var(--text-primary)]">Username</div>
+            <input
+              className="app-input"
+              value={username}
+              onChange={(event) => {
+                setUsername(event.target.value.toLowerCase().replace(/\s+/g, ''));
+                setError('');
+              }}
+              placeholder="your.username"
+            />
+          </label>
+
+          <div className="rounded-[22px] border border-[color:var(--border-soft)] bg-[color:var(--card-subtle)] px-4 py-3 text-sm leading-7 text-[color:var(--text-secondary)]">
+            Your name, username, and profile photo help people recognize you in the workspace.
+          </div>
+        </div>
+
+        <div className="mt-6 flex justify-end gap-3">
+          <Button variant="secondary" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave} disabled={submitting}>
+            {submitting ? 'Saving...' : 'Save'}
+          </Button>
+        </div>
+      </Panel>
+    </div>
+  );
+}
+
 export function AdminView({ sessionEmail, embedded = false }) {
   const [documents, setDocuments] = useState([]);
   const [adminStatus, setAdminStatus] = useState(null);
@@ -954,7 +1228,18 @@ function EmptyChatState({ onPromptSelect, festive = false }) {
   );
 }
 
-function MessageBubble({ message, futuristic, festive = false }) {
+function MessageBubble({
+  message,
+  futuristic,
+  festive = false,
+  canRegenerate = false,
+  copied = false,
+  feedbackValue = '',
+  onCopy,
+  onFeedback,
+  onRegenerate,
+  busy = false,
+}) {
   const isUser = message.role === 'user';
 
   return (
@@ -984,6 +1269,55 @@ function MessageBubble({ message, futuristic, festive = false }) {
         <div className="prose-custom max-w-none text-sm">
           <ReactMarkdown remarkPlugins={[remarkGfm]}>{message.content}</ReactMarkdown>
         </div>
+        {!isUser && (
+          <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-white/10 pt-3">
+            <button
+              type="button"
+              onClick={onCopy}
+              className="inline-flex items-center gap-1 rounded-full border border-[color:var(--border-soft)] bg-[color:var(--card-subtle)] px-3 py-1.5 text-xs font-medium text-[color:var(--text-secondary)] transition duration-200 hover:border-[color:var(--border-strong)] hover:text-[color:var(--text-primary)]"
+            >
+              <CopyIcon />
+              {copied ? 'Copied' : 'Copy'}
+            </button>
+            <button
+              type="button"
+              onClick={() => onFeedback?.(message.id, 'up')}
+              className={cn(
+                'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition duration-200',
+                feedbackValue === 'up'
+                  ? 'border-transparent bg-emerald-500/15 text-emerald-600 dark:text-emerald-300'
+                  : 'border-[color:var(--border-soft)] bg-[color:var(--card-subtle)] text-[color:var(--text-secondary)] hover:border-[color:var(--border-strong)] hover:text-[color:var(--text-primary)]'
+              )}
+            >
+              <ThumbUpIcon />
+              Helpful
+            </button>
+            <button
+              type="button"
+              onClick={() => onFeedback?.(message.id, 'down')}
+              className={cn(
+                'inline-flex items-center gap-1 rounded-full border px-3 py-1.5 text-xs font-medium transition duration-200',
+                feedbackValue === 'down'
+                  ? 'border-transparent bg-rose-500/15 text-rose-600 dark:text-rose-300'
+                  : 'border-[color:var(--border-soft)] bg-[color:var(--card-subtle)] text-[color:var(--text-secondary)] hover:border-[color:var(--border-strong)] hover:text-[color:var(--text-primary)]'
+              )}
+            >
+              <ThumbDownIcon />
+              Needs work
+            </button>
+            {canRegenerate && (
+              <button
+                type="button"
+                onClick={onRegenerate}
+                disabled={busy}
+                className="inline-flex items-center gap-1 rounded-full border border-[color:var(--border-soft)] bg-[color:var(--card-subtle)] px-3 py-1.5 text-xs font-medium text-[color:var(--text-secondary)] transition duration-200 hover:border-[color:var(--border-strong)] hover:text-[color:var(--text-primary)] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <RefreshIcon />
+                {busy ? 'Regenerating...' : 'Regenerate'}
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {isUser && (
@@ -1181,11 +1515,95 @@ function StatusCard({ label, value }) {
 
 function ArrowUpIcon() {
   return (
-    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
       <path
         d="M10 15V5M10 5L6.667 8.333M10 5L13.333 8.333"
         stroke="currentColor"
-        strokeWidth="1.7"
+        strokeWidth="1.9"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CopyIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M7.5 6.667V5.833C7.5 4.913 8.246 4.167 9.167 4.167H14.167C15.087 4.167 15.833 4.913 15.833 5.833V12.5C15.833 13.42 15.087 14.167 14.167 14.167H13.333M7.5 6.667H5.833C4.913 6.667 4.167 7.413 4.167 8.333V14.167C4.167 15.087 4.913 15.833 5.833 15.833H10.833C11.754 15.833 12.5 15.087 12.5 14.167V12.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ThumbUpIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M7.917 8.333L10 4.167C10.276 3.615 10.948 3.388 11.504 3.659C11.915 3.859 12.142 4.31 12.067 4.761L11.667 7.5H14.016C15.112 7.5 15.921 8.525 15.668 9.591L14.638 13.924C14.459 14.677 13.787 15.208 13.012 15.208H7.917M7.917 8.333V15.208M7.917 8.333H5.833C5.373 8.333 5 8.706 5 9.167V14.375C5 14.835 5.373 15.208 5.833 15.208H7.917"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ThumbDownIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M7.917 11.667L10 15.833C10.276 16.385 10.948 16.612 11.504 16.341C11.915 16.141 12.142 15.69 12.067 15.239L11.667 12.5H14.016C15.112 12.5 15.921 11.475 15.668 10.409L14.638 6.076C14.459 5.323 13.787 4.792 13.012 4.792H7.917M7.917 11.667V4.792M7.917 11.667H5.833C5.373 11.667 5 11.294 5 10.833V5.625C5 5.165 5.373 4.792 5.833 4.792H7.917"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function RefreshIcon() {
+  return (
+    <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M15 10A5 5 0 1 1 13.536 6.464M15 4.583V8.75H10.833"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function DownloadIcon() {
+  return (
+    <svg className="h-5 w-5" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M10 3.75V11.25M10 11.25L6.875 8.125M10 11.25L13.125 8.125M4.583 14.583V15C4.583 15.92 5.33 16.667 6.25 16.667H13.75C14.67 16.667 15.417 15.92 15.417 15V14.583"
+        stroke="currentColor"
+        strokeWidth="1.85"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function CameraIcon() {
+  return (
+    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M6.667 6.25L7.542 5C7.771 4.673 8.146 4.479 8.542 4.479H11.458C11.854 4.479 12.229 4.673 12.458 5L13.333 6.25H15C15.92 6.25 16.667 6.996 16.667 7.917V13.75C16.667 14.67 15.92 15.417 15 15.417H5C4.08 15.417 3.333 14.67 3.333 13.75V7.917C3.333 6.996 4.08 6.25 5 6.25H6.667ZM10 12.917A2.917 2.917 0 1 0 10 7.083A2.917 2.917 0 0 0 10 12.917Z"
+        stroke="currentColor"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

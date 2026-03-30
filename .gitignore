@@ -20,11 +20,15 @@ build/
 dist/
 .eggs/
 *.whl
+target/
 
 # Databases / local data
 *.sqlite3
 *.bin
 *.pickle
+*.mv.db
+*.lock.db
+*.trace.db
 
 # Caches
 .pytest_cache/
@@ -34,6 +38,7 @@ dist/
 # IDEs
 .vscode/
 .idea/
+.agents/
 
 # Jupyter
 .ipynb_checkpoints/

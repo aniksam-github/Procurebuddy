@@ -21,6 +21,7 @@ async function request(path, options = {}) {
     body,
     params,
     headers = {},
+    parseAs = 'auto',
   } = options;
 
   const requestHeaders = { ...headers };
@@ -38,9 +39,16 @@ async function request(path, options = {}) {
   });
 
   const contentType = response.headers.get('content-type') || '';
-  const data = contentType.includes('application/json')
-    ? await response.json()
-    : await response.text();
+  let data;
+  if (parseAs === 'blob') {
+    data = await response.blob();
+  } else if (parseAs === 'text') {
+    data = await response.text();
+  } else {
+    data = contentType.includes('application/json')
+      ? await response.json()
+      : await response.text();
+  }
 
   if (!response.ok) {
     const detail =
@@ -57,6 +65,7 @@ export const api = {
   health: () => request('/api/health'),
   login: (body) => request('/api/auth/login', { method: 'POST', body }),
   getAuthStatus: (email) => request('/api/auth/status', { params: { email } }),
+  updateProfile: (body) => request('/api/auth/profile', { method: 'POST', body }),
   registerStart: (body) => request('/api/auth/register/start', { method: 'POST', body }),
   registerVerify: (body) => request('/api/auth/register/verify', { method: 'POST', body }),
   resetPassword: (body) => request('/api/auth/reset-password', { method: 'POST', body }),
@@ -68,6 +77,10 @@ export const api = {
   listChats: (user) => request('/api/chats', { params: { user } }),
   getChat: (chatId, user) => request(`/api/chats/${chatId}`, { params: { user } }),
   sendMessage: (chatId, body) => request(`/api/chats/${chatId}/message`, { method: 'POST', body }),
+  regenerateResponse: (chatId, user) => request(`/api/chats/${chatId}/regenerate`, { method: 'POST', params: { user } }),
+  exportChatPdf: (chatId, user) => request(`/api/chats/${chatId}/export`, { params: { user }, parseAs: 'blob' }),
+  sendFeedback: (body) => request('/api/feedback', { method: 'POST', body }),
+  getPromptAnalytics: (email) => request('/api/analytics/prompts', { params: { email } }),
   listDocuments: (email) => request('/api/admin/documents', { params: { email } }),
   getAdminStatus: (email) => request('/api/admin/status', { params: { email } }),
   uploadDocuments: (email, formData) => request('/api/admin/upload', { method: 'POST', params: { email }, body: formData }),

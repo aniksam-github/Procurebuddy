@@ -30,6 +30,21 @@ function getInitials(email = '') {
   );
 }
 
+function getAvatarInitials(displayName, username, email) {
+  const source = `${displayName || ''} ${username || ''}`.trim() || email || '';
+  const parts = source
+    .replace(/@/g, ' ')
+    .split(/[\s._-]+/)
+    .filter(Boolean)
+    .slice(0, 2);
+
+  if (parts.length === 0) {
+    return getInitials(email);
+  }
+
+  return parts.map((part) => part[0]?.toUpperCase() || '').join('');
+}
+
 export default function Sidebar({
   activeView,
   setActiveView,
@@ -42,9 +57,13 @@ export default function Sidebar({
   canAccessAdmin,
   onSelectChat,
   onNewChat,
+  onOpenProfile,
   onOpenSettings,
   onLogout,
   userEmail,
+  userDisplayName,
+  username,
+  avatarBase64,
 }) {
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
@@ -60,6 +79,10 @@ export default function Sidebar({
       `${chat.title || ''} ${chat.preview || ''}`.toLowerCase().includes(query)
     );
   }, [chats, search]);
+
+  const avatarInitials = getAvatarInitials(userDisplayName, username, userEmail);
+  const primaryIdentity = userDisplayName || username || userEmail;
+  const secondaryIdentity = username ? `@${username}` : userEmail;
 
   return (
     <>
@@ -222,16 +245,24 @@ export default function Sidebar({
                   collapsed && 'justify-center px-0'
                 )} 
               >
-                <div className="brand-gradient-bg flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] text-xs font-bold text-white">
-                  {getInitials(userEmail)}
-                </div>
+                {avatarBase64 ? (
+                  <img
+                    src={avatarBase64}
+                    alt={`${primaryIdentity} avatar`}
+                    className="h-11 w-11 shrink-0 rounded-[18px] object-cover"
+                  />
+                ) : (
+                  <div className="brand-gradient-bg flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] text-xs font-bold text-white">
+                    {avatarInitials}
+                  </div>
+                )}
 
                 {!collapsed && (
                   <div className="min-w-0 flex-1">
                     <div className="truncate text-sm font-semibold text-[color:var(--text-primary)]">
-                      {userEmail}
+                      {primaryIdentity}
                     </div>
-                    <div className="text-xs text-[color:var(--text-tertiary)]">Account menu</div>
+                    <div className="truncate text-xs text-[color:var(--text-tertiary)]">{secondaryIdentity}</div>
                   </div>
                 )}
               </button>
@@ -245,6 +276,36 @@ export default function Sidebar({
                     transition={{ duration: 0.18 }}
                     className="absolute bottom-full left-0 right-0 mb-2 rounded-[22px] border border-[color:var(--border-soft)] bg-[color:var(--card-bg)] p-2 shadow-[var(--shadow-panel)]"
                   >
+                    <div className="mb-2 flex items-center gap-3 rounded-2xl px-3 py-2.5">
+                      {avatarBase64 ? (
+                        <img
+                          src={avatarBase64}
+                          alt={`${primaryIdentity} avatar`}
+                          className="h-11 w-11 shrink-0 rounded-[18px] object-cover"
+                        />
+                      ) : (
+                        <div className="brand-gradient-bg flex h-11 w-11 shrink-0 items-center justify-center rounded-[18px] text-xs font-bold text-white">
+                          {avatarInitials}
+                        </div>
+                      )}
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-sm font-semibold text-[color:var(--text-primary)]">{primaryIdentity}</div>
+                        <div className="truncate text-xs text-[color:var(--text-tertiary)]">{userEmail}</div>
+                      </div>
+                    </div>
+                    <div className="my-1 h-px bg-[color:var(--border-soft)]" />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        onOpenProfile();
+                        setShowMenu(false);
+                        onCloseMobile();
+                      }}
+                      className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm text-[color:var(--text-secondary)] transition duration-200 hover:bg-[color:var(--card-subtle)] hover:text-[color:var(--text-primary)]"
+                    >
+                      <ProfileIcon />
+                      Profile
+                    </button>
                     <button
                       type="button"
                       onClick={() => {
@@ -252,15 +313,17 @@ export default function Sidebar({
                         setShowMenu(false);
                         onCloseMobile();
                       }}
-                      className="flex w-full items-center rounded-2xl px-3 py-2.5 text-sm text-[color:var(--text-secondary)] transition duration-200 hover:bg-[color:var(--card-subtle)] hover:text-[color:var(--text-primary)]"
+                      className="flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm text-[color:var(--text-secondary)] transition duration-200 hover:bg-[color:var(--card-subtle)] hover:text-[color:var(--text-primary)]"
                     >
+                      <SettingsIcon />
                       Settings
                     </button>
                     <button
                       type="button"
                       onClick={onLogout}
-                      className="mt-1 flex w-full items-center rounded-2xl px-3 py-2.5 text-sm text-rose-500 transition duration-200 hover:bg-rose-500/10"
+                      className="mt-1 flex w-full items-center gap-3 rounded-2xl px-3 py-2.5 text-sm text-rose-500 transition duration-200 hover:bg-rose-500/10"
                     >
+                      <LogoutIcon />
                       Log out
                     </button>
                   </motion.div>
@@ -324,6 +387,34 @@ function SettingsIcon() {
         d="M10 6.667A3.333 3.333 0 1 0 10 13.333A3.333 3.333 0 0 0 10 6.667ZM15.833 10C15.833 9.539 15.783 9.09 15.687 8.658L17.292 7.425L15.625 4.542L13.675 5.292C12.992 4.767 12.207 4.372 11.35 4.142L11.042 2.083H7.708L7.4 4.142C6.543 4.372 5.758 4.767 5.075 5.292L3.125 4.542L1.458 7.425L3.063 8.658C2.967 9.09 2.917 9.539 2.917 10C2.917 10.461 2.967 10.91 3.063 11.342L1.458 12.575L3.125 15.458L5.075 14.708C5.758 15.233 6.543 15.628 7.4 15.858L7.708 17.917H11.042L11.35 15.858C12.207 15.628 12.992 15.233 13.675 14.708L15.625 15.458L17.292 12.575L15.687 11.342C15.783 10.91 15.833 10.461 15.833 10Z"
         stroke="currentColor"
         strokeWidth="1.35"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function ProfileIcon() {
+  return (
+    <svg className="h-4 w-4 text-current" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M10 10.417A3.542 3.542 0 1 0 10 3.333A3.542 3.542 0 0 0 10 10.417ZM4.583 16.25C4.583 13.979 7.008 12.083 10 12.083C12.992 12.083 15.417 13.979 15.417 16.25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+function LogoutIcon() {
+  return (
+    <svg className="h-4 w-4 text-current" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path
+        d="M8.333 5H6.667C5.746 5 5 5.746 5 6.667V13.333C5 14.254 5.746 15 6.667 15H8.333M11.667 6.667L15 10L11.667 13.333M15 10H8.333"
+        stroke="currentColor"
+        strokeWidth="1.6"
         strokeLinecap="round"
         strokeLinejoin="round"
       />

@@ -33,6 +33,7 @@ public class AdminService {
     private final ProcureBuddyProperties properties;
     private final AuthService authService;
     private final PythonBridgeService pythonBridgeService;
+    private final DocumentService documentService;
     private final ReentrantLock processLock = new ReentrantLock();
     private final Map<String, Object> processState = new HashMap<>();
 
@@ -90,6 +91,8 @@ public class AdminService {
         } catch (IOException ex) {
             throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to store uploaded documents.");
         }
+
+        documentService.storeDocuments(files);
 
         Map<String, Object> result = runProcessingCycle("upload");
         LinkedHashMap<String, Object> response = new LinkedHashMap<>();

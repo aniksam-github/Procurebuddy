@@ -196,6 +196,9 @@ export default function LoginPage({ onAuthenticated }) {
 
       onAuthenticated({
         email: data.email,
+        displayName: data.display_name || '',
+        username: data.username || '',
+        avatarBase64: data.avatar_base64 || '',
         totpEnabled: data.totp_enabled,
         is_admin: data.is_admin,
       });
@@ -261,6 +264,9 @@ export default function LoginPage({ onAuthenticated }) {
       const status = await api.getAuthStatus(targetEmail);
       onAuthenticated({
         email: status.email,
+        displayName: status.display_name || '',
+        username: status.username || '',
+        avatarBase64: status.avatar_base64 || '',
         totpEnabled: status.totp_enabled,
         is_admin: status.is_admin,
       });
