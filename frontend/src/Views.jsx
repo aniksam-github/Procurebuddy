@@ -69,7 +69,7 @@ export function ChatView({
   const textAreaRef = useRef(null);
   const { uiMode } = useTheme();
   const { mode: seasonalMode, activeFestival } = useSeasonal();
-  const festiveActive = seasonalMode === 'always' || (seasonalMode === 'auto' && activeFestival?.id === 'navratri');
+  const festiveActive = seasonalMode === 'always' || Boolean(activeFestival);
   const ChatShell = festiveActive ? 'div' : Panel;
   const lastAssistantId = [...messages].reverse().find((item) => item.role === 'assistant')?.id;
 
@@ -286,6 +286,7 @@ export function SettingsView({
   seasonalMode,
   setSeasonalMode,
   activeFestival,
+  upcomingFestivalLabel,
   session,
   onSessionUpdate,
 }) {
@@ -602,11 +603,15 @@ export function SettingsView({
                 </div>
                 <div className="grid gap-3">
                   {[
-                    {
-                      value: 'auto',
-                      title: 'Auto',
-                      description: activeFestival ? `Now showing ${activeFestival.name}.` : 'Detect seasonal context automatically.',
-                    },
+                      {
+                        value: 'auto',
+                        title: 'Auto',
+                        description: activeFestival
+                          ? `Now showing ${activeFestival.name}.`
+                          : upcomingFestivalLabel
+                            ? `Next up ${upcomingFestivalLabel}.`
+                            : 'Detect seasonal context automatically.',
+                      },
                     { value: 'always', title: 'Always on', description: 'Force the festive layer on at full intensity.' },
                     { value: 'off', title: 'Off', description: 'Disable festive visuals for a fully neutral shell.' },
                   ].map((option) => (

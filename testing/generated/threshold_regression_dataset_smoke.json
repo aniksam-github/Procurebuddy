@@ -1,0 +1,110 @@
+[
+  {
+    "id": 1,
+    "question": "how to procure an item of Rs. 3,00,000 for a procurement file?",
+    "amount_text": "Rs. 3,00,000",
+    "amount_rupees": 300000,
+    "expected_mode": "LPC",
+    "expected_rule": "Rule 155",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 2,
+    "question": "procurement workflow for Rs. 1,00,00,000 for a laboratory instrument?",
+    "amount_text": "Rs. 1,00,00,000",
+    "amount_rupees": 10000000,
+    "expected_mode": "OTE",
+    "expected_rule": "Rule 161",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 3,
+    "question": "how can I buy equipment of Rs. 4,99,999 for a procurement file?",
+    "amount_text": "Rs. 4,99,999",
+    "amount_rupees": 499999,
+    "expected_mode": "LPC",
+    "expected_rule": "Rule 155",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 4,
+    "question": "which committee handles procurement worth Rs. 2,00,000?",
+    "amount_text": "Rs. 2,00,000",
+    "amount_rupees": 200000,
+    "expected_mode": "Direct Purchase",
+    "expected_rule": "Rule 154",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 5,
+    "question": "what is the procurement method for Rs. 500 for a laboratory instrument?",
+    "amount_text": "Rs. 500",
+    "amount_rupees": 500,
+    "expected_mode": "Direct Purchase",
+    "expected_rule": "Rule 154",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 6,
+    "question": "how to procure an item of Rs. 50,00,000 for a machine?",
+    "amount_text": "Rs. 50,00,000",
+    "amount_rupees": 5000000,
+    "expected_mode": "LTE",
+    "expected_rule": "Rule 162",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 7,
+    "question": "which committee handles procurement worth Rs. 25,00,000 for a laboratory instrument?",
+    "amount_text": "Rs. 25,00,000",
+    "amount_rupees": 2500000,
+    "expected_mode": "LTE",
+    "expected_rule": "Rule 162",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 8,
+    "question": "how to purchase a machine costing 50.00001 lakh?",
+    "amount_text": "50.00001 lakh",
+    "amount_rupees": 5000001,
+    "expected_mode": "OTE",
+    "expected_rule": "Rule 161",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 9,
+    "question": "which committee handles procurement worth Rs. 5,00,001 for a microscope?",
+    "amount_text": "Rs. 5,00,001",
+    "amount_rupees": 500001,
+    "expected_mode": "LTE",
+    "expected_rule": "Rule 162",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 10,
+    "question": "which rule applies for a purchase of Rs. 1,00,00,000 for a laboratory instrument?",
+    "amount_text": "Rs. 1,00,00,000",
+    "amount_rupees": 10000000,
+    "expected_mode": "OTE",
+    "expected_rule": "Rule 161",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 11,
+    "question": "how can I buy equipment of 3 lakh?",
+    "amount_text": "3 lakh",
+    "amount_rupees": 300000,
+    "expected_mode": "LPC",
+    "expected_rule": "Rule 155",
+    "test_family": "threshold_regression"
+  },
+  {
+    "id": 12,
+    "question": "how can I buy equipment of 8 lakh for a microscope?",
+    "amount_text": "8 lakh",
+    "amount_rupees": 800000,
+    "expected_mode": "LTE",
+    "expected_rule": "Rule 162",
+    "test_family": "threshold_regression"
+  }
+]

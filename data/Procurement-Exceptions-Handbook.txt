@@ -1,0 +1,215 @@
+PROCUREMENT EXCEPTIONS HANDBOOK
+================================
+ProcureBuddy Knowledge Base Supplement - Edge Cases & Exceptions
+Source: Compiled from GFR 2025, CSIR Manual 2019, and SnT Special Provisions
+
+
+Chapter 1: PAC (Proprietary Article Certificate) Exceptions
+------------------------------------------------------------
+
+Rule 166 - Single Tender / Proprietary Purchase
+
+1.1 When is PAC Required?
+A PAC certificate is mandatory when procurement is made from a single source (proprietary purchase) under Rule 166 of GFR 2025. The competent authority must certify that the item is proprietary in nature and cannot be obtained from any other source.
+
+1.2 Who Can Issue PAC?
+The PAC must be issued by a competent technical authority. In CSIR laboratories, this is typically the Head of the Department or a Senior Scientist who has domain expertise to certify the proprietary nature of the item. The PAC cannot be issued by the procurement section or administrative staff alone.
+
+1.3 Conditions for Proprietary Purchase:
+- The item is manufactured or supplied by only one firm (sole manufacturer/sole dealer)
+- Standardization with existing equipment requires the same make/brand
+- Genuine emergency where time does not permit competitive bidding
+- Interchangeability requirements with existing systems
+
+1.4 PAC Without Proprietary Justification:
+Single tender can also be used without PAC in cases of:
+- Genuine emergency (must be recorded with detailed justification)
+- Standardization (must be approved by competent authority with cost comparison)
+- After failure of OTE/LTE where re-tendering is not feasible
+
+1.5 PAC Issued by Non-Competent Authority:
+If a PAC is issued by someone who does not have the technical competence or is not the designated authority, the procurement is NON-COMPLIANT. This is a High Audit Risk item. The purchase may be challenged by the audit party.
+
+1.6 Retired Scientists and PAC:
+A retired scientist CANNOT issue a valid PAC certificate. The certificate must be issued by a serving officer of the laboratory who holds the competent authority designation at the time of issuing the certificate.
+
+1.7 Audit Risk of PAC Procurement:
+PAC-based procurement carries Medium to High audit risk. Required evidence includes:
+- The PAC certificate itself with detailed reasons
+- Market survey report (if available)
+- Competent authority approval
+- Record of why competitive bidding was not feasible
+
+
+Chapter 2: Threshold Boundary Cases
+-------------------------------------
+
+2.1 Exact Threshold Boundaries:
+- Up to Rs. 50,000 (inclusive): Direct Purchase under Rule 154
+- Rs. 50,001 to Rs. 5,00,000 (inclusive): LPC under Rule 155
+- Rs. 5,00,001 to Rs. 25,00,000 (inclusive): LTE under Rule 162
+- Above Rs. 25,00,000: OTE under Rule 161
+
+2.2 Cost Falls on Boundary:
+If the estimated cost is exactly Rs. 5,00,000 it falls in the LPC band. If it is Rs. 5,00,001 or above, it moves to LTE. The boundary is determined by the estimated cost at the time of initiating procurement.
+
+2.3 LPC Cannot Handle Above Rs. 5 Lakhs:
+If the estimated cost is Rs. 5,00,001 or more, the LPC route is NOT applicable. The procurement must follow the LTE route under Rule 162 with minimum 3 firms invited.
+
+2.4 Estimated Cost vs Actual Cost:
+The procurement method is determined by the estimated cost at the time of initiating the process. If the lowest quotation exceeds the threshold slab, a revised cost estimate must be prepared and approved, and the procurement may need to follow the higher-value route.
+
+
+Chapter 3: Bid and Tender Exceptions
+--------------------------------------
+
+3.1 Fewer Than 3 Quotations in LTE:
+Under Rule 162, limited tender requires invitation to a minimum of 3 firms. If fewer than 3 quotations are received, the case should be referred to the purchase committee which may recommend:
+- Accepting available quotes with recorded justification
+- Re-tendering with wider invitation
+- Converting to OTE if market conditions warrant
+
+3.2 Single Bid in OTE:
+If only one bid is received in an Open Tender, the committee should:
+- Examine if the tender was given adequate publicity
+- Check if specifications were too restrictive
+- Consider re-tendering with modified terms
+- If re-tendering is not feasible due to urgency, the single bid may be considered with competent authority approval and recorded justification
+
+3.3 L1 Not Meeting Technical Specifications:
+If the lowest bidder (L1) does not meet the technical specifications, the purchase committee can reject L1 and recommend L2, provided:
+- The technical rejection is recorded with clear, documented reasons
+- The committee certifies that L2 meets all technical specifications
+- Competent authority approval is obtained
+
+3.4 All Bids Exceed Sanctioned Amount:
+If all received bids exceed the estimated/sanctioned amount:
+- Prepare a revised cost estimate with justification
+- Obtain fresh administrative approval for the higher amount
+- The competent purchase committee should evaluate reasonableness
+- Re-tendering may be considered if prices seem unreasonable
+
+
+Chapter 4: GeM (Government e-Marketplace) Exceptions
+------------------------------------------------------
+
+4.1 GeM Mandatory Rule:
+Under GFR Rule 149, procurement through GeM is mandatory for all goods and services available on GeM. This applies regardless of the procurement value.
+
+4.2 When GeM Can Be Skipped:
+- Item is not available on GeM (requires GeM-not-feasible certificate)
+- Required specification/configuration not available on GeM
+- Delivery timeline on GeM cannot meet urgent requirement
+- Items under SnT special provisions with specific exemptions
+
+4.3 GeM Portal Down:
+If GeM portal is temporarily unavailable, the buyer should:
+- Document the downtime with screenshots
+- Record the date and time of attempted access
+- If urgency permits, wait for portal restoration
+- If urgent, proceed through alternative route with full documentation
+
+4.4 GeM Available but Higher Price:
+If an item is available on GeM but at a higher price than local market, the buyer MUST still procure through GeM as per Rule 149 unless there is a valid specification mismatch. Price alone is not a valid reason to skip GeM.
+
+4.5 Items Below Rs. 25,000 on GeM:
+Even for small purchases below Rs. 25,000, if the item is available on GeM, it should preferably be procured through GeM. However, for very small purchases, direct purchase may be used with market-rate justification.
+
+
+Chapter 5: Order Splitting and Clubbing
+-----------------------------------------
+
+5.1 Artificial Splitting is NOT Allowed:
+Splitting a procurement into multiple smaller orders to bring each order below a threshold slab is strictly prohibited. This is considered circumvention of rules and carries HIGH AUDIT RISK.
+
+Example: A purchase requirement of Rs. 30 lakhs cannot be split into two orders of Rs. 15 lakhs each to avoid OTE requirement.
+
+5.2 Clubbing of Small Items:
+When multiple small items are needed for the same purpose or project, they should be assessed for:
+- Whether they can be clubbed into a single procurement
+- Whether they constitute a single procurement requirement
+- The aggregate value determines the procurement method
+
+If 50 different items each worth Rs. 50,000 are needed, the aggregate value (Rs. 25 lakhs) should determine the procurement route, not individual item values.
+
+5.3 Legitimate Separate Purchases:
+Items can be purchased separately if they are genuinely different requirements arising at different times from different indenting officers for different purposes.
+
+
+Chapter 6: Repeat Orders and Rate Contracts
+---------------------------------------------
+
+6.1 Repeat Purchase Orders:
+A repeat order to the same vendor without fresh quotations may be placed only if:
+- The previous order was placed through a competitive process
+- The prices are the same or lower
+- The supply is needed within the validity period mentioned in the original contract
+- Competent authority approval is recorded
+
+6.2 Rate Contract Validity:
+A previous year's rate contract can be used in the current year only if:
+- The rate contract is still within its validity period
+- The competent authority has not issued a newer rate contract for the same item
+- The terms and conditions remain applicable
+
+6.3 DGS&D Rate Contract:
+Items available on DGS&D Rate Contract can be procured directly at the contracted rates without further tendering, provided the rate contract is valid and the terms are acceptable.
+
+
+Chapter 7: Financial Year and Budget Exceptions
+-------------------------------------------------
+
+7.1 Procurement Crossing Financial Year:
+When procurement crosses the financial year boundary (31st March):
+- Budget provision must exist in the year the expenditure is booked
+- Re-appropriation may be needed if the expenditure shifts to a new financial year
+- Administrative approval may need renewal or extension
+- Any unspent balance lapses unless carry-forward is approved
+
+7.2 Emergency Procurement:
+Even in emergencies, minimum documentation is required:
+- Record of emergency with competent authority approval
+- Post-facto regularization within 30 days
+- Complete documentation placed on file retrospectively
+
+
+Chapter 8: Vendor and Supplier Issues
+---------------------------------------
+
+8.1 Vendor Registration:
+Vendor registration/empanelment is recommended but not mandatory for all procurement. However, for recurring procurement, having a panel of registered vendors improves efficiency.
+
+8.2 Debarment of Suppliers:
+Suppliers can be debarred (blacklisted) for:
+- Supply of substandard goods
+- Non-compliance with contract terms
+- Submission of forged documents
+- Fraudulent practices
+The debarment process requires an inquiry and competent authority approval. Debarment period is typically 1-3 years depending on severity.
+
+8.3 Foreign Vendors:
+Foreign vendors can participate in procurement, especially for items not manufactured domestically. Import procurement follows the same basic GFR rules but with additional requirements for import license, customs clearance, and foreign exchange provisions.
+
+8.4 Sole Authorized Dealer:
+If a vendor claims to be the sole authorized dealer for a product, verify:
+- Whether the OEM confirms dealership exclusivity
+- Whether other dealers or the OEM directly can supply
+- Whether genuinely no alternative sources exist
+Only after verification should the proprietary/single tender route be considered.
+
+
+Chapter 9: Committee and Authority Exceptions
+-----------------------------------------------
+
+9.1 Same Person as Indenting and Approving:
+The same person should NOT be both the indenting officer and the approving authority for the same procurement. Separation of duties is a fundamental audit principle. However, in small laboratories with limited staff, this may be unavoidable, and the next higher authority should be made aware.
+
+9.2 Finance Concurrence:
+Finance concurrence is required for procurement above the delegated financial powers. The threshold varies by CSIR laboratory and is determined by the Delegation of Financial Powers (DFP) document.
+
+9.3 LPC Composition:
+The Local Purchase Committee should have minimum 3 members including:
+- A representative from the user department
+- A finance representative
+- An independent member (from a different department)
+The committee records its recommendation in a joint certificate format.

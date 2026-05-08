@@ -1,0 +1,24 @@
+{
+  "run_timestamp": "2026-05-07T18:30:13.289834",
+  "total_questions": 100,
+  "accuracy_scope_questions": 100,
+  "batches": 1,
+  "overall_compliance_precision": 1.0,
+  "overall_hallucination_rate": 0.0,
+  "total_hallucinated_answers": 0,
+  "overall_avg_latency_seconds": 12.958,
+  "total_errors": 0,
+  "batch_details": [
+    {
+      "batch": 1,
+      "questions_run": 100,
+      "accuracy_applicable_count": 100,
+      "avg_compliance_precision": 1.0,
+      "avg_hallucination_rate": 0.0,
+      "questions_with_hallucinations": 0,
+      "avg_latency_seconds": 12.958,
+      "max_latency_seconds": 1295.776,
+      "error_count": 0
+    }
+  ]
+}

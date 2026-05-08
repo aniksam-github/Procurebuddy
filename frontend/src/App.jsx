@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import LoginPage from './LoginPage';
 import Layout from './components/Layout';
 import { ChatView, ProfileModal, SettingsModal, SettingsView } from './Views';
+import { FestivalPopup } from './components/FestivalPopup';
 import { useTheme } from './context/ThemeContext';
 import { useSeasonal } from './context/SeasonalContext';
+import { useFestivalApi } from './hooks/useFestivalApi';
 import { api } from './api';
 import './index.css';
 
@@ -22,7 +25,7 @@ function readJson(key, fallback) {
 
 function createDraftChat() {
   return {
-    chat_id: crypto.randomUUID(),
+    chat_id: uuidv4(),
     title: 'New Chat',
     preview: 'Start a new procurement query.',
     message_count: 0,
@@ -58,7 +61,7 @@ function mergeDraftChats(...draftLists) {
 function mapMessages(messages = []) {
   return messages.map((msg, i) => ({
     ...msg,
-    id: `${msg.timestamp || 'local'}-${msg.role}-${i}`,
+    id: msg.id || `${msg.timestamp || 'local'}-${msg.role}-${i}`,
   }));
 }
 
@@ -69,7 +72,7 @@ export default function App() {
   const [profileOpen, setProfileOpen] = useState(false);
   const [feedbackByMessage, setFeedbackByMessage] = useState({});
   const { theme, setTheme } = useTheme();
-  const { mode: seasonalMode, setMode: setSeasonalMode, activeFestival } = useSeasonal();
+  const { mode: seasonalMode, setMode: setSeasonalMode, activeFestival, upcomingFestivalLabel } = useSeasonal();
   const [sidebarCollapsed, setSidebarCollapsed] = useState(() => readJson(SIDEBAR_COLLAPSED_KEY, false));
   const [chats, setChats] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
@@ -287,9 +290,14 @@ export default function App() {
     }
   }
 
+  // ── Festival API integration (Calendarific) ──
+  const { popupMessage, dismissPopup } = useFestivalApi();
+
   if (!session) return <LoginPage onAuthenticated={handleAuthenticated} />;
 
   return (
+    <>
+      <FestivalPopup message={popupMessage} onDismiss={dismissPopup} />
     <Layout
       chatTitle={chatTitle}
       userEmail={session.email}
@@ -342,6 +350,7 @@ export default function App() {
             seasonalMode={seasonalMode}
             setSeasonalMode={setSeasonalMode}
             activeFestival={activeFestival}
+            upcomingFestivalLabel={upcomingFestivalLabel}
             session={session}
             onSessionUpdate={(changes) => setSession((s) => ({ ...s, ...changes }))}
           />
@@ -358,5 +367,6 @@ export default function App() {
         />
       )}
     </Layout>
+    </>
   );
 }

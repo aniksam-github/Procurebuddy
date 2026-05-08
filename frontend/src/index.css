@@ -168,108 +168,108 @@ html[data-font='system'] body {
   letter-spacing: 0;
 }
 
-html[data-seasonal-festival='navratri'] {
-  --bg-app: #fff7fb;
-  --bg-elevated: rgba(255, 248, 250, 0.62);
-  --bg-muted: rgba(255, 240, 244, 0.46);
-  --card-bg: rgba(255, 255, 255, 0.74);
-  --card-strong: rgba(255, 255, 255, 0.78);
-  --card-subtle: rgba(255, 255, 255, 0.56);
-  --card-hover: rgba(255, 252, 253, 0.84);
-  --border-soft: rgba(223, 102, 132, 0.16);
-  --border-strong: rgba(223, 102, 132, 0.26);
-  --shadow-panel: 0 36px 108px -58px rgba(223, 102, 132, 0.22);
+html[data-seasonal-active='true'] {
+  --bg-app: #fff8f6;
+  --bg-elevated: rgba(255, 249, 246, 0.62);
+  --bg-muted: rgba(255, 244, 239, 0.48);
+  --card-bg: rgba(255, 255, 255, 0.76);
+  --card-strong: rgba(255, 255, 255, 0.8);
+  --card-subtle: rgba(255, 255, 255, 0.58);
+  --card-hover: rgba(255, 252, 249, 0.88);
+  --border-soft: color-mix(in srgb, var(--seasonal-border, rgba(249, 115, 22, 0.18)) 74%, white);
+  --border-strong: color-mix(in srgb, var(--seasonal-border, rgba(249, 115, 22, 0.26)) 100%, white 10%);
+  --shadow-panel: 0 36px 108px -58px var(--seasonal-ornament, rgba(249, 115, 22, 0.2));
 }
 
-html.dark[data-seasonal-festival='navratri'] {
-  --bg-app: #110f1e;
-  --bg-elevated: rgba(18, 18, 34, 0.78);
-  --bg-muted: rgba(31, 23, 46, 0.7);
-  --card-bg: rgba(17, 18, 33, 0.42);
-  --card-strong: rgba(18, 21, 39, 0.58);
-  --card-subtle: rgba(16, 18, 32, 0.34);
-  --card-hover: rgba(26, 24, 44, 0.66);
-  --border-soft: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 178, 124, 0.18);
-  --text-primary: #f7f2ff;
-  --text-secondary: #d1cadf;
-  --text-tertiary: #9d94b3;
+html.dark[data-seasonal-active='true'] {
+  --bg-app: #100f19;
+  --bg-elevated: rgba(19, 18, 32, 0.8);
+  --bg-muted: rgba(25, 22, 38, 0.74);
+  --card-bg: rgba(17, 18, 31, 0.5);
+  --card-strong: rgba(19, 22, 36, 0.6);
+  --card-subtle: rgba(16, 18, 30, 0.38);
+  --card-hover: rgba(28, 26, 42, 0.7);
+  --border-soft: color-mix(in srgb, var(--seasonal-border, rgba(255, 255, 255, 0.08)) 50%, rgba(255, 255, 255, 0.06));
+  --border-strong: color-mix(in srgb, var(--seasonal-border, rgba(255, 178, 124, 0.18)) 65%, rgba(255, 255, 255, 0.08));
+  --text-primary: #f8f4ff;
+  --text-secondary: #d8cee5;
+  --text-tertiary: #a699b8;
   --shadow-panel: 0 40px 120px -64px rgba(8, 6, 16, 0.88);
 }
 
-html[data-seasonal-festival='navratri'] body {
+html[data-seasonal-active='true'] body {
   background:
-    radial-gradient(circle at 14% 12%, rgba(244, 114, 182, 0.2), transparent 28%),
-    radial-gradient(circle at 86% 10%, rgba(249, 115, 22, 0.18), transparent 24%),
-    radial-gradient(circle at 72% 78%, rgba(251, 191, 36, 0.14), transparent 22%),
-    linear-gradient(180deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 247, 251, 0.16) 18%),
+    radial-gradient(circle at 14% 12%, var(--seasonal-glow-a, rgba(249, 115, 22, 0.2)), transparent 28%),
+    radial-gradient(circle at 86% 10%, var(--seasonal-glow-b, rgba(251, 191, 36, 0.18)), transparent 24%),
+    radial-gradient(circle at 72% 78%, var(--seasonal-glow-c, rgba(244, 114, 182, 0.14)), transparent 22%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.54) 0%, rgba(255, 248, 246, 0.16) 18%),
     var(--bg-app);
 }
 
-html.dark[data-seasonal-festival='navratri'] body {
+html.dark[data-seasonal-active='true'] body {
   background:
-    radial-gradient(circle at 20% 30%, rgba(255, 140, 0, 0.15), transparent 26%),
-    radial-gradient(circle at 78% 16%, rgba(244, 114, 182, 0.16), transparent 24%),
-    radial-gradient(circle at 68% 78%, rgba(251, 191, 36, 0.1), transparent 22%),
-    linear-gradient(135deg, #1a1a2e 0%, #2d1b3d 54%, #3a1f1f 100%),
+    radial-gradient(circle at 20% 30%, var(--seasonal-glow-b, rgba(249, 115, 22, 0.15)), transparent 26%),
+    radial-gradient(circle at 78% 16%, var(--seasonal-glow-a, rgba(244, 114, 182, 0.16)), transparent 24%),
+    radial-gradient(circle at 68% 78%, var(--seasonal-glow-c, rgba(251, 191, 36, 0.1)), transparent 22%),
+    linear-gradient(135deg, #171626 0%, #221d34 52%, #281918 100%),
     var(--bg-app);
 }
 
-html[data-seasonal-festival='navratri'] body::before {
+html[data-seasonal-active='true'] body::before {
   opacity: 0.08;
 }
 
-html.dark[data-seasonal-festival='navratri'] body::before {
+html.dark[data-seasonal-active='true'] body::before {
   opacity: 0.14;
 }
 
-html[data-seasonal-festival='navratri'] .app-input,
-html[data-seasonal-festival='navratri'] .app-textarea {
+html[data-seasonal-active='true'] .app-input,
+html[data-seasonal-active='true'] .app-textarea {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24);
 }
 
-html[data-seasonal-festival='navratri'] .festive-chat-layout {
+html[data-seasonal-active='true'] .festive-chat-layout {
   background: transparent;
 }
 
-html[data-seasonal-festival='navratri'] .festive-chat-scroll {
+html[data-seasonal-active='true'] .festive-chat-scroll {
   position: relative;
   z-index: 10;
 }
 
-html[data-seasonal-festival='navratri'] .festive-chat-surface {
-  border: 1px solid rgba(255, 255, 255, 0.22);
+html[data-seasonal-active='true'] .festive-chat-surface {
+  border: 1px solid color-mix(in srgb, var(--seasonal-border, rgba(255, 255, 255, 0.22)) 90%, white);
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(14px);
-  box-shadow: 0 24px 70px -48px rgba(223, 102, 132, 0.2);
+  box-shadow: 0 24px 70px -48px var(--seasonal-ornament, rgba(249, 115, 22, 0.2));
 }
 
-html[data-seasonal-festival='navratri'] .festive-chat-composer {
-  border: 1px solid rgba(255, 255, 255, 0.2);
+html[data-seasonal-active='true'] .festive-chat-composer {
+  border: 1px solid color-mix(in srgb, var(--seasonal-border, rgba(255, 255, 255, 0.2)) 84%, white);
   background: rgba(255, 255, 255, 0.64);
   backdrop-filter: blur(16px);
   box-shadow:
-    0 24px 64px -46px rgba(223, 102, 132, 0.18),
+    0 24px 64px -46px var(--seasonal-ornament, rgba(249, 115, 22, 0.18)),
     inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
-html[data-seasonal-festival='navratri'] .festive-message {
+html[data-seasonal-active='true'] .festive-message {
   position: relative;
   z-index: 20;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 22px 52px -40px rgba(223, 102, 132, 0.16);
+  border: 1px solid color-mix(in srgb, var(--seasonal-border, rgba(255, 255, 255, 0.18)) 84%, white);
+  box-shadow: 0 22px 52px -40px var(--seasonal-ornament, rgba(249, 115, 22, 0.16));
 }
 
-html[data-seasonal-festival='navratri'] .festive-message-user {
-  background: rgb(var(--accent-rgb) / 0.82);
+html[data-seasonal-active='true'] .festive-message-user {
+  background: color-mix(in srgb, var(--seasonal-accent, var(--accent)) 86%, black 8%);
 }
 
-html[data-seasonal-festival='navratri'] .festive-message-bot {
+html[data-seasonal-active='true'] .festive-message-bot {
   background: rgba(255, 255, 255, 0.6);
   backdrop-filter: blur(12px);
 }
 
-html.dark[data-seasonal-festival='navratri'] .festive-chat-surface {
+html.dark[data-seasonal-active='true'] .festive-chat-surface {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.1);
   color: #e8e4f2;
@@ -277,7 +277,7 @@ html.dark[data-seasonal-festival='navratri'] .festive-chat-surface {
   box-shadow: 0 24px 72px -50px rgba(10, 7, 20, 0.78);
 }
 
-html.dark[data-seasonal-festival='navratri'] .festive-chat-composer {
+html.dark[data-seasonal-active='true'] .festive-chat-composer {
   border: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
@@ -286,44 +286,44 @@ html.dark[data-seasonal-festival='navratri'] .festive-chat-composer {
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
-html.dark[data-seasonal-festival='navratri'] .festive-message {
+html.dark[data-seasonal-active='true'] .festive-message {
   border-color: rgba(255, 255, 255, 0.1);
   box-shadow: 0 24px 54px -42px rgba(8, 6, 16, 0.76);
 }
 
-html.dark[data-seasonal-festival='navratri'] .festive-message-user {
-  background: rgb(var(--accent-rgb) / 0.8);
+html.dark[data-seasonal-active='true'] .festive-message-user {
+  background: color-mix(in srgb, var(--seasonal-accent, var(--accent)) 80%, black 18%);
   color: #ffffff;
 }
 
-html.dark[data-seasonal-festival='navratri'] .festive-message-bot {
+html.dark[data-seasonal-active='true'] .festive-message-bot {
   background: rgba(255, 255, 255, 0.1);
   color: #f7f2ff;
   backdrop-filter: blur(10px);
 }
 
-html.dark[data-seasonal-festival='navratri'] .prose-custom table {
+html.dark[data-seasonal-active='true'] .prose-custom table {
   border-color: rgba(255, 255, 255, 0.1);
   background: rgba(15, 23, 42, 0.6);
   backdrop-filter: blur(12px);
   box-shadow: 0 20px 48px -40px rgba(8, 6, 16, 0.6);
 }
 
-html.dark[data-seasonal-festival='navratri'] .prose-custom thead {
+html.dark[data-seasonal-active='true'] .prose-custom thead {
   background: rgba(30, 41, 59, 0.8);
 }
 
-html.dark[data-seasonal-festival='navratri'] .prose-custom th {
+html.dark[data-seasonal-active='true'] .prose-custom th {
   color: #ffffff;
   border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
-html.dark[data-seasonal-festival='navratri'] .prose-custom td {
+html.dark[data-seasonal-active='true'] .prose-custom td {
   color: #e5e7eb;
   border-bottom-color: rgba(255, 255, 255, 0.08);
 }
 
-html.dark[data-seasonal-festival='navratri'] .prose-custom tbody tr:hover {
+html.dark[data-seasonal-active='true'] .prose-custom tbody tr:hover {
   background: rgba(255, 255, 255, 0.04);
 }
 

@@ -44,6 +44,10 @@ For amount-based procurement questions:
 - Use only the threshold or procedure text that is explicitly present in the retrieved context.
 - Do not infer a slab from Make in India, local supplier preference, or unrelated tender clauses.
 - Mention the procurement mode only if the applicable threshold or procedure is explicitly visible in context.
+- When explicit lower and upper threshold rules are present in the context, compare the amount numerically and pick the matching slab.
+- If one mode is outside the applicable range, say that it does not apply instead of leaving the classification ambiguous.
+- Do not apply Special Provisions meant only for scientific equipment / consumables / research purpose unless the user question actually falls in that scope.
+- Keep the amount numerically consistent throughout the answer. Do not restate Rs 10,00,001 as above Rs 1 crore, or similar arithmetic mistakes.
 - State whether a committee is required only if explicitly supported by context.
 - Give a practical step-by-step process only if the process is explicitly supported by context.
 - Do not convert headings, table of contents entries, or implied logic into procedural steps.
@@ -335,7 +339,7 @@ def _build_search_query(user_text: str):
     flags = _query_flags(user_text)
     hints = []
     if flags["amount_process"]:
-        hints.append("procurement mode threshold committee scientific special provisions csir manual")
+        hints.append("procurement mode threshold committee csir manual gfr")
     if flags["scientific_item"]:
         hints.append("scientific equipment consumables research purpose special provisions")
     if flags["single_tender"]:
@@ -371,8 +375,12 @@ def _score_doc(user_text: str, doc):
     text = doc.page_content.lower()
     score = 0
 
-    if "special provisions" in source_name:
+    special_scope_query = flags["scientific_item"] or flags["amendment_priority"] or "special provision" in user_text.lower()
+
+    if "special provisions" in source_name and special_scope_query:
         score += 6
+    elif "special provisions" in source_name:
+        score -= 4
     if "amendment" in source_name or "amendments" in source_name:
         score += 5
     if "csir manual" in source_name:
@@ -433,7 +441,7 @@ def _retrieve_docs(retriever, client: Groq, user_text: str):
 
     if flags["amount_process"]:
         queries.append(
-            f"{translated_query} rule 155 rule 161 rule 162 scientific special provisions purchase committee technical purchase committee"
+            f"{translated_query} rule 155 rule 161 rule 162 purchase committee technical purchase committee csir manual gfr"
         )
         queries.append(
             f"{translated_query} csir manual purchase committee technical and purchase committee local purchase committee"
@@ -459,6 +467,43 @@ def _retrieve_docs(retriever, client: Groq, user_text: str):
 
     doc_groups = [retriever.invoke(query) for query in queries]
     docs = _filter_docs(user_text, _merge_docs(doc_groups))
+    docs = sorted(docs, key=lambda doc: _score_doc(user_text, doc), reverse=True)
+    return docs[:MAX_DOCS]
+
+
+def _doc_is_applicable(user_text: str, doc):
+    flags = _query_flags(user_text)
+    lowered_query = user_text.lower()
+    source_name = Path(doc.metadata.get("source", "")).name.lower()
+    text = doc.page_content.lower()
+
+    if "special provisions" in source_name:
+        scientific_scope = any(
+            marker in lowered_query
+            for marker in ["scientific", "equipment", "consumable", "research", "research purpose", "special provision"]
+        )
+        if not scientific_scope and not flags["amendment_priority"]:
+            return False
+
+    if "scientific equipment" in text and "research purpose only" in text:
+        scientific_scope = any(
+            marker in lowered_query
+            for marker in ["scientific", "equipment", "consumable", "research", "research purpose"]
+        )
+        if not scientific_scope and not flags["amendment_priority"]:
+            return False
+
+    return True
+
+
+def _prepare_answer_docs(user_text: str, retriever, client: Groq, *, include_threshold_docs: bool = False):
+    doc_groups = [_retrieve_docs(retriever, client, user_text)]
+    if include_threshold_docs:
+        doc_groups.append(_load_threshold_docs_from_files())
+
+    docs = _merge_docs(doc_groups)
+    docs = [doc for doc in docs if _doc_is_applicable(user_text, doc)]
+    docs = _filter_docs(user_text, docs)
     docs = sorted(docs, key=lambda doc: _score_doc(user_text, doc), reverse=True)
     return docs[:MAX_DOCS]
 
@@ -528,10 +573,11 @@ def _build_amount_instruction(user_text: str):
     if amount is None:
         return ""
     return (
-        f"Detected amount: Rs {amount}.\n"
+        f"Detected amount exactly: Rs {amount} (Indian format: Rs {_format_rupees(amount)}).\n"
         "- You must compare this amount numerically against threshold values mentioned in the retrieved context.\n"
         "- Do not apply an `above threshold` rule when the amount is lower than that threshold.\n"
         "- Do not apply an `up to threshold` rule when the amount is higher than that threshold.\n"
+        "- Before finalizing, verify that every amount comparison in the answer is arithmetically consistent with this exact amount.\n"
     )
 
 
@@ -866,7 +912,8 @@ def _build_amount_answer(user_text: str, docs: list):
     if amount is None:
         return None
 
-    facts = _extract_procurement_facts_v2(docs)
+    combined_docs = docs + _load_threshold_docs_from_files()
+    facts = _extract_procurement_facts_v2(combined_docs)
     language = _detect_response_language(user_text)
 
     direct_purchase_max = facts["direct_purchase_max"]
@@ -953,23 +1000,42 @@ def _build_amount_answer(user_text: str, docs: list):
             "Purchase Section processing record",
         ]
     elif committee == "Technical & Purchase Committee (T&PC)":
-        process_steps = [
-            "Step 1: Need identify karo aur technical specifications final karo.",
-            "Step 2: Administrative approval, budget confirmation, aur signed indent prepare karo.",
-            "Step 3: Case T&PC ke saamne place karo, kyunki value retrieved threshold se upar hai.",
-            "Step 4: T&PC applicable procurement method decide karega; agar LTE limit ke andar hai to LTE adopt kiya ja sakta hai.",
-            "Step 5: Detailed modus operandi Chapter 4 ke hisaab se follow hoga.",
-            "Step 6: Recommendation ke baad competent authority approval aur order placement hoga.",
-        ]
-        documents = [
-            "Need note / requirement note",
-            "Technical specifications",
-            "Fund availability certificate",
-            "Signed indent / purchase requisition",
-            "T&PC proceedings / recommendation",
-            "Tender / LTE papers if applicable",
-            "Approval and order record",
-        ]
+        if mode == "Advertised Tender / Open Tender":
+            process_steps = [
+                "Step 1: Need identify karo aur technical specifications final karo.",
+                "Step 2: Administrative approval, budget confirmation, aur signed indent prepare karo.",
+                "Step 3: Case T&PC ke saamne place karo, kyunki value retrieved threshold se upar hai.",
+                "Step 4: Open / advertised tender initiate karo aur bid documents float karo as per applicable rules.",
+                "Step 5: Bid evaluation, T&PC recommendation, aur competent authority approval lo.",
+                "Step 6: Approval ke baad order placement aur procurement record complete karo.",
+            ]
+            documents = [
+                "Need note / requirement note",
+                "Technical specifications",
+                "Fund availability certificate",
+                "Signed indent / purchase requisition",
+                "Tender / bid documents",
+                "T&PC proceedings / recommendation",
+                "Approval and order record",
+            ]
+        else:
+            process_steps = [
+                "Step 1: Need identify karo aur technical specifications final karo.",
+                "Step 2: Administrative approval, budget confirmation, aur signed indent prepare karo.",
+                "Step 3: Case T&PC ke saamne place karo, kyunki value retrieved threshold se upar hai.",
+                "Step 4: T&PC applicable procurement method decide karega; agar LTE limit ke andar hai to LTE adopt kiya ja sakta hai.",
+                "Step 5: Detailed modus operandi Chapter 4 ke hisaab se follow hoga.",
+                "Step 6: Recommendation ke baad competent authority approval aur order placement hoga.",
+            ]
+            documents = [
+                "Need note / requirement note",
+                "Technical specifications",
+                "Fund availability certificate",
+                "Signed indent / purchase requisition",
+                "T&PC proceedings / recommendation",
+                "Tender / LTE papers if applicable",
+                "Approval and order record",
+            ]
     elif committee == "Local Purchase Committee (LPC)":
         process_steps = [
             "Step 1: Need aur specs final karo.",
@@ -1214,9 +1280,33 @@ def _build_table_answer(docs: list):
     return table
 
 
-def rag_answer(system_prompt: str, user_text: str, chat_history: list[dict] | None = None):
+def _append_table_if_requested(answer_text: str, user_text: str, docs: list):
+    if not _query_flags(user_text)["table"]:
+        return answer_text
+
+    table_answer = _build_table_answer(docs)
+    if table_answer == NO_CONTEXT_MESSAGE:
+        return answer_text
+    if answer_text == NO_CONTEXT_MESSAGE:
+        return table_answer
+    if table_answer in answer_text:
+        return answer_text
+    return f"{answer_text}\n\n## Threshold Table\n{table_answer}"
+
+
+def rag_answer(
+    system_prompt: str,
+    user_text: str,
+    chat_history: list[dict] | None = None,
+    docs: list | None = None,
+):
     retriever, client = _get_resources()
-    docs = _retrieve_docs(retriever, client, user_text)
+    docs = docs or _prepare_answer_docs(
+        user_text,
+        retriever,
+        client,
+        include_threshold_docs=_query_flags(user_text)["amount_process"],
+    )
 
     if not docs:
         return NO_CONTEXT_MESSAGE
@@ -1255,6 +1345,9 @@ def rag_answer(system_prompt: str, user_text: str, chat_history: list[dict] | No
                 "- Mention only the sources you actually used.\n"
                 "- Do not add outside knowledge.\n"
                 "- For amount-based questions, compare the amount numerically against threshold text that is explicitly present in the context.\n"
+                "- If the context gives both a lower-bound and upper-bound rule, choose the slab that actually contains the amount and explicitly reject non-matching slabs.\n"
+                "- Do not use special-provision thresholds unless the retrieved text itself clearly applies to the user's procurement type.\n"
+                "- Keep the amount consistent everywhere in the answer.\n"
                 "- If the context contains conflicting thresholds, prefer the latest amendment or special provision over the older manual, and the older manual over GFR.\n"
                 "- If you cannot support the conclusion directly from context, do not guess.\n"
                 f"- If the answer is not supported, reply exactly: {NO_CONTEXT_MESSAGE}"
@@ -1275,26 +1368,31 @@ def rag_answer(system_prompt: str, user_text: str, chat_history: list[dict] | No
 def handle_query(user_text: str, chat_history: list[dict] | None):
     intent = detect_intent(user_text)
     amount = extract_amount(user_text)
+    wants_table = _query_flags(user_text)["table"]
 
     if intent == "HELP":
         return {"intent": intent, "amount": None, "answer": _build_help_answer()}
 
-    if intent == "PROCESS" and amount is not None:
-        retriever, client = _get_resources()
-        docs = _retrieve_docs(retriever, client, user_text)
-        deterministic_answer = _build_amount_answer(user_text, docs)
-        if deterministic_answer:
-            return {"intent": intent, "amount": amount, "answer": deterministic_answer}
-
     if intent == "TABLE":
         retriever, client = _get_resources()
-        docs = _retrieve_docs(retriever, client, user_text)
+        docs = _prepare_answer_docs(user_text, retriever, client, include_threshold_docs=True)
         table_answer = _build_table_answer(docs)
         return {"intent": intent, "amount": None, "answer": table_answer}
     else:
         system_prompt = PROCESS_PROMPT if intent == "PROCESS" else POLICY_PROMPT
 
-    answer = rag_answer(system_prompt, user_text, chat_history)
+    if intent == "PROCESS" and amount is not None:
+        retriever, client = _get_resources()
+        docs = _prepare_answer_docs(user_text, retriever, client, include_threshold_docs=True)
+        answer = rag_answer(system_prompt, user_text, chat_history, docs=docs)
+        if wants_table:
+            answer = _append_table_if_requested(answer, user_text, docs)
+    else:
+        answer = rag_answer(system_prompt, user_text, chat_history)
+        if wants_table:
+            retriever, client = _get_resources()
+            docs = _prepare_answer_docs(user_text, retriever, client, include_threshold_docs=True)
+            answer = _append_table_if_requested(answer, user_text, docs)
     return {"intent": intent, "amount": amount, "answer": answer}
 
 

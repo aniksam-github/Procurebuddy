@@ -1,0 +1,278 @@
+{
+  "seed": 20260430,
+  "batches": 10,
+  "per_batch": 1000,
+  "output": "procurement_eval_dataset_10000.json",
+  "overall": {
+    "batches": [
+      {
+        "batch": 1,
+        "path": "procurement_eval_dataset_10000_batch_01.json",
+        "count": 1000,
+        "category_counts": {
+          "scenario": 300,
+          "edge_case": 150,
+          "gem": 40,
+          "rule": 100,
+          "analytical": 150,
+          "make_in_india": 20,
+          "process": 80,
+          "pac": 70,
+          "others": 20,
+          "threshold": 70
+        },
+        "difficulty_counts": {
+          "hard": 200,
+          "medium": 500,
+          "easy": 300
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 2,
+        "path": "procurement_eval_dataset_10000_batch_02.json",
+        "count": 1000,
+        "category_counts": {
+          "gem": 40,
+          "process": 80,
+          "scenario": 300,
+          "edge_case": 150,
+          "threshold": 70,
+          "pac": 70,
+          "analytical": 150,
+          "rule": 100,
+          "make_in_india": 20,
+          "others": 20
+        },
+        "difficulty_counts": {
+          "easy": 300,
+          "medium": 500,
+          "hard": 200
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 3,
+        "path": "procurement_eval_dataset_10000_batch_03.json",
+        "count": 1000,
+        "category_counts": {
+          "pac": 70,
+          "gem": 40,
+          "scenario": 300,
+          "make_in_india": 20,
+          "analytical": 150,
+          "threshold": 70,
+          "rule": 100,
+          "edge_case": 150,
+          "others": 20,
+          "process": 80
+        },
+        "difficulty_counts": {
+          "medium": 500,
+          "hard": 200,
+          "easy": 300
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 4,
+        "path": "procurement_eval_dataset_10000_batch_04.json",
+        "count": 1000,
+        "category_counts": {
+          "scenario": 300,
+          "gem": 40,
+          "make_in_india": 20,
+          "pac": 70,
+          "others": 20,
+          "threshold": 70,
+          "analytical": 150,
+          "edge_case": 150,
+          "process": 80,
+          "rule": 100
+        },
+        "difficulty_counts": {
+          "hard": 200,
+          "medium": 500,
+          "easy": 300
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 5,
+        "path": "procurement_eval_dataset_10000_batch_05.json",
+        "count": 1000,
+        "category_counts": {
+          "gem": 40,
+          "threshold": 70,
+          "edge_case": 150,
+          "pac": 70,
+          "process": 80,
+          "others": 20,
+          "analytical": 150,
+          "rule": 100,
+          "make_in_india": 20,
+          "scenario": 300
+        },
+        "difficulty_counts": {
+          "medium": 500,
+          "hard": 200,
+          "easy": 300
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 6,
+        "path": "procurement_eval_dataset_10000_batch_06.json",
+        "count": 1000,
+        "category_counts": {
+          "others": 20,
+          "gem": 40,
+          "rule": 100,
+          "process": 80,
+          "analytical": 150,
+          "scenario": 300,
+          "threshold": 70,
+          "pac": 70,
+          "edge_case": 150,
+          "make_in_india": 20
+        },
+        "difficulty_counts": {
+          "easy": 300,
+          "medium": 500,
+          "hard": 200
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 7,
+        "path": "procurement_eval_dataset_10000_batch_07.json",
+        "count": 1000,
+        "category_counts": {
+          "analytical": 150,
+          "threshold": 70,
+          "rule": 100,
+          "others": 20,
+          "process": 80,
+          "scenario": 300,
+          "edge_case": 150,
+          "make_in_india": 20,
+          "gem": 40,
+          "pac": 70
+        },
+        "difficulty_counts": {
+          "medium": 500,
+          "easy": 300,
+          "hard": 200
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 8,
+        "path": "procurement_eval_dataset_10000_batch_08.json",
+        "count": 1000,
+        "category_counts": {
+          "pac": 70,
+          "scenario": 300,
+          "make_in_india": 20,
+          "analytical": 150,
+          "edge_case": 150,
+          "threshold": 70,
+          "rule": 100,
+          "others": 20,
+          "gem": 40,
+          "process": 80
+        },
+        "difficulty_counts": {
+          "hard": 200,
+          "easy": 300,
+          "medium": 500
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 9,
+        "path": "procurement_eval_dataset_10000_batch_09.json",
+        "count": 1000,
+        "category_counts": {
+          "others": 20,
+          "gem": 40,
+          "analytical": 150,
+          "threshold": 70,
+          "make_in_india": 20,
+          "pac": 70,
+          "edge_case": 150,
+          "process": 80,
+          "scenario": 300,
+          "rule": 100
+        },
+        "difficulty_counts": {
+          "easy": 300,
+          "medium": 500,
+          "hard": 200
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      },
+      {
+        "batch": 10,
+        "path": "procurement_eval_dataset_10000_batch_10.json",
+        "count": 1000,
+        "category_counts": {
+          "rule": 100,
+          "edge_case": 150,
+          "threshold": 70,
+          "scenario": 300,
+          "analytical": 150,
+          "others": 20,
+          "make_in_india": 20,
+          "pac": 70,
+          "process": 80,
+          "gem": 40
+        },
+        "difficulty_counts": {
+          "easy": 300,
+          "medium": 500,
+          "hard": 200
+        },
+        "tricky_count": 300,
+        "conflict_count": 200,
+        "decision_count": 200
+      }
+    ],
+    "total_count": 10000,
+    "category_counts": {
+      "scenario": 3000,
+      "edge_case": 1500,
+      "gem": 400,
+      "rule": 1000,
+      "analytical": 1500,
+      "make_in_india": 200,
+      "process": 800,
+      "pac": 700,
+      "others": 200,
+      "threshold": 700
+    },
+    "difficulty_counts": {
+      "hard": 2000,
+      "medium": 5000,
+      "easy": 3000
+    }
+  }
+}

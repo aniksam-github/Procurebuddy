@@ -69,6 +69,20 @@ function isStrongPassword(password) {
   return Object.values(getPasswordChecks(password)).every(Boolean);
 }
 
+function buildSession(primary = {}, fallback = {}) {
+  return {
+    email: primary.email || fallback.email || '',
+    displayName: primary.display_name || fallback.display_name || '',
+    username: primary.username || fallback.username || '',
+    avatarBase64: primary.avatar_base64 || fallback.avatar_base64 || '',
+    totpEnabled: primary.totp_enabled ?? fallback.totp_enabled,
+    is_admin: primary.is_admin ?? fallback.is_admin,
+    token: primary.token || fallback.token || '',
+    accessToken: primary.accessToken || fallback.accessToken || '',
+    access_token: primary.access_token || fallback.access_token || '',
+  };
+}
+
 export default function LoginPage({ onAuthenticated }) {
   const navigate = useNavigate();
   const { setTheme, resolvedTheme } = useTheme();
@@ -194,14 +208,7 @@ export default function LoginPage({ onAuthenticated }) {
         return;
       }
 
-      onAuthenticated({
-        email: data.email,
-        displayName: data.display_name || '',
-        username: data.username || '',
-        avatarBase64: data.avatar_base64 || '',
-        totpEnabled: data.totp_enabled,
-        is_admin: data.is_admin,
-      });
+      onAuthenticated(buildSession(data));
     } catch (err) {
       setError(err.message);
       setMessage('');
@@ -260,16 +267,9 @@ export default function LoginPage({ onAuthenticated }) {
     setLoading(true);
     try {
       const targetEmail = pendingEmail || email.trim();
-      await api.verifyTotp({ email: targetEmail, code: totpCode.trim() });
+      const verification = await api.verifyTotp({ email: targetEmail, code: totpCode.trim() });
       const status = await api.getAuthStatus(targetEmail);
-      onAuthenticated({
-        email: status.email,
-        displayName: status.display_name || '',
-        username: status.username || '',
-        avatarBase64: status.avatar_base64 || '',
-        totpEnabled: status.totp_enabled,
-        is_admin: status.is_admin,
-      });
+      onAuthenticated(buildSession(status, verification));
     } catch (err) {
       setError(err.message);
       setMessage('');

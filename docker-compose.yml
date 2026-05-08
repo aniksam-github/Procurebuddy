@@ -1,0 +1,86 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: procurebuddy-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-procurebuddy}
+      POSTGRES_USER: ${DB_USER:-procurebuddy}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-change_this_strong_password}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-procurebuddy} -d ${DB_NAME:-procurebuddy}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  python-ai-service:
+    build:
+      context: ./python-ai-service
+      dockerfile: Dockerfile
+    container_name: procurebuddy-ai
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      PROCUREBUDDY_DATA_DIR: /app/data
+      PROCUREBUDDY_INDEX_DIR: /app/data/.index
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./.cache/huggingface:/root/.cache/huggingface
+    healthcheck:
+      test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/health')\""]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 90s
+
+  backend-spring:
+    build:
+      context: ./backend-spring
+      dockerfile: Dockerfile
+    container_name: procurebuddy-backend
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      SERVER_PORT: 2002
+      AI_SERVICE_BASE_URL: http://python-ai-service:8000
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-procurebuddy}
+      SPRING_DATASOURCE_USERNAME: ${DB_USER:-procurebuddy}
+      SPRING_DATASOURCE_PASSWORD: ${DB_PASSWORD:-change_this_strong_password}
+      PROCUREBUDDY_ADMIN_EMAIL: ${ADMIN_EMAIL:-admin@example.com}
+      PROCUREBUDDY_DATA_DIR: /app/data
+      PROCUREBUDDY_AI_TIMEOUT_SECONDS: ${AI_TIMEOUT:-60}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
+    ports:
+      - "2002:2002"
+    volumes:
+      - ./data:/app/data
+    depends_on:
+      db:
+        condition: service_healthy
+      python-ai-service:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: procurebuddy-frontend
+    restart: unless-stopped
+    ports:
+      - "3000:80"
+    depends_on:
+      backend-spring:
+        condition: service_started
+      python-ai-service:
+        condition: service_started
+
+volumes:
+  postgres-data:

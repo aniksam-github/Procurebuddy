@@ -1,0 +1,530 @@
+[
+  {
+    "case_id": 152,
+    "question": "What is the role of the head of office or director when a technically sound procurement route raises reputational or audit risk?",
+    "question_type": "role",
+    "difficulty": "medium",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: When a technically sound procurement route raises reputational or. and ensure that the chosen route fits the facts. In this scenario, the estimated value of the goods to be procured is up to Rs. 5,00,000, which falls under the Limited Tender. and ensure that the chosen route fits the facts. In this scenario, the estimated value of the goods to be procured is up to Rs. 5,00,000, which falls under the Limited Tender.\nAUDIT RISK: Medium\nACTIONABLE STEP: Requires documentation of the justification for LTE, including the estimated value of the goods, the reasons for choosing LTE, and the approval of the purchase committee. Required proof: tender notice, bid evaluation, and approval note; competent authority approval under DFP.",
+    "score": 0.595,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.7,
+    "completeness_score": 1.0,
+    "source_score": 0.4,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "head of office",
+        "director",
+        "audit risk",
+        "oversight"
+      ]
+    }
+  },
+  {
+    "case_id": 138,
+    "question": "What responsibility does the approver retain even after committee recommendation has been recorded?",
+    "question_type": "role",
+    "difficulty": "easy",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: The approver retains responsibility for ensuring that the procurement. The approver retains responsibility for ensuring that the procurement. Source basis: Rule 281 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: Low\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: competent authority approval under DFP.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "approver",
+        "committee recommendation",
+        "responsibility",
+        "sanction"
+      ]
+    }
+  },
+  {
+    "case_id": 234,
+    "question": "A GeM route is used for speed, but the final purchase order value crosses the threshold that would otherwise require LTE or OTE. What should be checked?",
+    "question_type": "edge_case",
+    "difficulty": "medium",
+    "answer": "STATUS: NON-COMPLIANT\nANALYSIS: The procurement value exceeds Rs. 5,00,000, which falls under the LTE threshold (Rule 162, UpdatedGFR31July2025_0.pdf). However, GeM was used, which is not compliant with GFR Rule 149. The procurement value exceeds Rs. 5,00,000, which falls under the LTE threshold (Rule 162, UpdatedGFR31July2025_0.pdf). However, GeM was used, which is not compliant with GFR Rule. Verify the purchase order value and provide.\nAUDIT RISK: High\nACTIONABLE STEP: Verify the purchase order value and provide. Required proof: GeM availability or GeM-not-feasible screenshots; tender notice, bid evaluation, and approval note.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "GeM",
+        "final value",
+        "threshold",
+        "compliance"
+      ]
+    }
+  },
+  {
+    "case_id": 240,
+    "question": "A bidder offers the exact product but through an unauthorized channel. Can the lower price override source legitimacy concerns?",
+    "question_type": "edge_case",
+    "difficulty": "medium",
+    "answer": "STATUS: NON-COMPLIANT\nANALYSIS: The procurement of goods through an unauthorized channel is a non-compliant. GFR 2025 controls over older conflicting guidance for this question. GFR 2025 controls over older conflicting guidance for this question.\nAUDIT RISK: High\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: rule extract, justification note, and competent approval record.",
+    "score": 0.61,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "unauthorized channel",
+        "lower price",
+        "source legitimacy",
+        "award"
+      ]
+    }
+  },
+  {
+    "case_id": 198,
+    "question": "A single-source R&D consumable purchase without PAC is proposed, and the user argues that publication would compromise research confidentiality. What should be examined?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "STATUS: NON-COMPLIANT\nANALYSIS: The proposed single-source R&D consumable purchase without PAC is not compliant with the CSIR Manual 2019, Rule 166, which states that STE procurement should be used only in justifiable cases. Additionally, the purchase value exceeds the threshold for Direct Purchase (Rule 154) and LPC (Rule 155), and falls under the. The proposed single-source R&D consumable purchase without PAC is not compliant with the CSIR Manual 2019, Rule 166, which states that STE procurement should be used only in. Source basis: Relevant rule - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: High\nACTIONABLE STEP: Requires PAC Certificate and justification for STE procurement, as per CSIR Manual 2019, Rule 166. Required proof: PAC Certificate or proprietary justification; comparative quotations and LPC record.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "R&D consumable",
+        "without PAC",
+        "publication",
+        "confidentiality"
+      ]
+    }
+  },
+  {
+    "case_id": 192,
+    "question": "A tender document fee and vendor registration fee have been collected, but GST treatment is unclear. What should be clarified before proceeding further?",
+    "question_type": "scenario",
+    "difficulty": "easy",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: The procurement value is unclear, and GST treatment is ambiguous. According to GFR 2025, the procurement method is not specified, and the value does not exceed the LTE threshold of Rs. 5,00,000 (Rule 162, UpdatedGFR31July2025_0.pdf). The procurement value is unclear, and GST treatment is ambiguous. According to GFR 2025, the procurement method is not specified, and the value does not exceed the LTE threshold. Source basis: Relevant rule - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: Low\nACTIONABLE STEP: Obtain a detailed breakdown of the procurement value, including the tender document fee and vendor registration fee, and clarify the GST treatment with the vendor to ensure. Required proof: tender notice, bid evaluation, and approval note.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "GST",
+        "tender fee",
+        "vendor registration fee",
+        "clarification"
+      ]
+    }
+  },
+  {
+    "case_id": 78,
+    "question": "How can a procurement file satisfy threshold logic but still fail value-for-money analysis under audit?",
+    "question_type": "analytical",
+    "difficulty": "hard",
+    "answer": "STATUS: CONDITIONAL\nANALYSIS: under audit if it falls under the Limited Tender (LTE) route (Rule 162, UpdatedGFR31July2025_0.pdf) and does not meet the minimum requirements for value-for-money, such as not obtaining bids from abroad for at least four weeks. This is because LTE allows for a limited set of suppliers, which may not provide the best. under audit if it falls under the Limited Tender (LTE) route (Rule 162, UpdatedGFR31July2025_0.pdf) and does not meet the minimum requirements for value-for-money, such as not. including the justification for not obtaining bids from abroad and the evaluation of the suppliers' bids to ensure value-for-money.\nAUDIT RISK: Medium\nACTIONABLE STEP: Proceed through the LTE route only after recording the controlling rule and approvals. Required proof: tender notice, bid evaluation, and approval note.",
+    "score": 0.61,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "threshold logic",
+        "value for money",
+        "audit",
+        "procurement file"
+      ]
+    }
+  },
+  {
+    "case_id": 103,
+    "question": "Describe the process for checking local supplier preference under Make in India during bid evaluation.",
+    "question_type": "process",
+    "difficulty": "medium",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: The. The committee will survey the market to ascertain the reasonableness of rate, quality and specifications and identify the appropriate supplier. Before recommending placement of the purchase order, the members of the committee will jointly record a certificate as under.\nAUDIT RISK: Low\nACTIONABLE STEP: Confirm the value falls in the LPC band under Rule 155 and check GeM applicability. Required proof: GeM availability or GeM-not-feasible screenshots; comparative quotations and LPC record; competent authority approval under DFP.",
+    "score": 0.26,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 1.0,
+    "source_score": 0.4,
+    "error_reason": "semantic mismatch, low relevance, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "Make in India",
+        "local supplier",
+        "bid evaluation",
+        "preference"
+      ]
+    }
+  },
+  {
+    "case_id": 232,
+    "question": "A one-bid OTE is technically valid, but the only bidder is a local supplier claiming preference that would matter only if competition existed. How should that be treated?",
+    "question_type": "edge_case",
+    "difficulty": "medium",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: The procurement value is below Rs. 5,00,000, which falls under the LPC (Local Purchase Committee) threshold band (Rule 155, UpdatedGFR31July2025_0.pdf). However, since there is only one bidder, the procurement should be treated as a single tender enquiry (Rule 161, UpdatedGFR31July2025_0.pdf). The procurement value is below Rs. 5,00,000, which falls under the LPC (Local Purchase Committee) threshold band (Rule 155, UpdatedGFR31July2025_0.pdf). However, since there is. Requires documentation of the single tender enquiry justification, including the reasons why the procurement cannot be put on GeM or OTE, and the approval from the relevant.\nAUDIT RISK: Medium\nACTIONABLE STEP: Requires documentation of the single tender enquiry justification, including the reasons why the procurement cannot be put on GeM or OTE, and the approval from the relevant. Required proof: GeM availability or GeM-not-feasible screenshots; PAC Certificate or proprietary justification; comparative quotations and LPC record; tender notice, bid evaluation, and approval note; competent authority approval under DFP.",
+    "score": 0.45,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "one-bid OTE",
+        "local supplier",
+        "preference",
+        "competition"
+      ]
+    }
+  },
+  {
+    "case_id": 202,
+    "question": "An imported instrument is available on GeM only through resellers, while the OEM offers a direct scientific configuration not listed there. What should be done?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "imported instrument",
+        "GeM reseller",
+        "OEM",
+        "scientific configuration"
+      ]
+    }
+  },
+  {
+    "case_id": 62,
+    "question": "How do amendments to a procurement manual typically affect interpretation: by changing thresholds, clarifying process, or reallocating responsibility?",
+    "question_type": "analytical",
+    "difficulty": "medium",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: Amendments to a procurement manual typically clarify. Amendments to a procurement manual typically clarify. Identify the applicable procurement rule and supporting facts. 2. Check the controlling source and record the justification. 3. Complete the required scrutiny or committee review.\nAUDIT RISK: Low\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: rule extract, justification note, and competent approval record.",
+    "score": 0.61,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "amendments",
+        "threshold",
+        "process",
+        "responsibility"
+      ]
+    }
+  },
+  {
+    "case_id": 216,
+    "question": "A scientific relaxation is cited to bypass normal competition, but the same item has been procured competitively by another CSIR lab. How should this be analyzed?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: The proposed procurement route is LTE (Limited Tender) as per Rule 162 of CSIR Manual on procurement of goods 2019.pdf, but it contradicts Rule 161 of the same document, which states that OTE (Open Tender) is mandatory for procurements above Rs. 5,00,000. Since the other CSIR lab has competitively procured the same. The proposed procurement route is LTE (Limited Tender) as per Rule 162 of CSIR Manual on procurement of goods 2019.pdf, but it contradicts Rule 161 of the same document, which. Obtain a justification from the procuring entity explaining why OTE was not used, and provide.\nAUDIT RISK: Medium\nACTIONABLE STEP: Obtain a justification from the procuring entity explaining why OTE was not used, and provide. Required proof: tender notice, bid evaluation, and approval note.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "scientific relaxation",
+        "competition",
+        "other CSIR lab",
+        "analysis"
+      ]
+    }
+  },
+  {
+    "case_id": 180,
+    "question": "A purchase note says 'only one known vendor'. What should the procurement officer ask before accepting that statement?",
+    "question_type": "scenario",
+    "difficulty": "easy",
+    "answer": "STATUS: CONDITIONAL\nANALYSIS: The procurement officer should verify if the purchase is below the threshold for Local Purchase Committee (LPC) procurement, which is up to Rs. 5 lakhs (GFR 2025, UpdatedGFR31July2025_0.pdf, Rule 155). If the purchase is above this threshold, the procurement officer should ensure that the single vendor is justified. The procurement officer should verify if the purchase is below the threshold for Local Purchase Committee (LPC) procurement, which is up to Rs. 5 lakhs (GFR 2025. Source basis: Rule 156 - UpdatedGFR31July2025_0.pdf; Rule 216 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: Medium\nACTIONABLE STEP: Request the procurement officer to verify the purchase value and provide a justification for the single vendor, including a PAC certificate if applicable. Required proof: PAC Certificate or proprietary justification; comparative quotations and LPC record.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "single vendor",
+        "market survey",
+        "PAC",
+        "competition"
+      ]
+    }
+  },
+  {
+    "case_id": 213,
+    "question": "A bidder complains that the tender specification copied its competitor's catalogue language. What should the procuring entity do before continuing?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: The procuring entity must ensure that the tender specification is original and not copied from a competitor's catalogue. This is to prevent unfair competition and maintain transparency in the procurement. The procuring entity must ensure that the tender specification is original and not copied from a competitor's catalogue. This is to prevent unfair competition and maintain. Source basis: Rule 175 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: Low\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: tender notice, bid evaluation, and approval note.",
+    "score": 0.525,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.7,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "catalogue language",
+        "specification bias",
+        "complaint",
+        "corrective action"
+      ]
+    }
+  },
+  {
+    "case_id": 250,
+    "question": "A lab claims that because only one bid was received twice in succession, the next purchase should automatically move to STE. Is that a safe conclusion?",
+    "question_type": "edge_case",
+    "difficulty": "hard",
+    "answer": "STATUS: CONDITIONAL\nANALYSIS: The lab's conclusion is incorrect as it does not consider the procurement threshold and the specific circumstances for STE procurement. According to GFR 2025, Rule 166, STE is allowed for proprietary or single-source procurement, but it requires a PAC certificate and DG approval for purchases above Rs. 25,00,000. The lab's conclusion is incorrect as it does not consider the procurement threshold and the specific circumstances for STE procurement. According to GFR 2025, Rule 166, STE is. Source basis: Rule 166 - UpdatedGFR31July2025_0.pdf; Rule 165 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: Medium\nACTIONABLE STEP: Obtain a PAC certificate and DG approval for purchases above Rs. 25,00,000, or re-evaluate the procurement method based on the correct threshold and STE procurement rules. Required proof: PAC Certificate or proprietary justification; competent authority approval under DFP.",
+    "score": 0.35,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch, low relevance, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "repeat single bid",
+        "automatic STE",
+        "safe conclusion",
+        "competition"
+      ]
+    }
+  },
+  {
+    "case_id": 221,
+    "question": "A purchase valued at exactly Rs. 25,000 is proposed as direct purchase. Is that route still correct under the hardcoded threshold logic?",
+    "question_type": "edge_case",
+    "difficulty": "easy",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: For Rs. 25,000, the applicable route is Direct Purchase under Rule 154. Use the deterministic GFR 2025 slab mapping when the query contains a monetary threshold. Use the deterministic GFR 2025 slab mapping when the query contains a monetary threshold.\nAUDIT RISK: Low\nACTIONABLE STEP: Verify the requirement and check GeM applicability. Required proof: GeM availability or GeM-not-feasible screenshots; comparative quotations and LPC record; competent authority approval under DFP.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "Rs. 25,000",
+        "Rule 155",
+        "threshold edge",
+        "LPC"
+      ]
+    }
+  },
+  {
+    "case_id": 218,
+    "question": "A local supplier preference calculation depends on self-declared content percentages that seem inconsistent with the bill of materials. What should evaluators do?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "local content",
+        "bill of materials",
+        "self-declaration",
+        "verification"
+      ]
+    }
+  },
+  {
+    "case_id": 188,
+    "question": "A firm under holiday-list review has already submitted a bid before finalization of the proceedings. How should the case be handled?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "STATUS: NON-COMPLIANT\nANALYSIS: The procurement case involves a firm that has already submitted a bid before the finalization of the holiday-list review proceedings. According to GFR 2025, Rule 220, the selected bidder should not be allowed to proceed until the proceedings are finalized. The procurement case involves a firm that has already submitted a bid before the finalization of the holiday-list review proceedings. According to GFR 2025, Rule 220, the selected. Source basis: Rule 230 - UpdatedGFR31July2025_0.pdf; Rule 220 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: High\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: tender notice, bid evaluation, and approval note.",
+    "score": 0.6,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 1.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "holiday listing",
+        "submitted bid",
+        "vendor",
+        "treatment"
+      ]
+    }
+  },
+  {
+    "case_id": 183,
+    "question": "A PAC is signed by the user scientist, but finance notes there are distributors and service partners in India. What should be done?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "STATUS: CONDITIONAL\nANALYSIS: The procurement value exceeds Rs. 5,00,000, and there are distributors and service partners in India. According to the CSIR Manual 2019, Rule 166, STE procurement requires a PAC certificate, but the value exceeds the threshold for STE (Rule 166). The procurement value exceeds Rs. 5,00,000, and there are distributors and service partners in India. According to the CSIR Manual 2019, Rule 166, STE procurement requires a PAC. Source basis: Rule 280 - UpdatedGFR31July2025_0.pdf; Rule 145 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: Medium\nACTIONABLE STEP: Obtain a minimum of 3 quotations from distributors and service partners in India and obtain purchase committee approval. Required proof: PAC Certificate or proprietary justification; comparative quotations and LPC record; competent authority approval under DFP.",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "PAC",
+        "distributors",
+        "finance objection",
+        "technical equivalence"
+      ]
+    }
+  },
+  {
+    "case_id": 211,
+    "question": "A write-off committee recommends condemnation, but another internal unit can potentially repurpose the item. What should be done before disposal?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: Before disposal, the item should be evaluated for potential repurposing by another internal unit. According to GFR 2025, Rule 218, the mode of disposal should be determined by the SDC, considering the necessity to avoid accumulation of goods and blockage of space. Before disposal, the item should be evaluated for potential repurposing by another internal unit. According to GFR 2025, Rule 218, the mode of disposal should be determined by the. Source basis: Rule 218 - UpdatedGFR31July2025_0.pdf; Rule 221 - Compendium-Stores-&-Inventory-DSC.pdf.\nAUDIT RISK: Medium\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: PAC Certificate or proprietary justification; tender notice, bid evaluation, and approval note.",
+    "score": 0.685,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.7,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "write-off",
+        "repurpose",
+        "condemnation",
+        "disposal"
+      ]
+    }
+  },
+  {
+    "case_id": 249,
+    "question": "A condemned asset proposed for write-off contains recoverable high-value modules. Can it be disposed as scrap without prior segregation analysis?",
+    "question_type": "edge_case",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "condemned asset",
+        "recoverable modules",
+        "scrap",
+        "segregation"
+      ]
+    }
+  },
+  {
+    "case_id": 182,
+    "question": "A buyer splits a recurring annual need into four quarterly orders under lower thresholds. What should an auditor conclude and what corrective action should be recommended?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "STATUS: NON-COMPLIANT\nANALYSIS: The buyer has split a recurring annual need into four quarterly orders under lower thresholds, which is a violation of the annual ceiling prescribed in the SoPP (Single-Use Procurement Procedure). This procedure is mentioned in the CSIR Manual 2019, Rule 155, which aims to maintain better control over purchases. The buyer has split a recurring annual need into four quarterly orders under lower thresholds, which is a violation of the annual ceiling prescribed in the SoPP (Single-Use. Source basis: Rule 243 - UpdatedGFR31July2025_0.pdf; Rule 136 - UpdatedGFR31July2025_0.pdf.\nAUDIT RISK: High\nACTIONABLE STEP: Requires the buyer to provide a justification for splitting the annual need into quarterly orders and to demonstrate compliance with the annual ceiling prescribed in the SoPP. Required proof: rule extract, justification note, and competent approval record.",
+    "score": 0.685,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.7,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "purchase splitting",
+        "threshold avoidance",
+        "audit",
+        "corrective action"
+      ]
+    }
+  },
+  {
+    "case_id": 242,
+    "question": "A specialized R&D consumable is urgently needed, only one supplier is known, PAC is unavailable, and website publication may delay the experiment. What is the safest defensible path?",
+    "question_type": "edge_case",
+    "difficulty": "medium",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "R&D consumable",
+        "one supplier",
+        "PAC unavailable",
+        "publication"
+      ]
+    }
+  },
+  {
+    "case_id": 130,
+    "question": "What process should be followed when post-bid clarification risks becoming an impermissible bid modification?",
+    "question_type": "process",
+    "difficulty": "hard",
+    "answer": "STATUS: COMPLIANT\nANALYSIS: When post-bid clarification. These powers can be used for procurement of Scientific Equipment and consumables for research purpose only. Where the Department also contemplates obtaining bids from abroad, the. In this scenario, the officer should test the factual trigger for the proposed action against the governing rule instead of relying only on the label used in the note.\nAUDIT RISK: Medium\nACTIONABLE STEP: Record the controlling rule, justification, and approval before proceeding. Required proof: PAC Certificate or proprietary justification; tender notice, bid evaluation, and approval note.",
+    "score": 0.64,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 0.4,
+    "error_reason": "below pass threshold, FAIL_LOW_CONFIDENCE",
+    "details": {
+      "keywords": [
+        "post-bid clarification",
+        "bid modification",
+        "evaluation",
+        "fairness"
+      ]
+    }
+  }
+]

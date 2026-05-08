@@ -1,0 +1,3002 @@
+[
+  {
+    "id": 1,
+    "question": "When a lab proposes direct purchase for a low-value item, what factual conditions should be recorded to justify that quotations were unnecessary under the governing rule?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 154",
+      "direct purchase",
+      "market reasonableness",
+      "quotation"
+    ]
+  },
+  {
+    "id": 2,
+    "question": "How does the procurement logic change at the point where a routine purchase stops being direct purchase and starts requiring the committee route?",
+    "type": "threshold",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 154",
+      "Rule 155",
+      "threshold",
+      "LPC"
+    ]
+  },
+  {
+    "id": 3,
+    "question": "What is the practical distinction between the value band governed by Rule 155 and the value band governed by Rule 162?",
+    "type": "threshold",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 155",
+      "Rule 162",
+      "LPC",
+      "LTE"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Why is Rule 149 relevant even when the proposed method appears to be direct purchase or LTE on value grounds?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 149",
+      "GeM",
+      "value band",
+      "procurement route"
+    ]
+  },
+  {
+    "id": 5,
+    "question": "What documentation normally differentiates a proprietary purchase under Rule 166 from a routine LTE case under Rule 162?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 166",
+      "PAC",
+      "LTE",
+      "proprietary"
+    ]
+  },
+  {
+    "id": 6,
+    "question": "How should a procurement officer explain the relationship between OTE and wide publicity in one approval note?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 161",
+      "OTE",
+      "wide publicity",
+      "tender notice"
+    ]
+  },
+  {
+    "id": 7,
+    "question": "In procurement language, what does PAC achieve that a normal vendor quotation does not?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "PAC",
+      "single tender",
+      "justification",
+      "proprietary"
+    ]
+  },
+  {
+    "id": 8,
+    "question": "What is the audit significance of the phrase 'market rate reasonableness' in low-value procurement?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "market reasonableness",
+      "direct purchase",
+      "audit",
+      "Rule 154"
+    ]
+  },
+  {
+    "id": 9,
+    "question": "Why is the term 'competent authority' critical in procurement rules even when the method itself appears correctly chosen?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "competent authority",
+      "approval",
+      "sanction",
+      "procurement"
+    ]
+  },
+  {
+    "id": 10,
+    "question": "How should a buyer distinguish between quotation-based procurement and tender-based procurement when training new staff?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "quotation",
+      "tender",
+      "committee",
+      "competition"
+    ]
+  },
+  {
+    "id": 11,
+    "question": "A note says an item is available on GeM but the buyer still wants a local tender. What foundational rule question must be answered first?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 149",
+      "GeM",
+      "tender",
+      "compliance"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "What is the minimum conceptual difference between LPC and Purchase Committee style procurement under CSIR practice and threshold-driven procurement under GFR?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "LPC",
+      "purchase committee",
+      "CSIR",
+      "GFR"
+    ]
+  },
+  {
+    "id": 13,
+    "question": "Why is the phrase 'single source' not by itself sufficient to invoke Rule 166?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 166",
+      "single source",
+      "PAC",
+      "justification"
+    ]
+  },
+  {
+    "id": 14,
+    "question": "How should the threshold logic be explained where older institutional practice appears to conflict with updated GFR slabs?",
+    "type": "threshold",
+    "difficulty": "medium",
+    "keywords": [
+      "updated GFR",
+      "threshold conflict",
+      "rule priority",
+      "CSIR"
+    ]
+  },
+  {
+    "id": 15,
+    "question": "What does the code of integrity add to a procurement process beyond ordinary administrative approval?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": [
+      "code of integrity",
+      "CIPP",
+      "approval",
+      "procurement"
+    ]
+  },
+  {
+    "id": 16,
+    "question": "How is bid security conceptually different from performance security in a tender lifecycle?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "bid security",
+      "performance security",
+      "tender lifecycle",
+      "contract"
+    ]
+  },
+  {
+    "id": 17,
+    "question": "Why is L1 not always the end of the decision-making process in public procurement?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "L1",
+      "responsiveness",
+      "evaluation",
+      "public procurement"
+    ]
+  },
+  {
+    "id": 18,
+    "question": "What foundational risk is created when procurement is split into multiple indents around a threshold boundary?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "splitting",
+      "threshold",
+      "indent",
+      "audit risk"
+    ]
+  },
+  {
+    "id": 19,
+    "question": "How should 'responsive bid' be distinguished from merely 'lowest price bid' for evaluation purposes?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "responsive bid",
+      "L1",
+      "evaluation",
+      "technical compliance"
+    ]
+  },
+  {
+    "id": 20,
+    "question": "What is the procurement meaning of holiday listing, and why does it matter before award?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "holiday listing",
+      "vendor",
+      "eligibility",
+      "award"
+    ]
+  },
+  {
+    "id": 21,
+    "question": "Why is a procurement plan a control mechanism rather than just an administrative calendar?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "procurement plan",
+      "control",
+      "planning",
+      "indents"
+    ]
+  },
+  {
+    "id": 22,
+    "question": "How does Make in India preference interact with ordinary threshold-based method selection?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "Make in India",
+      "local supplier",
+      "threshold",
+      "method selection"
+    ]
+  },
+  {
+    "id": 23,
+    "question": "What is the foundational difference between disposal of surplus stores and write-off of unserviceable items?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "disposal",
+      "write-off",
+      "stores",
+      "inventory"
+    ]
+  },
+  {
+    "id": 24,
+    "question": "Why can scientific procurement relaxations not be treated as a blanket exemption from competition?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "scientific procurement",
+      "relaxation",
+      "competition",
+      "justification"
+    ]
+  },
+  {
+    "id": 25,
+    "question": "What procurement principle is violated if a user chooses STE merely because only one supplier is convenient to contact?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "STE",
+      "competition",
+      "convenience",
+      "Rule 166"
+    ]
+  },
+  {
+    "id": 26,
+    "question": "How should a lab distinguish between routine consumables and specialized R&D consumables for policy interpretation?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "R&D consumables",
+      "specialized",
+      "CSIR manual",
+      "procurement"
+    ]
+  },
+  {
+    "id": 27,
+    "question": "Why is publication on CPPP or the website important in certain single tender or specialized cases even when one supplier is finally selected?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "CPPP",
+      "website publication",
+      "single tender",
+      "transparency"
+    ]
+  },
+  {
+    "id": 28,
+    "question": "What is the rule-based logic behind moving from limited competition to open competition as value increases?",
+    "type": "threshold",
+    "difficulty": "medium",
+    "keywords": [
+      "competition",
+      "LTE",
+      "OTE",
+      "threshold"
+    ]
+  },
+  {
+    "id": 29,
+    "question": "How should a buyer define 'proprietary' carefully enough to survive audit scrutiny?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "proprietary",
+      "PAC",
+      "audit",
+      "Rule 166"
+    ]
+  },
+  {
+    "id": 30,
+    "question": "Why must procurement roles be separated even when the same lab unit is under time pressure to place an order quickly?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "segregation of duties",
+      "roles",
+      "approval",
+      "urgency"
+    ]
+  },
+  {
+    "id": 31,
+    "question": "If a buyer cites both GeM availability and urgency, what foundational question determines whether departure from GeM is defensible?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM",
+      "urgency",
+      "departure",
+      "justification"
+    ]
+  },
+  {
+    "id": 32,
+    "question": "A note uses both 'single tender' and 'proprietary article' interchangeably. Why is that imprecise, and what hidden risks does it create?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "single tender",
+      "proprietary article",
+      "precision",
+      "risk"
+    ]
+  },
+  {
+    "id": 33,
+    "question": "How should an officer reconcile CSIR committee terminology with the controlling GFR rule when the two are described differently in different documents?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "CSIR",
+      "GFR",
+      "committee terminology",
+      "rule priority"
+    ]
+  },
+  {
+    "id": 34,
+    "question": "Why can a threshold rule be correct while the procurement decision still be defective on process grounds?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "threshold",
+      "process defect",
+      "approval",
+      "competition"
+    ]
+  },
+  {
+    "id": 35,
+    "question": "What foundational reasoning distinguishes a valid scientific relaxation from a post-facto attempt to regularize a weak procurement file?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "scientific relaxation",
+      "post-facto",
+      "regularization",
+      "audit"
+    ]
+  },
+  {
+    "id": 36,
+    "question": "Why should a threshold table never be applied mechanically without checking source priority, GeM, and approval conditions?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "threshold table",
+      "source priority",
+      "GeM",
+      "approval"
+    ]
+  },
+  {
+    "id": 37,
+    "question": "How can a procurement case be compliant on price but non-compliant on integrity requirements?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "integrity pact",
+      "code of integrity",
+      "price",
+      "compliance"
+    ]
+  },
+  {
+    "id": 38,
+    "question": "What hidden control failure occurs when vendor registration rules are ignored but competition appears adequate on paper?",
+    "type": "definition",
+    "difficulty": "hard",
+    "keywords": [
+      "vendor registration",
+      "eligibility",
+      "competition",
+      "control failure"
+    ]
+  },
+  {
+    "id": 39,
+    "question": "Why is a single valid bid not automatically equivalent to a valid single tender procurement route?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "single valid bid",
+      "single tender",
+      "competition",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 40,
+    "question": "How would you explain the audit difference between a missing technical justification and a missing financial concurrence in one procurement file?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "technical justification",
+      "financial concurrence",
+      "audit",
+      "procurement file"
+    ]
+  },
+  {
+    "id": 41,
+    "question": "In what situations can an LTE-based procurement still fail compliance even if three firms were invited?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "LTE",
+      "three firms",
+      "compliance",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 42,
+    "question": "Why might a purchase through GeM still require careful scrutiny of specification neutrality?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "GeM",
+      "specification",
+      "neutrality",
+      "competition"
+    ]
+  },
+  {
+    "id": 43,
+    "question": "How does the concept of responsiveness protect the procuring entity from accepting the lowest but unusable offer?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "responsiveness",
+      "lowest offer",
+      "evaluation",
+      "technical compliance"
+    ]
+  },
+  {
+    "id": 44,
+    "question": "Why is the existence of one known brand not enough to justify a proprietary route without additional proof?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "brand",
+      "proprietary",
+      "PAC",
+      "proof"
+    ]
+  },
+  {
+    "id": 45,
+    "question": "How can Make in India preference affect bid evaluation without changing the underlying procurement method?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "Make in India",
+      "bid evaluation",
+      "local supplier",
+      "method"
+    ]
+  },
+  {
+    "id": 46,
+    "question": "Why are technical specifications a competition-control document rather than just a user requirement sheet?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "technical specification",
+      "competition",
+      "user requirement",
+      "tender"
+    ]
+  },
+  {
+    "id": 47,
+    "question": "How should a buyer conceptually distinguish urgency from poor planning in procurement justifications?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "urgency",
+      "planning",
+      "justification",
+      "audit"
+    ]
+  },
+  {
+    "id": 48,
+    "question": "Why is vendor eligibility screening conceptually separate from price comparison?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "vendor eligibility",
+      "price comparison",
+      "evaluation",
+      "qualification"
+    ]
+  },
+  {
+    "id": 49,
+    "question": "What conceptual purpose does bid security serve before award that performance security cannot?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "bid security",
+      "award",
+      "performance security",
+      "tender"
+    ]
+  },
+  {
+    "id": 50,
+    "question": "How does a procurement note become stronger when it states why an alternative route was not chosen?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "procurement note",
+      "alternative route",
+      "justification",
+      "audit"
+    ]
+  },
+  {
+    "id": 51,
+    "question": "Compare the compliance logic of GeM purchase, LTE, and STE when the same item is urgently needed for a research experiment.",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM",
+      "LTE",
+      "STE",
+      "urgency"
+    ]
+  },
+  {
+    "id": 52,
+    "question": "Why does a technically acceptable single bid require different reasoning from a case designed as a single tender from the start?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "single bid",
+      "single tender",
+      "technical acceptance",
+      "reasoning"
+    ]
+  },
+  {
+    "id": 53,
+    "question": "How does the CSIR manual's committee-based governance strengthen or complicate the pure GFR threshold model?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "CSIR manual",
+      "committee",
+      "GFR",
+      "governance"
+    ]
+  },
+  {
+    "id": 54,
+    "question": "What conceptual tension arises when GeM offers speed but a customized scientific requirement needs specification-heavy tendering?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM",
+      "scientific procurement",
+      "customization",
+      "tendering"
+    ]
+  },
+  {
+    "id": 55,
+    "question": "Why should a procurement officer compare total lifecycle value and not just acquisition price in some procurements?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "lifecycle cost",
+      "price",
+      "procurement",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 56,
+    "question": "How does the code of integrity affect both committee behavior and vendor conduct during tendering?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "code of integrity",
+      "committee",
+      "vendor conduct",
+      "tender"
+    ]
+  },
+  {
+    "id": 57,
+    "question": "Why does a technically restrictive specification increase the risk of challenge even if multiple bids are eventually received?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "restrictive specification",
+      "challenge",
+      "multiple bids",
+      "competition"
+    ]
+  },
+  {
+    "id": 58,
+    "question": "What is the difference between a justified proprietary accessory purchase and an unjustified brand-locked continuation purchase?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "proprietary accessory",
+      "brand lock",
+      "PAC",
+      "continuation"
+    ]
+  },
+  {
+    "id": 59,
+    "question": "How should local supplier preference be weighed when the lowest evaluated foreign-origin option appears cheaper upfront?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "local supplier",
+      "Make in India",
+      "evaluation",
+      "price"
+    ]
+  },
+  {
+    "id": 60,
+    "question": "Why is procurement splitting especially dangerous around transitions from LPC to LTE and from LTE to OTE?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": [
+      "splitting",
+      "LPC",
+      "LTE",
+      "OTE"
+    ]
+  },
+  {
+    "id": 61,
+    "question": "What conceptual difference exists between technical qualification, technical evaluation, and commercial evaluation?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "technical qualification",
+      "technical evaluation",
+      "commercial evaluation",
+      "bids"
+    ]
+  },
+  {
+    "id": 62,
+    "question": "How do amendments to a procurement manual typically affect interpretation: by changing thresholds, clarifying process, or reallocating responsibility?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "amendments",
+      "threshold",
+      "process",
+      "responsibility"
+    ]
+  },
+  {
+    "id": 63,
+    "question": "Why can a procurement be competitive in form but non-competitive in substance?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "competition",
+      "form",
+      "substance",
+      "specification"
+    ]
+  },
+  {
+    "id": 64,
+    "question": "How should one conceptually reconcile special provisions for scientific ministries with the general principles of fairness and value for money?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "scientific ministries",
+      "fairness",
+      "value for money",
+      "special provisions"
+    ]
+  },
+  {
+    "id": 65,
+    "question": "What does transparency achieve in post-award publication that internal approval notes alone cannot?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "transparency",
+      "post-award publication",
+      "approval note",
+      "audit"
+    ]
+  },
+  {
+    "id": 66,
+    "question": "Why is bid responsiveness sometimes a harder control issue than bid price?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "bid responsiveness",
+      "bid price",
+      "control",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 67,
+    "question": "How does the procurement plan reduce emergency procurement risk even when research demands are uncertain?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "procurement plan",
+      "emergency procurement",
+      "research",
+      "risk"
+    ]
+  },
+  {
+    "id": 68,
+    "question": "Compare the policy logic behind obtaining three quotations, inviting limited bids, and using an open tender.",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "three quotations",
+      "limited bids",
+      "open tender",
+      "competition"
+    ]
+  },
+  {
+    "id": 69,
+    "question": "Why should the procuring entity document why only one brand meets the functional requirement instead of merely naming the brand?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "functional requirement",
+      "brand",
+      "proprietary",
+      "documentation"
+    ]
+  },
+  {
+    "id": 70,
+    "question": "How does holiday listing alter risk assessment differently from normal poor past performance?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "holiday listing",
+      "past performance",
+      "risk assessment",
+      "vendor"
+    ]
+  },
+  {
+    "id": 71,
+    "question": "What conceptual error occurs when a buyer treats Make in India preference as a substitute for technical suitability?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "Make in India",
+      "technical suitability",
+      "evaluation",
+      "preference"
+    ]
+  },
+  {
+    "id": 72,
+    "question": "How can identical threshold values lead to different compliant actions depending on whether the case involves goods, services, or scientific customization?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "threshold",
+      "goods",
+      "services",
+      "scientific customization"
+    ]
+  },
+  {
+    "id": 73,
+    "question": "Explain why a case with a valid PAC may still require publication, approvals, and competition analysis of alternatives.",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "PAC",
+      "publication",
+      "approvals",
+      "alternatives"
+    ]
+  },
+  {
+    "id": 74,
+    "question": "How does the interaction of GeM, Make in India, and scientific relaxation create compliance complexity in imported-equipment purchases?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "GeM",
+      "Make in India",
+      "scientific relaxation",
+      "imported equipment"
+    ]
+  },
+  {
+    "id": 75,
+    "question": "Why is the distinction between 'specialized R&D consumable' and 'specialized equipment' important for route selection and publication requirements?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "R&D consumables",
+      "equipment",
+      "route selection",
+      "publication"
+    ]
+  },
+  {
+    "id": 76,
+    "question": "How should a buyer conceptually assess whether a one-bid outcome reflects market reality, specification bias, or procedural weakness?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "one bid",
+      "market reality",
+      "specification bias",
+      "procedure"
+    ]
+  },
+  {
+    "id": 77,
+    "question": "What tension exists between speed, competition, and traceability in scientific procurement, and how should policy resolve it?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "speed",
+      "competition",
+      "traceability",
+      "scientific procurement"
+    ]
+  },
+  {
+    "id": 78,
+    "question": "How can a procurement file satisfy threshold logic but still fail value-for-money analysis under audit?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "threshold logic",
+      "value for money",
+      "audit",
+      "procurement file"
+    ]
+  },
+  {
+    "id": 79,
+    "question": "Why is mere availability of an item on GeM insufficient if the listed configuration does not meet the validated research requirement?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "GeM availability",
+      "configuration",
+      "research requirement",
+      "compliance"
+    ]
+  },
+  {
+    "id": 80,
+    "question": "Compare the control philosophy behind integrity pact, code of integrity, and conflict-of-interest declarations in one procurement cycle.",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "integrity pact",
+      "code of integrity",
+      "conflict of interest",
+      "control"
+    ]
+  },
+  {
+    "id": 81,
+    "question": "Why should procurement review ask whether the chosen method was the least restrictive legally available route, not merely a permissible route?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "least restrictive",
+      "permissible route",
+      "competition",
+      "legal compliance"
+    ]
+  },
+  {
+    "id": 82,
+    "question": "How do procurement rules respond differently to uncertainty in demand, uncertainty in supplier capability, and uncertainty in specification?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "uncertainty",
+      "demand",
+      "supplier capability",
+      "specification"
+    ]
+  },
+  {
+    "id": 83,
+    "question": "Why can post-facto ratification never fully cure a weak route-selection decision in threshold-based procurement?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "post-facto ratification",
+      "route selection",
+      "threshold",
+      "audit"
+    ]
+  },
+  {
+    "id": 84,
+    "question": "What conceptual problem arises when laboratories import committee practices from old manuals without checking updated amendments and GFR changes?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "old manual",
+      "amendments",
+      "GFR updates",
+      "committee practice"
+    ]
+  },
+  {
+    "id": 85,
+    "question": "How should one evaluate a claim that a product is proprietary because users are already trained on that brand?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "proprietary claim",
+      "user familiarity",
+      "training",
+      "PAC"
+    ]
+  },
+  {
+    "id": 86,
+    "question": "Explain why technical benchmarking and source-justification must be distinguished in advanced scientific procurement.",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": [
+      "technical benchmarking",
+      "source justification",
+      "scientific procurement",
+      "documentation"
+    ]
+  },
+  {
+    "id": 87,
+    "question": "How does a conflict between a scientific urgency note and a competition requirement usually need to be resolved to remain defensible?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "scientific urgency",
+      "competition",
+      "resolution",
+      "defensibility"
+    ]
+  },
+  {
+    "id": 88,
+    "question": "Why should vendor-registration compliance be treated as a quality-of-process indicator rather than a mere clerical formality?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "vendor registration",
+      "process quality",
+      "eligibility",
+      "audit"
+    ]
+  },
+  {
+    "id": 89,
+    "question": "How does the rationale for special procurement relaxations weaken if the same requirement was foreseeable in the annual procurement plan?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "special relaxation",
+      "foreseeable requirement",
+      "annual procurement plan",
+      "justification"
+    ]
+  },
+  {
+    "id": 90,
+    "question": "Why might a low-value purchase still attract high audit risk when it involves repeated proprietary consumables over time?",
+    "type": "analytical",
+    "difficulty": "hard",
+    "keywords": [
+      "low value",
+      "proprietary consumables",
+      "repeat purchase",
+      "audit risk"
+    ]
+  },
+  {
+    "id": 91,
+    "question": "What should be the first four control steps when a user places a request for a low-value purchase that may qualify for direct purchase?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "direct purchase",
+      "verification",
+      "approval",
+      "record"
+    ]
+  },
+  {
+    "id": 92,
+    "question": "Describe the minimum workflow for moving an LPC case from indent to order placement.",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "LPC",
+      "indent",
+      "quotations",
+      "order"
+    ]
+  },
+  {
+    "id": 93,
+    "question": "What process should a buyer follow to check whether GeM must be used before any alternate route is considered?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "GeM",
+      "Rule 149",
+      "check",
+      "alternate route"
+    ]
+  },
+  {
+    "id": 94,
+    "question": "List the step sequence for a standard LTE procurement once the value estimate is finalized.",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "LTE",
+      "tender issue",
+      "evaluation",
+      "approval"
+    ]
+  },
+  {
+    "id": 95,
+    "question": "What is the expected process flow for an open tender above the LTE ceiling?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "OTE",
+      "publication",
+      "bid evaluation",
+      "award"
+    ]
+  },
+  {
+    "id": 96,
+    "question": "How should a PAC-backed proprietary procurement be processed from technical justification to order issue?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "PAC",
+      "proprietary",
+      "approval",
+      "order"
+    ]
+  },
+  {
+    "id": 97,
+    "question": "What are the core process steps for bid opening, evaluation, and recommendation in a formal tender case?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "bid opening",
+      "evaluation",
+      "recommendation",
+      "committee"
+    ]
+  },
+  {
+    "id": 98,
+    "question": "What process should be followed to confirm market reasonableness in a direct purchase case?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "market reasonableness",
+      "direct purchase",
+      "verification",
+      "record"
+    ]
+  },
+  {
+    "id": 99,
+    "question": "How should a laboratory process a procurement plan entry before it becomes an actionable purchase case?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "procurement plan",
+      "indent",
+      "PME",
+      "purchase case"
+    ]
+  },
+  {
+    "id": 100,
+    "question": "What process should be followed before rejecting a bid as non-responsive?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "non-responsive bid",
+      "evaluation",
+      "rejection",
+      "recording"
+    ]
+  },
+  {
+    "id": 101,
+    "question": "How should the process differ when a specialized R&D consumable is proposed on single tender basis without PAC?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "R&D consumable",
+      "single tender",
+      "without PAC",
+      "publication"
+    ]
+  },
+  {
+    "id": 102,
+    "question": "What is the end-to-end process for handling a case where only one bid is received against an LTE or OTE?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "single bid",
+      "LTE",
+      "OTE",
+      "re-tender"
+    ]
+  },
+  {
+    "id": 103,
+    "question": "Describe the process for checking local supplier preference under Make in India during bid evaluation.",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "Make in India",
+      "local supplier",
+      "bid evaluation",
+      "preference"
+    ]
+  },
+  {
+    "id": 104,
+    "question": "What workflow should a CSIR lab follow when procurement is funded from contingency grants of fellows or emeritus scientists?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "contingency grant",
+      "fellows",
+      "indent",
+      "approval"
+    ]
+  },
+  {
+    "id": 105,
+    "question": "How should a procuring entity process vendor holiday-list verification before award?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "holiday listing",
+      "vendor verification",
+      "award",
+      "compliance"
+    ]
+  },
+  {
+    "id": 106,
+    "question": "What steps should be followed when a committee member is absent and substitution is permitted under the applicable manual or amendment?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "committee member",
+      "absence",
+      "substitution",
+      "amendment"
+    ]
+  },
+  {
+    "id": 107,
+    "question": "Describe the workflow for recording code-of-integrity signatures across all persons involved in a procurement case.",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "code of integrity",
+      "signatures",
+      "procurement file",
+      "members"
+    ]
+  },
+  {
+    "id": 108,
+    "question": "What process should be followed before consolidating indents and sending them to purchase division?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "consolidation of indents",
+      "PME",
+      "purchase division",
+      "periodicity"
+    ]
+  },
+  {
+    "id": 109,
+    "question": "How should the process flow change when the item exists on GeM but the scientific specification requires additional justification?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM",
+      "scientific specification",
+      "justification",
+      "workflow"
+    ]
+  },
+  {
+    "id": 110,
+    "question": "What are the correct steps for dealing with tender fee, vendor registration fee, and GST documentation in a procurement file?",
+    "type": "process",
+    "difficulty": "easy",
+    "keywords": [
+      "tender fee",
+      "vendor registration fee",
+      "GST",
+      "documentation"
+    ]
+  },
+  {
+    "id": 111,
+    "question": "How should a bid evaluation process handle a technically acceptable bidder whose eligibility documents are incomplete?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "technical acceptance",
+      "eligibility documents",
+      "evaluation",
+      "clarification"
+    ]
+  },
+  {
+    "id": 112,
+    "question": "Describe the workflow for post-award contract management when performance security, delivery monitoring, and inspection are all relevant.",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "performance security",
+      "delivery",
+      "inspection",
+      "contract management"
+    ]
+  },
+  {
+    "id": 113,
+    "question": "What is the process for handling disposal or write-off after stores are declared unserviceable or obsolete?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "write-off",
+      "disposal",
+      "stores",
+      "committee"
+    ]
+  },
+  {
+    "id": 114,
+    "question": "How should the process for opening bids preserve integrity, confidentiality, and traceability?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "bid opening",
+      "integrity",
+      "confidentiality",
+      "traceability"
+    ]
+  },
+  {
+    "id": 115,
+    "question": "What workflow should be followed when technical specifications need revision after market feedback but before opening financial bids?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "specification revision",
+      "market feedback",
+      "financial bid",
+      "tender"
+    ]
+  },
+  {
+    "id": 116,
+    "question": "Explain the correct process when the lowest bidder is found non-responsive after detailed examination.",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "L1",
+      "non-responsive",
+      "detailed examination",
+      "award"
+    ]
+  },
+  {
+    "id": 117,
+    "question": "What steps should a buyer follow if GeM, Make in India preference, and a claim of scientific exemption all arise in the same file?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "GeM",
+      "Make in India",
+      "scientific exemption",
+      "workflow"
+    ]
+  },
+  {
+    "id": 118,
+    "question": "Describe the escalation workflow when the chosen procurement method is challenged internally as a possible case of splitting the demand.",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "method challenge",
+      "splitting",
+      "escalation",
+      "review"
+    ]
+  },
+  {
+    "id": 119,
+    "question": "How should the process handle a PAC case where users insist on brand continuity but finance questions whether interoperability proof is sufficient?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "PAC",
+      "brand continuity",
+      "finance",
+      "interoperability"
+    ]
+  },
+  {
+    "id": 120,
+    "question": "What workflow should be followed when a tender results in one valid bid after others are rejected for technical non-compliance?",
+    "type": "process",
+    "difficulty": "medium",
+    "keywords": [
+      "one valid bid",
+      "technical rejection",
+      "evaluation",
+      "decision"
+    ]
+  },
+  {
+    "id": 121,
+    "question": "How should the file move when a research procurement is urgent, imported, potentially available on GeM, and covered by local supplier preference rules?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "urgent",
+      "imported",
+      "GeM",
+      "local supplier preference"
+    ]
+  },
+  {
+    "id": 122,
+    "question": "Describe the process for deciding whether to re-tender, negotiate within rule limits, or proceed with a single valid offer in a high-value procurement.",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "re-tender",
+      "single valid offer",
+      "high value",
+      "decision"
+    ]
+  },
+  {
+    "id": 123,
+    "question": "What is the proper workflow when publication obligations arise for a specialized single-source R&D purchase but timing pressure is extreme?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "publication",
+      "single-source",
+      "R&D",
+      "timing pressure"
+    ]
+  },
+  {
+    "id": 124,
+    "question": "How should the contract-management workflow respond when the awarded vendor seeks material variation in scope or delivery after award?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "contract variation",
+      "delivery",
+      "scope",
+      "post-award"
+    ]
+  },
+  {
+    "id": 125,
+    "question": "What process should be followed when a disposal decision may yield salvage value but the stores were earlier proposed for write-off?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "disposal",
+      "salvage value",
+      "write-off",
+      "decision"
+    ]
+  },
+  {
+    "id": 126,
+    "question": "Explain the workflow for handling a complaint that tender specifications were drafted to suit one vendor before the bid opening stage.",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "vendor bias",
+      "specifications",
+      "complaint",
+      "pre-bid"
+    ]
+  },
+  {
+    "id": 127,
+    "question": "What steps should be followed when committee signatures are missing on a near-complete file that is otherwise ready for approval?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "committee signatures",
+      "missing approval",
+      "file completion",
+      "regularization"
+    ]
+  },
+  {
+    "id": 128,
+    "question": "Describe the workflow for a procurement that starts on GeM, fails there for technical reasons, and must move to a non-GeM competitive route without losing audit defensibility.",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "GeM failure",
+      "competitive route",
+      "audit defensibility",
+      "transition"
+    ]
+  },
+  {
+    "id": 129,
+    "question": "How should a research lab process a foreign OEM-linked proprietary spares case where local service partners exist but cannot certify technical equivalence?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "foreign OEM",
+      "proprietary spares",
+      "service partner",
+      "technical equivalence"
+    ]
+  },
+  {
+    "id": 130,
+    "question": "What process should be followed when post-bid clarification risks becoming an impermissible bid modification?",
+    "type": "process",
+    "difficulty": "hard",
+    "keywords": [
+      "post-bid clarification",
+      "bid modification",
+      "evaluation",
+      "fairness"
+    ]
+  },
+  {
+    "id": 131,
+    "question": "What is the indenter expected to certify before a purchase case should move to scrutiny?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "indenter",
+      "specification",
+      "necessity",
+      "certification"
+    ]
+  },
+  {
+    "id": 132,
+    "question": "What responsibility does the purchase section carry that the user division cannot outsource to it?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "purchase section",
+      "user division",
+      "responsibility",
+      "segregation"
+    ]
+  },
+  {
+    "id": 133,
+    "question": "Why is the role of competent authority distinct from the role of the technical recommender?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "competent authority",
+      "technical recommender",
+      "approval",
+      "role separation"
+    ]
+  },
+  {
+    "id": 134,
+    "question": "What is the core responsibility of the bid opening committee in a formal tender?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "bid opening committee",
+      "integrity",
+      "record",
+      "opening"
+    ]
+  },
+  {
+    "id": 135,
+    "question": "What should finance examine even when the technical committee strongly recommends a vendor?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "finance",
+      "technical committee",
+      "recommendation",
+      "scrutiny"
+    ]
+  },
+  {
+    "id": 136,
+    "question": "What is the role of the purchase committee in an LPC-type procurement?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "purchase committee",
+      "LPC",
+      "quotation",
+      "recommendation"
+    ]
+  },
+  {
+    "id": 137,
+    "question": "Why must committee members discharge their duties personally rather than casually nominating substitutes?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "committee members",
+      "personal responsibility",
+      "substitute",
+      "manual"
+    ]
+  },
+  {
+    "id": 138,
+    "question": "What responsibility does the approver retain even after committee recommendation has been recorded?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "approver",
+      "committee recommendation",
+      "responsibility",
+      "sanction"
+    ]
+  },
+  {
+    "id": 139,
+    "question": "What is the vendor's responsibility under the code of integrity during tender participation?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "vendor",
+      "code of integrity",
+      "tender",
+      "conduct"
+    ]
+  },
+  {
+    "id": 140,
+    "question": "How should the role of storekeeper or inventory custodian differ from that of disposal authority in write-off matters?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "storekeeper",
+      "inventory custodian",
+      "disposal authority",
+      "write-off"
+    ]
+  },
+  {
+    "id": 141,
+    "question": "What responsibility does the technical specification committee carry in preventing disguised brand preference?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "technical specification committee",
+      "brand preference",
+      "neutral specifications",
+      "control"
+    ]
+  },
+  {
+    "id": 142,
+    "question": "How should finance, purchase, and user division divide responsibility when GeM availability is disputed?",
+    "type": "role",
+    "difficulty": "easy",
+    "keywords": [
+      "finance",
+      "purchase",
+      "user division",
+      "GeM dispute"
+    ]
+  },
+  {
+    "id": 143,
+    "question": "What is the role of vigilance-sensitive controls when a PAC case is being advanced on urgency grounds?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "vigilance",
+      "PAC",
+      "urgency",
+      "controls"
+    ]
+  },
+  {
+    "id": 144,
+    "question": "Who should own the decision to re-tender after a weak response, and what must each actor contribute?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "re-tender",
+      "decision",
+      "committee",
+      "competent authority"
+    ]
+  },
+  {
+    "id": 145,
+    "question": "What is the procurement monitoring role of PME in relation to procurement planning and consolidation?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "PME",
+      "procurement plan",
+      "consolidation",
+      "monitoring"
+    ]
+  },
+  {
+    "id": 146,
+    "question": "How should the role of finance differ before award and after award in a high-value procurement?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "finance",
+      "pre-award",
+      "post-award",
+      "high-value"
+    ]
+  },
+  {
+    "id": 147,
+    "question": "What duty does the committee have when it notices that an indent seems deliberately split around a threshold?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "committee",
+      "split indent",
+      "threshold",
+      "duty"
+    ]
+  },
+  {
+    "id": 148,
+    "question": "What is the responsibility of the procuring entity regarding publication of award details in sensitive single-source or R&D cases?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "publication",
+      "award details",
+      "R&D case",
+      "procuring entity"
+    ]
+  },
+  {
+    "id": 149,
+    "question": "How should the role of bid evaluators differ from the role of contract administrators after award?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "bid evaluator",
+      "contract administrator",
+      "award",
+      "post-award"
+    ]
+  },
+  {
+    "id": 150,
+    "question": "What role should be played by the officer responsible for vendor due diligence before issue of order?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "vendor due diligence",
+      "eligibility",
+      "order issue",
+      "officer"
+    ]
+  },
+  {
+    "id": 151,
+    "question": "When substitutions in committee meetings are allowed by amendment, what responsibility remains with the original nominee and the substitute?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "substitution",
+      "amendment",
+      "original nominee",
+      "substitute"
+    ]
+  },
+  {
+    "id": 152,
+    "question": "What is the role of the head of office or director when a technically sound procurement route raises reputational or audit risk?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "head of office",
+      "director",
+      "audit risk",
+      "oversight"
+    ]
+  },
+  {
+    "id": 153,
+    "question": "Who should determine whether a claimed scientific exemption is genuine: user, committee, finance, or approving authority? Explain the role split.",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "scientific exemption",
+      "user",
+      "committee",
+      "approving authority"
+    ]
+  },
+  {
+    "id": 154,
+    "question": "What responsibility does the purchase division carry if the user insists on a preferred brand without sufficient functional reasoning?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "purchase division",
+      "preferred brand",
+      "functional reasoning",
+      "challenge"
+    ]
+  },
+  {
+    "id": 155,
+    "question": "How should responsibility be allocated for maintaining the evidentiary chain that supports market reasonableness and route selection?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "evidentiary chain",
+      "market reasonableness",
+      "route selection",
+      "record"
+    ]
+  },
+  {
+    "id": 156,
+    "question": "What is the role of the competent authority when committee advice, finance comments, and urgency note point in different directions?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "competent authority",
+      "committee advice",
+      "finance",
+      "urgency"
+    ]
+  },
+  {
+    "id": 157,
+    "question": "How should role boundaries be preserved when the same scientist acts as indenter, technical expert, and strongest advocate for one OEM?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "scientist",
+      "indenter",
+      "technical expert",
+      "conflict"
+    ]
+  },
+  {
+    "id": 158,
+    "question": "What responsibility does finance have in questioning Make in India calculations without substituting itself for the technical evaluator?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "finance",
+      "Make in India",
+      "technical evaluator",
+      "review"
+    ]
+  },
+  {
+    "id": 159,
+    "question": "Who owns the decision when GeM compliance, scientific urgency, and PAC justification all intersect but point to different routes?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "GeM",
+      "scientific urgency",
+      "PAC",
+      "decision ownership"
+    ]
+  },
+  {
+    "id": 160,
+    "question": "How should roles be allocated to avoid post-award blame shifting when a vendor later defaults on performance security obligations?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "post-award",
+      "performance security",
+      "vendor default",
+      "role allocation"
+    ]
+  },
+  {
+    "id": 161,
+    "question": "What is the responsibility of committee members when they suspect the specification has been framed too narrowly but the file is otherwise complete?",
+    "type": "role",
+    "difficulty": "medium",
+    "keywords": [
+      "committee members",
+      "narrow specification",
+      "file scrutiny",
+      "responsibility"
+    ]
+  },
+  {
+    "id": 162,
+    "question": "How should accountability be traced if a procurement passes threshold checks but fails because publication obligations were ignored?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "threshold checks",
+      "publication",
+      "accountability",
+      "failure"
+    ]
+  },
+  {
+    "id": 163,
+    "question": "What role should the procurement authority play when a one-bid outcome appears to be caused by weak market outreach rather than true scarcity?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "one bid",
+      "market outreach",
+      "scarcity",
+      "procurement authority"
+    ]
+  },
+  {
+    "id": 164,
+    "question": "How should responsibility be split between user division and purchase division in proving that a claimed proprietary spare is genuinely non-substitutable?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "user division",
+      "purchase division",
+      "proprietary spare",
+      "proof"
+    ]
+  },
+  {
+    "id": 165,
+    "question": "Who should decide whether repeated low-value proprietary buys have crossed into a strategic sourcing problem, and what evidence should that role examine?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "repeat purchases",
+      "strategic sourcing",
+      "proprietary",
+      "evidence"
+    ]
+  },
+  {
+    "id": 166,
+    "question": "How should roles be assigned in disposal and write-off so that custody, valuation, condemnation, and approval are not concentrated in one hand?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "disposal",
+      "write-off",
+      "custody",
+      "valuation"
+    ]
+  },
+  {
+    "id": 167,
+    "question": "What is the responsibility of the approver when amendments or special provisions have changed the process but internal formats still reflect the old manual?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "approver",
+      "amendments",
+      "old format",
+      "compliance"
+    ]
+  },
+  {
+    "id": 168,
+    "question": "How should committee and finance roles differ when deciding whether to proceed with a lone responsive bid or re-tender?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "lone responsive bid",
+      "re-tender",
+      "committee",
+      "finance"
+    ]
+  },
+  {
+    "id": 169,
+    "question": "Who should own risk acceptance when a time-critical scientific procurement proceeds on incomplete market intelligence, and what controls must that role insist on?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "risk acceptance",
+      "scientific procurement",
+      "market intelligence",
+      "controls"
+    ]
+  },
+  {
+    "id": 170,
+    "question": "How should procurement leadership respond if vendor registration or holiday-list checks were skipped but the goods are already urgently needed?",
+    "type": "role",
+    "difficulty": "hard",
+    "keywords": [
+      "vendor registration",
+      "holiday list",
+      "urgency",
+      "leadership"
+    ]
+  },
+  {
+    "id": 171,
+    "question": "A lab wants to buy an Rs. 18,000 calibration accessory immediately because the microscope is idle. What should be done, and what should still be recorded?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 154",
+      "direct purchase",
+      "market reasonableness",
+      "idle equipment"
+    ]
+  },
+  {
+    "id": 172,
+    "question": "A department estimates a routine purchase at Rs. 3.2 lakh and proposes getting three quotations informally. What route is appropriate, and what control should be added?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 155",
+      "LPC",
+      "three quotations",
+      "committee"
+    ]
+  },
+  {
+    "id": 173,
+    "question": "A purchase file for Rs. 8 lakh is started as LTE. What should the buyer verify before issuing the enquiry?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 162",
+      "LTE",
+      "GeM",
+      "specifications"
+    ]
+  },
+  {
+    "id": 174,
+    "question": "A requirement is estimated at Rs. 32 lakh and the user asks whether LTE can still be used because only a few suppliers exist. What should be done?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 161",
+      "OTE",
+      "limited suppliers",
+      "justification"
+    ]
+  },
+  {
+    "id": 175,
+    "question": "A proprietary software add-on is sought for an existing system. What justification must be checked before agreeing to a single-source route?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "Rule 166",
+      "PAC",
+      "existing system",
+      "justification"
+    ]
+  },
+  {
+    "id": 176,
+    "question": "An item is visible on GeM, but the user wants to compare local quotations instead. What should the purchase section ask first?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "GeM",
+      "Rule 149",
+      "local quotations",
+      "compliance"
+    ]
+  },
+  {
+    "id": 177,
+    "question": "A tender receives three bids, but two fail technical parameters. What should happen before the single remaining responsive bid is treated as acceptable?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "single responsive bid",
+      "technical evaluation",
+      "justification",
+      "decision"
+    ]
+  },
+  {
+    "id": 178,
+    "question": "A local supplier claims Make in India preference in an OTE. What should evaluators verify before applying it?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "Make in India",
+      "local supplier",
+      "OTE",
+      "verification"
+    ]
+  },
+  {
+    "id": 179,
+    "question": "A store section says equipment is beyond repair and asks for write-off. What should be examined before approving disposal?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "write-off",
+      "repairability",
+      "disposal",
+      "condemnation"
+    ]
+  },
+  {
+    "id": 180,
+    "question": "A purchase note says 'only one known vendor'. What should the procurement officer ask before accepting that statement?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "single vendor",
+      "market survey",
+      "PAC",
+      "competition"
+    ]
+  },
+  {
+    "id": 181,
+    "question": "A research division wants to buy imported consumables urgently and says GeM is too slow. How should the file be assessed?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "imported consumables",
+      "urgency",
+      "GeM",
+      "scientific procurement"
+    ]
+  },
+  {
+    "id": 182,
+    "question": "A buyer splits a recurring annual need into four quarterly orders under lower thresholds. What should an auditor conclude and what corrective action should be recommended?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "purchase splitting",
+      "threshold avoidance",
+      "audit",
+      "corrective action"
+    ]
+  },
+  {
+    "id": 183,
+    "question": "A PAC is signed by the user scientist, but finance notes there are distributors and service partners in India. What should be done?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "PAC",
+      "distributors",
+      "finance objection",
+      "technical equivalence"
+    ]
+  },
+  {
+    "id": 184,
+    "question": "A bid is lowest in price but does not fully meet one mandatory technical parameter. What should the evaluation committee do?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "L1",
+      "mandatory parameter",
+      "non-responsive",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 185,
+    "question": "A CSIR lab uses an old internal format that still references outdated threshold practice. How should the current case be decided?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "old format",
+      "updated thresholds",
+      "CSIR",
+      "current rule"
+    ]
+  },
+  {
+    "id": 186,
+    "question": "An item is available on GeM from multiple sellers, but the user insists on one specific OEM listing for compatibility. What should be checked?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM listing",
+      "compatibility",
+      "OEM",
+      "justification"
+    ]
+  },
+  {
+    "id": 187,
+    "question": "A one-bid outcome occurs after an OTE with neutral specifications and proper publicity. What reasoning should decide whether to proceed or re-tender?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "one-bid outcome",
+      "OTE",
+      "publicity",
+      "proceed or re-tender"
+    ]
+  },
+  {
+    "id": 188,
+    "question": "A firm under holiday-list review has already submitted a bid before finalization of the proceedings. How should the case be handled?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "holiday listing",
+      "submitted bid",
+      "vendor",
+      "treatment"
+    ]
+  },
+  {
+    "id": 189,
+    "question": "The technical committee wants to brand-name a scientific instrument because comparative benchmarking is hard. What should the purchase authority require?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "brand name",
+      "scientific instrument",
+      "benchmarking",
+      "specification neutrality"
+    ]
+  },
+  {
+    "id": 190,
+    "question": "A procurement is funded from a fellow's grant and the fellow is not a regular employee. Who should raise the indent and how should responsibility be fixed?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "fellow grant",
+      "indent",
+      "responsibility",
+      "CSIR amendment"
+    ]
+  },
+  {
+    "id": 191,
+    "question": "The file contains all quotations, but code-of-integrity signatures are missing for some participating officials. Can the purchase proceed?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "code of integrity",
+      "signatures",
+      "officials",
+      "proceed"
+    ]
+  },
+  {
+    "id": 192,
+    "question": "A tender document fee and vendor registration fee have been collected, but GST treatment is unclear. What should be clarified before proceeding further?",
+    "type": "scenario",
+    "difficulty": "easy",
+    "keywords": [
+      "GST",
+      "tender fee",
+      "vendor registration fee",
+      "clarification"
+    ]
+  },
+  {
+    "id": 193,
+    "question": "A purchase committee member sends a junior officer in their place to a T&PC meeting without formal authority. What risk does this create?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "T&PC",
+      "substitution",
+      "authority",
+      "risk"
+    ]
+  },
+  {
+    "id": 194,
+    "question": "A procurement plan was never uploaded because the requirement evolved during research. How should the lab defend the case?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "procurement plan",
+      "research uncertainty",
+      "defense",
+      "documentation"
+    ]
+  },
+  {
+    "id": 195,
+    "question": "After award, the vendor seeks an extension and changes in delivery milestones due to import delays. What should contract management verify?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "extension",
+      "delivery milestones",
+      "import delay",
+      "contract management"
+    ]
+  },
+  {
+    "id": 196,
+    "question": "A vendor claims local supplier status, but a significant portion of value addition appears imported. How should the evaluation proceed?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "local supplier",
+      "value addition",
+      "imported content",
+      "evaluation"
+    ]
+  },
+  {
+    "id": 197,
+    "question": "A lab wants to avoid OTE for a Rs. 28 lakh case by arguing there are only three specialist firms worldwide. How should route selection be handled?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "Rs. 28 lakh",
+      "OTE",
+      "specialist firms",
+      "route selection"
+    ]
+  },
+  {
+    "id": 198,
+    "question": "A single-source R&D consumable purchase without PAC is proposed, and the user argues that publication would compromise research confidentiality. What should be examined?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "R&D consumable",
+      "without PAC",
+      "publication",
+      "confidentiality"
+    ]
+  },
+  {
+    "id": 199,
+    "question": "A procurement team learns after bid opening that one bidder was holiday listed shortly before submission. What should be done?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "holiday listed",
+      "bid opening",
+      "submission date",
+      "treatment"
+    ]
+  },
+  {
+    "id": 200,
+    "question": "The lowest bidder asks to substitute a model after price bid opening, citing equivalent performance. How should the committee respond?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "model substitution",
+      "price bid opening",
+      "equivalent performance",
+      "fairness"
+    ]
+  },
+  {
+    "id": 201,
+    "question": "A user wants repeat purchase of a proprietary reagent every month in small quantities to stay below scrutiny. What should procurement conclude?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "repeat proprietary reagent",
+      "small quantities",
+      "threshold avoidance",
+      "audit"
+    ]
+  },
+  {
+    "id": 202,
+    "question": "An imported instrument is available on GeM only through resellers, while the OEM offers a direct scientific configuration not listed there. What should be done?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "imported instrument",
+      "GeM reseller",
+      "OEM",
+      "scientific configuration"
+    ]
+  },
+  {
+    "id": 203,
+    "question": "A tender has one responsive foreign bid and one higher-priced local supplier claiming preference. How should Make in India be applied without compromising technical acceptability?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "foreign bid",
+      "local supplier",
+      "Make in India",
+      "technical acceptability"
+    ]
+  },
+  {
+    "id": 204,
+    "question": "A lab used LTE for a case that later turned out to exceed the OTE threshold because taxes and accessories were omitted from the estimate. What should happen next?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "LTE",
+      "OTE threshold",
+      "underestimation",
+      "corrective action"
+    ]
+  },
+  {
+    "id": 205,
+    "question": "A PAC exists for a spare, but independent engineers say reverse-compatible alternatives may exist with minor adaptation. How should the case be decided?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "PAC",
+      "spare",
+      "alternatives",
+      "adaptation"
+    ]
+  },
+  {
+    "id": 206,
+    "question": "A buyer argues that because only one bid survived technical scrutiny, post-bid negotiation is now harmless. Is that acceptable, and what should be done?",
+    "type": "scenario",
+    "difficulty": "medium",
+    "keywords": [
+      "single surviving bid",
+      "post-bid negotiation",
+      "acceptability",
+      "procedure"
+    ]
+  },
+  {
+    "id": 207,
+    "question": "A project-funded procurement is urgent, outside the annual plan, and likely above the LTE ceiling. How should the lab defend speed without collapsing competition?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "project-funded",
+      "urgent",
+      "annual plan",
+      "competition"
+    ]
+  },
+  {
+    "id": 208,
+    "question": "A committee approved an item-specific proprietary route, but later the same vendor is used for related accessories without fresh analysis. What is the risk?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "proprietary route",
+      "accessories",
+      "fresh analysis",
+      "risk"
+    ]
+  },
+  {
+    "id": 209,
+    "question": "A vendor appears technically acceptable, lowest, and locally preferred, but its performance security format is materially defective. What should happen?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "performance security",
+      "local preference",
+      "defective format",
+      "award"
+    ]
+  },
+  {
+    "id": 210,
+    "question": "A lab discovers after award that the selected bidder's integrity declaration omitted a related-party disclosure. What should contract authorities examine immediately?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "integrity declaration",
+      "related party",
+      "after award",
+      "examination"
+    ]
+  },
+  {
+    "id": 211,
+    "question": "A write-off committee recommends condemnation, but another internal unit can potentially repurpose the item. What should be done before disposal?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "write-off",
+      "repurpose",
+      "condemnation",
+      "disposal"
+    ]
+  },
+  {
+    "id": 212,
+    "question": "An OEM insists that publishing award details for a scientific single-source purchase would reveal confidential know-how. How should transparency and confidentiality be balanced?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "publication",
+      "confidential know-how",
+      "single-source",
+      "transparency"
+    ]
+  },
+  {
+    "id": 213,
+    "question": "A bidder complains that the tender specification copied its competitor's catalogue language. What should the procuring entity do before continuing?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "catalogue language",
+      "specification bias",
+      "complaint",
+      "corrective action"
+    ]
+  },
+  {
+    "id": 214,
+    "question": "A GeM purchase appears compliant on platform use, but the selected listing omits mandatory accessories that were later added through a separate order. What audit issue arises?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "GeM purchase",
+      "mandatory accessories",
+      "separate order",
+      "audit issue"
+    ]
+  },
+  {
+    "id": 215,
+    "question": "An OTE results in one responsive bid, and the user division pushes immediate award because the experiment window is closing. What factors should control the decision?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "OTE",
+      "one responsive bid",
+      "experiment window",
+      "decision factors"
+    ]
+  },
+  {
+    "id": 216,
+    "question": "A scientific relaxation is cited to bypass normal competition, but the same item has been procured competitively by another CSIR lab. How should this be analyzed?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "scientific relaxation",
+      "competition",
+      "other CSIR lab",
+      "analysis"
+    ]
+  },
+  {
+    "id": 217,
+    "question": "A procurement officer realizes that committee minutes justify the route but not the rejection of alternatives. Can the file safely proceed?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "committee minutes",
+      "alternatives",
+      "justification gap",
+      "file safety"
+    ]
+  },
+  {
+    "id": 218,
+    "question": "A local supplier preference calculation depends on self-declared content percentages that seem inconsistent with the bill of materials. What should evaluators do?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "local content",
+      "bill of materials",
+      "self-declaration",
+      "verification"
+    ]
+  },
+  {
+    "id": 219,
+    "question": "A lab wants to use emergency reasoning for a purchase that became urgent only because earlier indents were ignored. What should the reviewing authority conclude?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "emergency reasoning",
+      "ignored indents",
+      "urgency",
+      "review"
+    ]
+  },
+  {
+    "id": 220,
+    "question": "After a high-value award, the vendor requests substitution of country of origin while keeping price unchanged. How should policy and risk be assessed?",
+    "type": "scenario",
+    "difficulty": "hard",
+    "keywords": [
+      "country of origin",
+      "post-award substitution",
+      "risk",
+      "policy"
+    ]
+  },
+  {
+    "id": 221,
+    "question": "A purchase valued at exactly Rs. 25,000 is proposed as direct purchase. Is that route still correct under the hardcoded threshold logic?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "Rs. 25,000",
+      "Rule 155",
+      "threshold edge",
+      "LPC"
+    ]
+  },
+  {
+    "id": 222,
+    "question": "A case is estimated at exactly Rs. 5,00,000. Which threshold route applies under the current logic, and why does that surprise people used to older drafting?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "Rs. 5,00,000",
+      "Rule 162",
+      "threshold edge",
+      "LTE"
+    ]
+  },
+  {
+    "id": 223,
+    "question": "A procurement at Rs. 24,999 is processed through LPC for convenience. Is that compliant?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "Rs. 24,999",
+      "Rule 154",
+      "LPC",
+      "compliance"
+    ]
+  },
+  {
+    "id": 224,
+    "question": "A requirement at Rs. 25,00,000 is proposed as OTE because the file says '25 lakh and above'. Is that correct under the stated mapping?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "Rs. 25,00,000",
+      "Rule 162",
+      "OTE",
+      "threshold mapping"
+    ]
+  },
+  {
+    "id": 225,
+    "question": "A GeM listing exists, but only through a seller with no stock and uncertain lead time. Can non-GeM procurement start immediately?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "GeM listing",
+      "stock",
+      "lead time",
+      "alternate route"
+    ]
+  },
+  {
+    "id": 226,
+    "question": "If two bids are received and both are technically responsive, but one bidder is later found holiday listed effective from the day before opening, what should happen?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "holiday listing",
+      "two bids",
+      "responsive",
+      "eligibility"
+    ]
+  },
+  {
+    "id": 227,
+    "question": "A PAC mentions brand compatibility but not functional impossibility of alternatives. Is the certificate enough?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "PAC",
+      "brand compatibility",
+      "alternatives",
+      "sufficiency"
+    ]
+  },
+  {
+    "id": 228,
+    "question": "A store item has residual scrap value but no usable scientific function. Should it be written off, disposed, or both?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "scrap value",
+      "write-off",
+      "disposal",
+      "stores"
+    ]
+  },
+  {
+    "id": 229,
+    "question": "A bidder is lowest and technically fine, but forgot one signature on the integrity declaration. Is this curable or fatal?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "integrity declaration",
+      "missing signature",
+      "curable",
+      "fatal"
+    ]
+  },
+  {
+    "id": 230,
+    "question": "Exactly one committee member is absent from T&PC and sends informal consent on email. Does that cure absence?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "T&PC",
+      "absence",
+      "email consent",
+      "validity"
+    ]
+  },
+  {
+    "id": 231,
+    "question": "A buyer argues that splitting a demand is acceptable because each sub-order was funded by a different grant. Is that reasoning safe?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "splitting",
+      "different grants",
+      "safe reasoning",
+      "audit"
+    ]
+  },
+  {
+    "id": 232,
+    "question": "A one-bid OTE is technically valid, but the only bidder is a local supplier claiming preference that would matter only if competition existed. How should that be treated?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "one-bid OTE",
+      "local supplier",
+      "preference",
+      "competition"
+    ]
+  },
+  {
+    "id": 233,
+    "question": "A PAC-based spare is below the direct-purchase threshold. Can the file skip proprietary justification because the value is small?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "PAC spare",
+      "low value",
+      "proprietary justification",
+      "threshold"
+    ]
+  },
+  {
+    "id": 234,
+    "question": "A GeM route is used for speed, but the final purchase order value crosses the threshold that would otherwise require LTE or OTE. What should be checked?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM",
+      "final value",
+      "threshold",
+      "compliance"
+    ]
+  },
+  {
+    "id": 235,
+    "question": "A bid is responsive only if a minor commercial deviation is ignored. Can the committee treat that as harmless because price is attractive?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "commercial deviation",
+      "responsive bid",
+      "committee",
+      "price"
+    ]
+  },
+  {
+    "id": 236,
+    "question": "A vendor is not holiday listed yet but is under serious investigation. Can the procuring entity reject the bid purely on prudence?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "investigation",
+      "holiday listing",
+      "prudence",
+      "rejection"
+    ]
+  },
+  {
+    "id": 237,
+    "question": "A lab wants to write off equipment that another unit wants only for spares cannibalization. Does that change the disposal decision?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "write-off",
+      "spares cannibalization",
+      "another unit",
+      "decision"
+    ]
+  },
+  {
+    "id": 238,
+    "question": "A procurement note cites both PAC and Make in India preference. Is that combination always meaningful?",
+    "type": "edge_case",
+    "difficulty": "easy",
+    "keywords": [
+      "PAC",
+      "Make in India",
+      "combination",
+      "meaningfulness"
+    ]
+  },
+  {
+    "id": 239,
+    "question": "A tender specification includes a brand name followed by 'or equivalent', but no evaluation matrix for equivalence. Is that enough?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "brand name",
+      "or equivalent",
+      "evaluation matrix",
+      "specification"
+    ]
+  },
+  {
+    "id": 240,
+    "question": "A bidder offers the exact product but through an unauthorized channel. Can the lower price override source legitimacy concerns?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "unauthorized channel",
+      "lower price",
+      "source legitimacy",
+      "award"
+    ]
+  },
+  {
+    "id": 241,
+    "question": "A file says 'GeM not feasible' but gives no screenshots, search record, or platform reasoning. Can the route departure survive audit?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "GeM not feasible",
+      "evidence",
+      "audit",
+      "departure"
+    ]
+  },
+  {
+    "id": 242,
+    "question": "A specialized R&D consumable is urgently needed, only one supplier is known, PAC is unavailable, and website publication may delay the experiment. What is the safest defensible path?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "R&D consumable",
+      "one supplier",
+      "PAC unavailable",
+      "publication"
+    ]
+  },
+  {
+    "id": 243,
+    "question": "A bid security defect is discovered only after technical evaluation is completed. Can the defect be ignored to preserve competition?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "bid security defect",
+      "technical evaluation",
+      "ignore",
+      "competition"
+    ]
+  },
+  {
+    "id": 244,
+    "question": "An OEM gives a PAC for a system, but the item being procured is a consumable where aftermarket compatibility is contested. How should the edge be resolved?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "OEM PAC",
+      "consumable",
+      "aftermarket compatibility",
+      "resolution"
+    ]
+  },
+  {
+    "id": 245,
+    "question": "A procurement stays below threshold on base price but crosses it once mandatory AMC, installation, and freight are correctly aggregated. Which route should control?",
+    "type": "edge_case",
+    "difficulty": "medium",
+    "keywords": [
+      "aggregation",
+      "AMC",
+      "freight",
+      "route control"
+    ]
+  },
+  {
+    "id": 246,
+    "question": "A tender receives one valid foreign bid and one invalid local bid. Can local supplier preference still affect the final decision?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "foreign bid",
+      "invalid local bid",
+      "local supplier preference",
+      "decision"
+    ]
+  },
+  {
+    "id": 247,
+    "question": "A post-award complaint alleges that the winning bidder was technically non-responsive, but the file only records a summary recommendation. What is the immediate edge risk?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "post-award complaint",
+      "technical responsiveness",
+      "summary recommendation",
+      "risk"
+    ]
+  },
+  {
+    "id": 248,
+    "question": "A procurement is scientifically urgent, but the urgency arose because an AMC was not renewed on time. Can emergency logic still be used without qualification?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "scientific urgency",
+      "AMC lapse",
+      "emergency logic",
+      "qualification"
+    ]
+  },
+  {
+    "id": 249,
+    "question": "A condemned asset proposed for write-off contains recoverable high-value modules. Can it be disposed as scrap without prior segregation analysis?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "condemned asset",
+      "recoverable modules",
+      "scrap",
+      "segregation"
+    ]
+  },
+  {
+    "id": 250,
+    "question": "A lab claims that because only one bid was received twice in succession, the next purchase should automatically move to STE. Is that a safe conclusion?",
+    "type": "edge_case",
+    "difficulty": "hard",
+    "keywords": [
+      "repeat single bid",
+      "automatic STE",
+      "safe conclusion",
+      "competition"
+    ]
+  }
+]

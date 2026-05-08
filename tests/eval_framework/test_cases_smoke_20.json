@@ -1,0 +1,142 @@
+[
+  {
+    "id": 1,
+    "question": "What factual conditions should be recorded to justify direct purchase under Rule 154 without inviting quotations?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["Rule 154", "direct purchase", "quotation", "market reasonableness"]
+  },
+  {
+    "id": 2,
+    "question": "At what point does a routine purchase stop being direct purchase and move into the LPC route under GFR 2025?",
+    "type": "threshold",
+    "difficulty": "easy",
+    "keywords": ["Rule 154", "Rule 155", "threshold", "LPC"]
+  },
+  {
+    "id": 3,
+    "question": "What is the difference between the value band under Rule 155 and the value band under Rule 162?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": ["Rule 155", "Rule 162", "LPC", "LTE"]
+  },
+  {
+    "id": 4,
+    "question": "Why must Rule 149 be checked before deciding between direct purchase, LPC, or LTE?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["Rule 149", "GeM", "procurement route", "compliance"]
+  },
+  {
+    "id": 5,
+    "question": "What documents normally distinguish a proprietary purchase under Rule 166 from a routine LTE case under Rule 162?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": ["Rule 166", "Rule 162", "PAC", "LTE"]
+  },
+  {
+    "id": 6,
+    "question": "How should OTE be explained in relation to wide publicity in one clean approval note?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["Rule 161", "OTE", "wide publicity", "CPP Portal"]
+  },
+  {
+    "id": 7,
+    "question": "What does a PAC establish that a normal vendor quotation does not establish?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["PAC", "proprietary", "single source", "justification"]
+  },
+  {
+    "id": 8,
+    "question": "What is the audit significance of recording market-rate reasonableness in low-value procurement?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["market reasonableness", "Rule 154", "audit", "direct purchase"]
+  },
+  {
+    "id": 9,
+    "question": "Why is approval of the competent authority still critical even when the buyer has chosen the correct procurement method?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["competent authority", "approval", "sanction", "procurement"]
+  },
+  {
+    "id": 10,
+    "question": "How should a new procurement officer distinguish quotation-based procurement from tender-based procurement?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["quotation", "tender", "competition", "committee"]
+  },
+  {
+    "id": 11,
+    "question": "If an item is available on GeM but the buyer still wants a local tender, what question must be answered first?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["Rule 149", "GeM", "tender", "availability"]
+  },
+  {
+    "id": 12,
+    "question": "What is the conceptual difference between LPC-style procurement and threshold-driven procurement under updated GFR slabs?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": ["LPC", "GFR", "threshold", "committee"]
+  },
+  {
+    "id": 13,
+    "question": "Why is the phrase single source alone not enough to justify Rule 166?",
+    "type": "definition",
+    "difficulty": "easy",
+    "keywords": ["Rule 166", "single source", "PAC", "justification"]
+  },
+  {
+    "id": 14,
+    "question": "How should an officer explain updated GFR thresholds when older CSIR practice still mentions the older slabs?",
+    "type": "threshold",
+    "difficulty": "medium",
+    "keywords": ["updated GFR", "threshold conflict", "CSIR", "rule priority"]
+  },
+  {
+    "id": 15,
+    "question": "What is the difference between bid security and performance security in a tender lifecycle?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": ["bid security", "performance security", "tender", "contract"]
+  },
+  {
+    "id": 16,
+    "question": "Why is L1 not always the final answer in public procurement evaluation?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": ["L1", "responsiveness", "evaluation", "procurement"]
+  },
+  {
+    "id": 17,
+    "question": "What risk arises when a purchase demand is split across multiple indents around a threshold boundary?",
+    "type": "definition",
+    "difficulty": "medium",
+    "keywords": ["splitting", "threshold", "indents", "audit risk"]
+  },
+  {
+    "id": 18,
+    "question": "How should a responsive bid be distinguished from a merely low-priced bid?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": ["responsive bid", "lowest bid", "evaluation", "tender"]
+  },
+  {
+    "id": 19,
+    "question": "What is the practical distinction between standardisation-based single tender and proprietary single tender justification?",
+    "type": "analytical",
+    "difficulty": "medium",
+    "keywords": ["standardisation", "proprietary", "single tender", "Rule 166"]
+  },
+  {
+    "id": 20,
+    "question": "How should an officer explain the difference between LTE and OTE when writing a threshold-based procurement note?",
+    "type": "analytical",
+    "difficulty": "easy",
+    "keywords": ["LTE", "OTE", "Rule 162", "Rule 161"]
+  }
+]

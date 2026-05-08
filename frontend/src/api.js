@@ -1,4 +1,27 @@
-const API_BASE = (import.meta.env.VITE_API_BASE_URL || '').replace(/\/$/, '');
+import { BASE_URL } from './config/api';
+
+const API_BASE = BASE_URL.replace(/\/$/, '');
+const SESSION_KEY = 'procurebuddy-session';
+const TOKEN_KEYS = ['token', 'accessToken', 'access_token', 'authToken', 'procurebuddy-token'];
+
+function getStoredToken() {
+  if (typeof window === 'undefined') return '';
+
+  for (const key of TOKEN_KEYS) {
+    const value = window.localStorage.getItem(key);
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  try {
+    const session = JSON.parse(window.localStorage.getItem(SESSION_KEY) || 'null');
+    const sessionToken = session?.token || session?.accessToken || session?.access_token;
+    return typeof sessionToken === 'string' ? sessionToken.trim() : '';
+  } catch {
+    return '';
+  }
+}
 
 function buildUrl(path, params) {
   const base = API_BASE ? `${API_BASE}${path}` : path;
@@ -12,7 +35,11 @@ function buildUrl(path, params) {
     });
   }
 
-  return url.toString();
+  if (API_BASE) {
+    return url.toString();
+  }
+
+  return `${url.pathname}${url.search}${url.hash}`;
 }
 
 async function request(path, options = {}) {
@@ -25,6 +52,12 @@ async function request(path, options = {}) {
   } = options;
 
   const requestHeaders = { ...headers };
+  const token = getStoredToken();
+
+  if (token && !requestHeaders.Authorization) {
+    requestHeaders.Authorization = `Bearer ${token}`;
+  }
+
   let payload = body;
 
   if (body && !(body instanceof FormData)) {
@@ -34,6 +67,7 @@ async function request(path, options = {}) {
 
   const response = await fetch(buildUrl(path, params), {
     method,
+    credentials: 'same-origin',
     headers: requestHeaders,
     body: payload,
   });

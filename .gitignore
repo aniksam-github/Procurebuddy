@@ -1,28 +1,39 @@
-# Python
+# =========================
+# 🐍 Python
+# =========================
 __pycache__/
-*.py[codz]
+*.py[cod]
 *.egg-info/
 *.egg
 *.log
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
-# Environments
+# Virtual environments
 .env
-.envrc
-.venv
-env/
+.venv/
 venv/
+env/
 ENV/
-env.bak/
-venv.bak/
 
-# Build / dist
-build/
-dist/
-.eggs/
-*.whl
+# =========================
+# ☕ Java (Spring Boot)
+# =========================
 target/
+.m2/
 
-# Databases / local data
+# =========================
+# ⚛️ Node / Frontend
+# =========================
+node_modules/
+dist/
+build/
+
+# =========================
+# 📊 Data / Runtime Files
+# =========================
 *.sqlite3
 *.bin
 *.pickle
@@ -30,29 +41,31 @@ target/
 *.lock.db
 *.trace.db
 
-# Caches
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-
-# IDEs
-.vscode/
-.idea/
-.agents/
-
-# Jupyter
-.ipynb_checkpoints/
-
-# Runtime / data files
 conversations.json
 users.json
 pending_users.json
-application.py
 
-# Secrets
+# =========================
+# 🧪 Testing / Logs
+# =========================
+testing/runs/
+*.csv
+*.log
+
+# =========================
+# 💻 IDE / Editor
+# =========================
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# =========================
+# 🔐 Secrets
+# =========================
 .env
 
-# Python cache
-__pycache__/
-*.pyc
-
+# =========================
+# 📦 Misc
+# =========================
+.eggs/
+*.whl

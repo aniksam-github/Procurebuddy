@@ -1,0 +1,1102 @@
+[
+  {
+    "id": "GEN-001",
+    "category": "THRESHOLD",
+    "question": "If the item costs 499,997, what committee is needed?",
+    "query": "If the item costs 499,997, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-002",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 3.5 Crores",
+    "query": "Please advise the process for hiring services estimated at Rs. 3.5 Crores",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-003",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 5 Lakhs, which tender applies?",
+    "query": "For a works contract of 5 Lakhs, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-004",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 25 Lakhs",
+    "query": "We need to buy scientific equipment for 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-005",
+    "category": "THRESHOLD",
+    "question": "If the item costs 149,938, what committee is needed?",
+    "query": "If the item costs 149,938, what committee is needed?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 150000
+  },
+  {
+    "id": "GEN-006",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 2,00,001",
+    "query": "We need to buy scientific equipment for 2,00,001",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-007",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 2 Lakhs, which tender applies?",
+    "query": "For a works contract of 2 Lakhs, which tender applies?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200000
+  },
+  {
+    "id": "GEN-008",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 25 Lakhs",
+    "query": "We need to buy scientific equipment for 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-009",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 5,000,030",
+    "query": "Please advise the process for hiring services estimated at Rs. 5,000,030",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-010",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 4,999,920",
+    "query": "Please advise the process for hiring services estimated at Rs. 4,999,920",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-011",
+    "category": "THRESHOLD",
+    "question": "If the item costs 1 Crore, what committee is needed?",
+    "query": "If the item costs 1 Crore, what committee is needed?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 10000000
+  },
+  {
+    "id": "GEN-012",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 2,00,001",
+    "query": "We need to buy scientific equipment for 2,00,001",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-013",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 25 Lakhs",
+    "query": "Please advise the process for hiring services estimated at Rs. 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-014",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 199,903",
+    "query": "Please advise the process for hiring services estimated at Rs. 199,903",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-015",
+    "category": "THRESHOLD",
+    "question": "If the item costs 5,000,090, what committee is needed?",
+    "query": "If the item costs 5,000,090, what committee is needed?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-016",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 199,918",
+    "query": "We need to buy scientific equipment for 199,918",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-017",
+    "category": "THRESHOLD",
+    "question": "If the item costs 199,923, what committee is needed?",
+    "query": "If the item costs 199,923, what committee is needed?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-018",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 500,069",
+    "query": "Please advise the process for hiring services estimated at Rs. 500,069",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-019",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 4.5 Lakhs",
+    "query": "Please advise the process for hiring services estimated at Rs. 4.5 Lakhs",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 450000
+  },
+  {
+    "id": "GEN-020",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 1,99,999",
+    "query": "We need to buy scientific equipment for 1,99,999",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-021",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 4.5 Lakhs, which tender applies?",
+    "query": "For a works contract of 4.5 Lakhs, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 450000
+  },
+  {
+    "id": "GEN-022",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 4.5 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 4.5 Lakhs",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 450000
+  },
+  {
+    "id": "GEN-023",
+    "category": "THRESHOLD",
+    "question": "If the item costs 49,99,999, what committee is needed?",
+    "query": "If the item costs 49,99,999, what committee is needed?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-024",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 1 Crore",
+    "query": "Please advise the process for hiring services estimated at Rs. 1 Crore",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 10000000
+  },
+  {
+    "id": "GEN-025",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 25 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-026",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 1,50,000",
+    "query": "Please advise the process for hiring services estimated at Rs. 1,50,000",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 150000
+  },
+  {
+    "id": "GEN-027",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 50 Lakhs",
+    "query": "Please advise the process for hiring services estimated at Rs. 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-028",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 1,99,999",
+    "query": "What is the procurement mode for goods worth Rs. 1,99,999",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-029",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 200,005, which tender applies?",
+    "query": "For a works contract of 200,005, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-030",
+    "category": "THRESHOLD",
+    "question": "If the item costs 200,080, what committee is needed?",
+    "query": "If the item costs 200,080, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-031",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 4,999,983",
+    "query": "What is the procurement mode for goods worth Rs. 4,999,983",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-032",
+    "category": "THRESHOLD",
+    "question": "If the item costs 50 Lakhs, what committee is needed?",
+    "query": "If the item costs 50 Lakhs, what committee is needed?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-033",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 5 Lakhs, which tender applies?",
+    "query": "For a works contract of 5 Lakhs, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-034",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 25 Lakhs",
+    "query": "We need to buy scientific equipment for 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-035",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 2,00,001",
+    "query": "We need to buy scientific equipment for 2,00,001",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-036",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 5 Lakhs, which tender applies?",
+    "query": "For a works contract of 5 Lakhs, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-037",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 3.5 Crores",
+    "query": "We need to buy scientific equipment for 3.5 Crores",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-038",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 199,943, which tender applies?",
+    "query": "For a works contract of 199,943, which tender applies?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-039",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 25 Lakhs",
+    "query": "We need to buy scientific equipment for 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-040",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 4.5 Lakhs, which tender applies?",
+    "query": "For a works contract of 4.5 Lakhs, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 450000
+  },
+  {
+    "id": "GEN-041",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 500,032, which tender applies?",
+    "query": "For a works contract of 500,032, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 500001
+  },
+  {
+    "id": "GEN-042",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 50,00,001",
+    "query": "We need to buy scientific equipment for 50,00,001",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-043",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 4,99,999",
+    "query": "What is the procurement mode for goods worth Rs. 4,99,999",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-044",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 4,99,999, which tender applies?",
+    "query": "For a works contract of 4,99,999, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-045",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 50 Lakhs",
+    "query": "We need to buy scientific equipment for 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-046",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 150,019, which tender applies?",
+    "query": "For a works contract of 150,019, which tender applies?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 150000
+  },
+  {
+    "id": "GEN-047",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 1,99,999",
+    "query": "Please advise the process for hiring services estimated at Rs. 1,99,999",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-048",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 2 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 2 Lakhs",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200000
+  },
+  {
+    "id": "GEN-049",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 3.5 Crores",
+    "query": "We need to buy scientific equipment for 3.5 Crores",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-050",
+    "category": "THRESHOLD",
+    "question": "If the item costs 499,998, what committee is needed?",
+    "query": "If the item costs 499,998, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-051",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 5 Lakhs",
+    "query": "We need to buy scientific equipment for 5 Lakhs",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-052",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 50 Lakhs, which tender applies?",
+    "query": "For a works contract of 50 Lakhs, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-053",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 150,015",
+    "query": "We need to buy scientific equipment for 150,015",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 150000
+  },
+  {
+    "id": "GEN-054",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 3.5 Crores, which tender applies?",
+    "query": "For a works contract of 3.5 Crores, which tender applies?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-055",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 25 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-056",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 50,00,001, which tender applies?",
+    "query": "For a works contract of 50,00,001, which tender applies?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-057",
+    "category": "THRESHOLD",
+    "question": "If the item costs 49,99,999, what committee is needed?",
+    "query": "If the item costs 49,99,999, what committee is needed?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-058",
+    "category": "THRESHOLD",
+    "question": "If the item costs 2 Lakhs, what committee is needed?",
+    "query": "If the item costs 2 Lakhs, what committee is needed?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200000
+  },
+  {
+    "id": "GEN-059",
+    "category": "THRESHOLD",
+    "question": "If the item costs 1 Crore, what committee is needed?",
+    "query": "If the item costs 1 Crore, what committee is needed?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 10000000
+  },
+  {
+    "id": "GEN-060",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 499,984",
+    "query": "Please advise the process for hiring services estimated at Rs. 499,984",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500001
+  },
+  {
+    "id": "GEN-061",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 49,99,999, which tender applies?",
+    "query": "For a works contract of 49,99,999, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-062",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 5,000,022, which tender applies?",
+    "query": "For a works contract of 5,000,022, which tender applies?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-063",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 2,00,001",
+    "query": "We need to buy scientific equipment for 2,00,001",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-064",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 2 Lakhs, which tender applies?",
+    "query": "For a works contract of 2 Lakhs, which tender applies?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200000
+  },
+  {
+    "id": "GEN-065",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 5 Lakhs, which tender applies?",
+    "query": "For a works contract of 5 Lakhs, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-066",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 2,00,001, which tender applies?",
+    "query": "For a works contract of 2,00,001, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-067",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 50,00,001",
+    "query": "Please advise the process for hiring services estimated at Rs. 50,00,001",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-068",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 4,999,953, which tender applies?",
+    "query": "For a works contract of 4,999,953, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-069",
+    "category": "THRESHOLD",
+    "question": "If the item costs 50,00,001, what committee is needed?",
+    "query": "If the item costs 50,00,001, what committee is needed?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 5000001
+  },
+  {
+    "id": "GEN-070",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 200,085, which tender applies?",
+    "query": "For a works contract of 200,085, which tender applies?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-071",
+    "category": "THRESHOLD",
+    "question": "If the item costs 5 Lakhs, what committee is needed?",
+    "query": "If the item costs 5 Lakhs, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-072",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 500,016",
+    "query": "Please advise the process for hiring services estimated at Rs. 500,016",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-073",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 49,99,999, which tender applies?",
+    "query": "For a works contract of 49,99,999, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-074",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 50 Lakhs",
+    "query": "We need to buy scientific equipment for 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-075",
+    "category": "THRESHOLD",
+    "question": "If the item costs 2 Lakhs, what committee is needed?",
+    "query": "If the item costs 2 Lakhs, what committee is needed?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200000
+  },
+  {
+    "id": "GEN-076",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 50 Lakhs",
+    "query": "We need to buy scientific equipment for 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-077",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 500,000",
+    "query": "What is the procurement mode for goods worth Rs. 500,000",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 499999
+  },
+  {
+    "id": "GEN-078",
+    "category": "THRESHOLD",
+    "question": "If the item costs 199,956, what committee is needed?",
+    "query": "If the item costs 199,956, what committee is needed?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-079",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 25 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-080",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 5 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 5 Lakhs",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-081",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 49,99,999",
+    "query": "Please advise the process for hiring services estimated at Rs. 49,99,999",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-082",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 25 Lakhs",
+    "query": "Please advise the process for hiring services estimated at Rs. 25 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 2500000
+  },
+  {
+    "id": "GEN-083",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 49,99,999",
+    "query": "We need to buy scientific equipment for 49,99,999",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 4999999
+  },
+  {
+    "id": "GEN-084",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 3.5 Crores",
+    "query": "What is the procurement mode for goods worth Rs. 3.5 Crores",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-085",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 5 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 5 Lakhs",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-086",
+    "category": "THRESHOLD",
+    "question": "If the item costs 3.5 Crores, what committee is needed?",
+    "query": "If the item costs 3.5 Crores, what committee is needed?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-087",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 500,055, which tender applies?",
+    "query": "For a works contract of 500,055, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 500001
+  },
+  {
+    "id": "GEN-088",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 50 Lakhs",
+    "query": "We need to buy scientific equipment for 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-089",
+    "category": "THRESHOLD",
+    "question": "We need to buy scientific equipment for 1 Crore",
+    "query": "We need to buy scientific equipment for 1 Crore",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 10000000
+  },
+  {
+    "id": "GEN-090",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 5 Lakhs",
+    "query": "Please advise the process for hiring services estimated at Rs. 5 Lakhs",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-091",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 199,942",
+    "query": "Please advise the process for hiring services estimated at Rs. 199,942",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-092",
+    "category": "THRESHOLD",
+    "question": "If the item costs 200,028, what committee is needed?",
+    "query": "If the item costs 200,028, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 199999
+  },
+  {
+    "id": "GEN-093",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 50 Lakhs",
+    "query": "What is the procurement mode for goods worth Rs. 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-094",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 5,00,001, which tender applies?",
+    "query": "For a works contract of 5,00,001, which tender applies?",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 500001
+  },
+  {
+    "id": "GEN-095",
+    "category": "THRESHOLD",
+    "question": "If the item costs 5 Lakhs, what committee is needed?",
+    "query": "If the item costs 5 Lakhs, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 500000
+  },
+  {
+    "id": "GEN-096",
+    "category": "THRESHOLD",
+    "question": "Please advise the process for hiring services estimated at Rs. 50 Lakhs",
+    "query": "Please advise the process for hiring services estimated at Rs. 50 Lakhs",
+    "expected_mode": "LTE",
+    "expected_keywords": [
+      "lte"
+    ],
+    "amount": 5000000
+  },
+  {
+    "id": "GEN-097",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 2 Lakhs, which tender applies?",
+    "query": "For a works contract of 2 Lakhs, which tender applies?",
+    "expected_mode": "Direct Purchase",
+    "expected_keywords": [
+      "direct purchase"
+    ],
+    "amount": 200000
+  },
+  {
+    "id": "GEN-098",
+    "category": "THRESHOLD",
+    "question": "If the item costs 2,00,001, what committee is needed?",
+    "query": "If the item costs 2,00,001, what committee is needed?",
+    "expected_mode": "LPC",
+    "expected_keywords": [
+      "lpc"
+    ],
+    "amount": 200001
+  },
+  {
+    "id": "GEN-099",
+    "category": "THRESHOLD",
+    "question": "What is the procurement mode for goods worth Rs. 3.5 Crores",
+    "query": "What is the procurement mode for goods worth Rs. 3.5 Crores",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  },
+  {
+    "id": "GEN-100",
+    "category": "THRESHOLD",
+    "question": "For a works contract of 3.5 Crores, which tender applies?",
+    "query": "For a works contract of 3.5 Crores, which tender applies?",
+    "expected_mode": "OTE",
+    "expected_keywords": [
+      "ote"
+    ],
+    "amount": 35000000
+  }
+]

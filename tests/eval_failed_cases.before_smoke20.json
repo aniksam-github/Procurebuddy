@@ -1,0 +1,486 @@
+[
+  {
+    "case_id": 59,
+    "question": "How should local supplier preference be weighed when the lowest evaluated foreign-origin option appears cheaper upfront?",
+    "question_type": "analytical",
+    "difficulty": "medium",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "local supplier",
+        "Make in India",
+        "evaluation",
+        "price"
+      ]
+    }
+  },
+  {
+    "case_id": 68,
+    "question": "Compare the policy logic behind obtaining three quotations, inviting limited bids, and using an open tender.",
+    "question_type": "analytical",
+    "difficulty": "medium",
+    "answer": "## 🔹 Quick Answer\nOpen Tender (OTE) and Limited Tender (LTE) are used for different value bands and procurement processes.\n\n## 🔹 Rule Priority\nGFR 2025 controls over older conflicting guidance for this question.\n\n## 🔹 Why This Applies\n| Feature | OTE | Method 2 (LTE) | |---|---|---| | Value Band | Above Rs. 25,00,000 | Rs. 5,00,001 – Rs. 25,00,000 | | Procurement Method | Open competition | Selected eligible firms | | Approval Steps | 1. Issue notice, 2. Evaluate bids, 3. Obtain approval, 4. Place order, 5. Record decision | 1. Check eligibility, 2. Prepare notice, 3. Evaluate bids, 4. Obtain committee recommendation, 5. Obtain approval | * OTE invites all eligible bidders through open notice, whereas LTE restricts circulation to eligible firms. * OTE applies above the LTE ceiling, whereas LTE applies to the middle threshold band.\n* Feature | OTE | Method 2 (LTE) | |---|---|---| | Value Band | Above Rs. 25,00,000 | Rs. 5,00,001 – Rs. 25,00,000 | | Procurement Method | Open competition | Selected eligible.\n* OTE invites all eligible bidders through open notice, whereas LTE restricts circulation to eligible firms.\n* OTE applies above the LTE ceiling, whereas LTE applies to the middle threshold band.\n\n## 🔹 Process\n1. Check the estimated value against the threshold table. 2. Confirm whether GeM or public tender publication is required. 3. Issue the OTE or LTE notice to the correct audience. 4. Evaluate bids through the competent committee. 5. Obtain approval and place the order. 6. Record the decision and supporting documents.\n\n## 🔹 Source Basis\n* Rule 162 - GFR 2025\n* Rule 156 - GFR 2025\n* Rule 174 - GFR 2025",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "three quotations",
+        "limited bids",
+        "open tender",
+        "competition"
+      ]
+    }
+  },
+  {
+    "case_id": 88,
+    "question": "Why should vendor-registration compliance be treated as a quality-of-process indicator rather than a mere clerical formality?",
+    "question_type": "analytical",
+    "difficulty": "hard",
+    "answer": "## 🔹 Quick Answer\nFor why should vendor-registration compliance be treated as a quality-of-process indicator rather than a mere clerical formality, lakhs (Rupees Fifty Lakh) and above) 24]25 Advertisement in such cases should be given on GeM as well as on GeM- Central Public Procurement Portal (GeM- CPPP)].\n\n## 🔹 Rule Priority\nUse the GFR 2025 threshold table as the controlling reference when older manuals conflict.\n\n## 🔹 Why This Applies\n* lakhs (Rupees Fifty Lakh) and above) 24]25 Advertisement in such cases should be given on GeM as well as on GeM- Central Public Procurement Portal (GeM- CPPP)].\n* Rule 161 Advertised Tender Enquiry (i) Subject to exceptions incorporated under Rule 154, 155, 162 and 166, invitation to tenders by advertisement should be used for procurement.\n* Ministries/ Departments may either use e-procurement solution developed by NIC or engage any other service provider following due process.\n\n## 🔹 Process\n1. Identify the applicable procurement rule and supporting facts.\n2. Check the controlling source and record the justification.\n3. Complete the required scrutiny or committee review.\n4. Obtain approval from the competent authority.\n5. Record the decision and issue the next action or order.\n\n## 🔹 Source Basis\n* Rule 161 - GFR 2025",
+    "score": 0.6,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 1.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch",
+    "details": {
+      "keywords": [
+        "vendor registration",
+        "process quality",
+        "eligibility",
+        "audit"
+      ]
+    }
+  },
+  {
+    "case_id": 95,
+    "question": "What is the expected process flow for an open tender above the LTE ceiling?",
+    "question_type": "process",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor the expected process flow for an open tender above the LTE ceiling, certified that we, members of the purchase committee are jointly and individually satisfied that the goods recommended for purchase are of the requisite specification and quality.\n\n## 🔹 Rule Priority\nUse the GFR 2025 threshold table as the controlling reference when older manuals conflict.\n\n## 🔹 Why This Applies\n* Certified that we, members of the purchase committee are jointly and individually satisfied that the goods recommended for purchase are of the requisite specification and quality.\n* Local Purchase Committee consisting of three members of an appropriate level as decided by the Head of the Department.\n* The committee will survey the market to ascertain the reasonableness of rate, quality and specifications and identify the appropriate supplier.\n\n## 🔹 Process\n1. Confirm the value falls in the LTE band under Rule 162 and check GeM applicability.\n2. Shortlist capable firms and issue the limited tender enquiry.\n3. Receive and compare the quotations through the competent purchase committee.\n4. Record the recommendation and obtain approval from the competent authority.\n5. Issue the purchase order and place the tender record on file.\n\n## 🔹 Source Basis\n* Rule 156 - GFR 2025",
+    "score": 0.6,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 1.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch",
+    "details": {
+      "keywords": [
+        "OTE",
+        "publication",
+        "bid evaluation",
+        "award"
+      ]
+    }
+  },
+  {
+    "case_id": 100,
+    "question": "What process should be followed before rejecting a bid as non-responsive?",
+    "question_type": "process",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor what process should be followed before rejecting a bid as non-responsive, before recommending placement of the purchase order, the members of the committee will jointly record a certificate as under.\n\n## 🔹 Rule Priority\nUse the GFR 2025 threshold table as the controlling reference when older manuals conflict.\n\n## 🔹 Why This Applies\n* Before recommending placement of the purchase order, the members of the committee will jointly record a certificate as under.\n* Local Purchase Committee consisting of three members of an appropriate level as decided by the Head of the Department.\n* Certified that we, members of the purchase committee are jointly and individually satisfied that the goods recommended for purchase are of the requisite specification and quality.\n\n## 🔹 Process\n1. Confirm the value falls in the LPC band under Rule 155 and check GeM applicability.\n2. Obtain at least three quotations through the Local Purchase Committee.\n3. Prepare the comparative statement and record the committee recommendation.\n4. Obtain approval from the competent authority.\n5. Issue the purchase order and retain the committee record.\n\n## 🔹 Source Basis\n* Rule 156 - GFR 2025\n* Rule 161 - GFR 2025",
+    "score": 0.6,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 1.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch",
+    "details": {
+      "keywords": [
+        "non-responsive bid",
+        "evaluation",
+        "rejection",
+        "recording"
+      ]
+    }
+  },
+  {
+    "case_id": 155,
+    "question": "How should responsibility be allocated for maintaining the evidentiary chain that supports market reasonableness and route selection?",
+    "question_type": "role",
+    "difficulty": "medium",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "evidentiary chain",
+        "market reasonableness",
+        "route selection",
+        "record"
+      ]
+    }
+  },
+  {
+    "case_id": 160,
+    "question": "How should roles be allocated to avoid post-award blame shifting when a vendor later defaults on performance security obligations?",
+    "question_type": "role",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "post-award",
+        "performance security",
+        "vendor default",
+        "role allocation"
+      ]
+    }
+  },
+  {
+    "case_id": 171,
+    "question": "A lab wants to buy an Rs. 18,000 calibration accessory immediately because the microscope is idle. What should be done, and what should still be recorded?",
+    "question_type": "scenario",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor Rs. 18,000, the applicable route is Direct Purchase under Rule 154.\n\n## 🔹 Rule Priority\nUse the deterministic GFR 2025 slab mapping when the query contains a monetary threshold.\n\n## 🔹 Why This Applies\n* The amount falls in the deterministic GFR 2025 slab: Below Rs. 25,000.\n* Low-value procurement below Rs. 25,000 can be handled through direct purchase with basic rate reasonableness checks.\n* This rule is treated as mandatory truth for threshold routing and overrides weaker retrieval wording.\n\n## 🔹 Process\n1. Verify the requirement and check GeM applicability.\n2. Record market-rate reasonableness for the selected source.\n3. Record why quotation-based procurement is not required for this value band.\n4. Obtain competent approval for direct purchase.\n5. Issue the purchase order and keep the supporting record.\n\n## 🔹 Source Basis\n* Rule 154 - GFR 2025",
+    "score": 0.63,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "low relevance",
+    "details": {
+      "keywords": [
+        "Rule 154",
+        "direct purchase",
+        "market reasonableness",
+        "idle equipment"
+      ]
+    }
+  },
+  {
+    "case_id": 174,
+    "question": "A requirement is estimated at Rs. 32 lakh and the user asks whether LTE can still be used because only a few suppliers exist. What should be done?",
+    "question_type": "scenario",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor Rs. 3,200,000, the applicable route is OTE (Open Tender Enquiry) under Rule 161.\n\n## 🔹 Rule Priority\nUse the deterministic GFR 2025 slab mapping when the query contains a monetary threshold.\n\n## 🔹 Why This Applies\n* The amount falls in the deterministic GFR 2025 slab: Above Rs. 25,00,000.\n* Values above Rs. 25 lakh require the open tender route with broader publicity.\n* This rule is treated as mandatory truth for threshold routing and overrides weaker retrieval wording.\n\n## 🔹 Process\n1. Verify the value exceeds the LTE ceiling and check GeM / portal applicability.\n2. Prepare and publish the open tender with the required publicity.\n3. Receive and evaluate the bids through the competent committee.\n4. Obtain approval from the competent authority.\n5. Issue the contract or purchase order and record the decision.\n\n## 🔹 Source Basis\n* Rule 161 - GFR 2025",
+    "score": 0.63,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "low relevance",
+    "details": {
+      "keywords": [
+        "Rule 161",
+        "OTE",
+        "limited suppliers",
+        "justification"
+      ]
+    }
+  },
+  {
+    "case_id": 178,
+    "question": "A local supplier claims Make in India preference in an OTE. What should evaluators verify before applying it?",
+    "question_type": "scenario",
+    "difficulty": "easy",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "Make in India",
+        "local supplier",
+        "OTE",
+        "verification"
+      ]
+    }
+  },
+  {
+    "case_id": 180,
+    "question": "A purchase note says 'only one known vendor'. What should the procurement officer ask before accepting that statement?",
+    "question_type": "scenario",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor a purchase note says 'only one known vendor'. What should the procurement officer ask before accepting that statement, certified that we, members of the purchase committee are jointly and individually satisfied that the goods recommended for purchase are of the requisite specification and quality.\n\n## 🔹 Rule Priority\nUse the GFR 2025 threshold table as the controlling reference when older manuals conflict.\n\n## 🔹 Why This Applies\n* Certified that we, members of the purchase committee are jointly and individually satisfied that the goods recommended for purchase are of the requisite specification and quality.\n* Before recommending placement of the purchase order, the members of the committee will jointly record a certificate as under.\n* Local Purchase Committee consisting of three members of an appropriate level as decided by the Head of the Department.\n\n## 🔹 Process\n1. Identify the applicable procurement rule and supporting facts.\n2. Check the controlling source and record the justification.\n3. Complete the required scrutiny or committee review.\n4. Obtain approval from the competent authority.\n5. Record the decision and issue the next action or order.\n\n## 🔹 Source Basis\n* Rule 156 - GFR 2025\n* Rule 216 - GFR 2025\n* Rule 177 - GFR 2025",
+    "score": 0.6,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 1.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch",
+    "details": {
+      "keywords": [
+        "single vendor",
+        "market survey",
+        "PAC",
+        "competition"
+      ]
+    }
+  },
+  {
+    "case_id": 185,
+    "question": "A CSIR lab uses an old internal format that still references outdated threshold practice. How should the current case be decided?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "## 🔹 Quick Answer\nThe current case should be decided using the GFR 2025 threshold table, as it is the controlling source.\n\n## 🔹 Rule Priority\nGFR 2025 controls the rule position, while CSIR Manual 2019 may support procedure detail where it does not conflict.\n\n## 🔹 Why This Applies\n* The GFR 2025 threshold table is the controlling source for procurement decisions.\n* The CSIR Manual 2019 may provide supporting procedure detail, but it does not override the GFR 2025 thresholds.\n* The file should record which rule was applied and why it overrides the competing guidance.\n\n## 🔹 Process\n1. Check the estimated value against the GFR 2025 threshold table. 2. Confirm whether GeM or public tender publication is required based on the estimated value. 3. If the value falls in the Rs. 50,001 – Rs. 5,00,000 band, obtain at least three quotations through the Local Purchase Committee. 4. Prepare the comparative statement and committee recommendation. 5. Obtain approval and issue the purchase order.\n\n## 🔹 Source Basis\n* Rule 156 - GFR 2025\n* Rule 161 - CSIR Manual 2019\n* Rule 162 - CSIR Manual 2019",
+    "score": 0.685,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.7,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "old format",
+        "updated thresholds",
+        "CSIR",
+        "current rule"
+      ]
+    }
+  },
+  {
+    "case_id": 188,
+    "question": "A firm under holiday-list review has already submitted a bid before finalization of the proceedings. How should the case be handled?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "## 🔹 Quick Answer\nFor a firm under holiday-list review has already submitted a bid before finalization of the proceedings. How should the case be handled, further releases of Grant (after three or five years, as the case may be), should be made conditional on conduct and decisions on the findings of such peer review.\n\n## 🔹 Rule Priority\nUse the GFR 2025 threshold table as the controlling reference when older manuals conflict.\n\n## 🔹 Why This Applies\n* Further releases of Grant (after three or five years, as the case may be), should be made conditional on conduct and decisions on the findings of such peer review.\n* xii) Findings of the peer review should be examined and put up for appropriate decision to the Secretary by the concerned programme division of the Administrative Department.\n* The application should clearly spell out the need for seeking Grant and should be submitted in such form as may be prescribed by the sanctioning authority.\n\n## 🔹 Process\n1. Identify the applicable procurement rule and supporting facts.\n2. Check the controlling source and record the justification.\n3. Complete the required scrutiny or committee review.\n4. Obtain approval from the competent authority.\n5. Record the decision and issue the next action or order.\n\n## 🔹 Source Basis\n* Rule 230 - GFR 2025\n* Rule 220 - GFR 2025\n* Rule 221 - GFR 2025",
+    "score": 0.6,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 1.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "semantic mismatch",
+    "details": {
+      "keywords": [
+        "holiday listing",
+        "submitted bid",
+        "vendor",
+        "treatment"
+      ]
+    }
+  },
+  {
+    "case_id": 196,
+    "question": "A vendor claims local supplier status, but a significant portion of value addition appears imported. How should the evaluation proceed?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "local supplier",
+        "value addition",
+        "imported content",
+        "evaluation"
+      ]
+    }
+  },
+  {
+    "case_id": 197,
+    "question": "A lab wants to avoid OTE for a Rs. 28 lakh case by arguing there are only three specialist firms worldwide. How should route selection be handled?",
+    "question_type": "scenario",
+    "difficulty": "medium",
+    "answer": "## 🔹 Quick Answer\nFor Rs. 2,800,000, the applicable route is OTE (Open Tender Enquiry) under Rule 161.\n\n## 🔹 Rule Priority\nUse the deterministic GFR 2025 slab mapping when the query contains a monetary threshold.\n\n## 🔹 Why This Applies\n* The amount falls in the deterministic GFR 2025 slab: Above Rs. 25,00,000.\n* Values above Rs. 25 lakh require the open tender route with broader publicity.\n* This rule is treated as mandatory truth for threshold routing and overrides weaker retrieval wording.\n\n## 🔹 Process\n1. Verify the value exceeds the LTE ceiling and check GeM / portal applicability.\n2. Prepare and publish the open tender with the required publicity.\n3. Receive and evaluate the bids through the competent committee.\n4. Obtain approval from the competent authority.\n5. Issue the contract or purchase order and record the decision.\n\n## 🔹 Source Basis\n* Rule 161 - GFR 2025",
+    "score": 0.51,
+    "passed": false,
+    "semantic_score": 0.4,
+    "relevance_score": 0.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "low relevance",
+    "details": {
+      "keywords": [
+        "Rs. 28 lakh",
+        "OTE",
+        "specialist firms",
+        "route selection"
+      ]
+    }
+  },
+  {
+    "case_id": 202,
+    "question": "An imported instrument is available on GeM only through resellers, while the OEM offers a direct scientific configuration not listed there. What should be done?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "imported instrument",
+        "GeM reseller",
+        "OEM",
+        "scientific configuration"
+      ]
+    }
+  },
+  {
+    "case_id": 218,
+    "question": "A local supplier preference calculation depends on self-declared content percentages that seem inconsistent with the bill of materials. What should evaluators do?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "local content",
+        "bill of materials",
+        "self-declaration",
+        "verification"
+      ]
+    }
+  },
+  {
+    "case_id": 220,
+    "question": "After a high-value award, the vendor requests substitution of country of origin while keeping price unchanged. How should policy and risk be assessed?",
+    "question_type": "scenario",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "country of origin",
+        "post-award substitution",
+        "risk",
+        "policy"
+      ]
+    }
+  },
+  {
+    "case_id": 223,
+    "question": "A procurement at Rs. 24,999 is processed through LPC for convenience. Is that compliant?",
+    "question_type": "edge_case",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor Rs. 24,999, the applicable route is Direct Purchase under Rule 154.\n\n## 🔹 Rule Priority\nUse the deterministic GFR 2025 slab mapping when the query contains a monetary threshold.\n\n## 🔹 Why This Applies\n* The amount falls in the deterministic GFR 2025 slab: Below Rs. 25,000.\n* Low-value procurement below Rs. 25,000 can be handled through direct purchase with basic rate reasonableness checks.\n* This rule is treated as mandatory truth for threshold routing and overrides weaker retrieval wording.\n\n## 🔹 Process\n1. Verify the requirement and check GeM applicability.\n2. Record market-rate reasonableness for the selected source.\n3. Record why quotation-based procurement is not required for this value band.\n4. Obtain competent approval for direct purchase.\n5. Issue the purchase order and keep the supporting record.\n\n## 🔹 Source Basis\n* Rule 154 - GFR 2025",
+    "score": 0.73,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.4,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "below pass threshold",
+    "details": {
+      "keywords": [
+        "Rs. 24,999",
+        "Rule 154",
+        "LPC",
+        "compliance"
+      ]
+    }
+  },
+  {
+    "case_id": 224,
+    "question": "A requirement at Rs. 25,00,000 is proposed as OTE because the file says '25 lakh and above'. Is that correct under the stated mapping?",
+    "question_type": "edge_case",
+    "difficulty": "easy",
+    "answer": "## 🔹 Quick Answer\nFor Rs. 2,500,000, the applicable route is LTE (Limited Tender Enquiry) under Rule 162.\n\n## 🔹 Rule Priority\nUse the deterministic GFR 2025 slab mapping when the query contains a monetary threshold.\n\n## 🔹 Why This Applies\n* The amount falls in the deterministic GFR 2025 slab: Rs. 5,00,000 - Rs. 25,00,000.\n* This value falls in the limited tender band and should be handled through LTE.\n* This rule is treated as mandatory truth for threshold routing and overrides weaker retrieval wording.\n\n## 🔹 Process\n1. Verify the value falls within the LTE band and check GeM applicability.\n2. Prepare and issue the limited tender to eligible firms.\n3. Receive and evaluate the offers through the competent committee.\n4. Obtain approval from the competent authority.\n5. Issue the purchase order and record the tender outcome.\n\n## 🔹 Source Basis\n* Rule 162 - GFR 2025",
+    "score": 0.63,
+    "passed": false,
+    "semantic_score": 0.7,
+    "relevance_score": 0.0,
+    "completeness_score": 1.0,
+    "source_score": 1.0,
+    "error_reason": "low relevance",
+    "details": {
+      "keywords": [
+        "Rs. 25,00,000",
+        "Rule 162",
+        "OTE",
+        "threshold mapping"
+      ]
+    }
+  },
+  {
+    "case_id": 242,
+    "question": "A specialized R&D consumable is urgently needed, only one supplier is known, PAC is unavailable, and website publication may delay the experiment. What is the safest defensible path?",
+    "question_type": "edge_case",
+    "difficulty": "medium",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "R&D consumable",
+        "one supplier",
+        "PAC unavailable",
+        "publication"
+      ]
+    }
+  },
+  {
+    "case_id": 249,
+    "question": "A condemned asset proposed for write-off contains recoverable high-value modules. Can it be disposed as scrap without prior segregation analysis?",
+    "question_type": "edge_case",
+    "difficulty": "hard",
+    "answer": "Namaste Eval Runner! 😊\nHow can I help you with procurement today?",
+    "score": 0.0,
+    "passed": false,
+    "semantic_score": 0.0,
+    "relevance_score": 0.0,
+    "completeness_score": 0.0,
+    "source_score": 0.0,
+    "error_reason": "semantic mismatch, low relevance, incomplete answer, missing source",
+    "details": {
+      "keywords": [
+        "condemned asset",
+        "recoverable modules",
+        "scrap",
+        "segregation"
+      ]
+    }
+  }
+]

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Sidebar from '../Sidebar';
 import Topbar from './Topbar';
 import { cn } from './ui';
+import { useSeasonal } from '../context/SeasonalContext';
 
 export default function Layout({
   children,
@@ -25,6 +26,8 @@ export default function Layout({
 }) {
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
   const [copyrightYear, setCopyrightYear] = useState(() => new Date().getFullYear());
+  const [dismissedAnnouncementId, setDismissedAnnouncementId] = useState('');
+  const { announcement } = useSeasonal();
 
   useEffect(() => {
     setMobileSidebarOpen(false);
@@ -39,6 +42,12 @@ export default function Layout({
 
     return () => window.clearTimeout(timeout);
   }, [copyrightYear]);
+
+  useEffect(() => {
+    setDismissedAnnouncementId('');
+  }, [userEmail, announcement?.id]);
+
+  const visibleAnnouncement = announcement && announcement.id !== dismissedAnnouncementId ? announcement : null;
 
   return (
     <div className="relative h-screen overflow-hidden">
@@ -71,6 +80,35 @@ export default function Layout({
             onOpenSidebar={() => setMobileSidebarOpen(true)}
           />
 
+          {visibleAnnouncement && (
+            <div className="px-4 pt-3 sm:px-5">
+              <div className="mx-auto w-full max-w-[1248px]">
+                <div className="rounded-[24px] border border-white/20 bg-[color:var(--card-bg)] px-4 py-3 shadow-[var(--shadow-panel)] backdrop-blur-[var(--panel-blur)]">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="text-sm font-semibold text-[color:var(--text-primary)]">{visibleAnnouncement.title}</div>
+                      <div className="mt-1 space-y-1">
+                        {visibleAnnouncement.messages.map((message) => (
+                          <div key={message} className="text-sm leading-6 text-[color:var(--text-secondary)]">
+                            {message}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                    <button
+                      type="button"
+                      className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl border border-[color:var(--border-soft)] bg-[color:var(--card-strong)] text-[color:var(--text-tertiary)] transition duration-200 hover:border-[color:var(--border-strong)] hover:text-[color:var(--text-primary)]"
+                      onClick={() => setDismissedAnnouncementId(visibleAnnouncement.id)}
+                      aria-label="Dismiss seasonal announcement"
+                    >
+                      <CloseIcon />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+
           <main
             className={cn(
               'flex-1 px-4 pb-3 pt-3 sm:px-5 sm:pb-4',
@@ -99,5 +137,13 @@ export default function Layout({
         </div>
       </div>
     </div>
+  );
+}
+
+function CloseIcon() {
+  return (
+    <svg className="h-4 w-4" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+      <path d="M5 5L15 15M15 5L5 15" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" />
+    </svg>
   );
 }
