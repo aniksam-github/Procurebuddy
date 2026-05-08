@@ -16,6 +16,7 @@ public class ProcureBuddyProperties {
     private Cors cors = new Cors();
     private String adminEmail;
     private String dataDir;
+    private PythonService pythonService = new PythonService();
     private String repoRoot;
     private String pythonExecutable;
     private String pythonBridgeScript;
@@ -36,5 +37,13 @@ public class ProcureBuddyProperties {
         private int maxPoolSize = 32;
         private int queueCapacity = 400;
         private String threadNamePrefix = "procurebuddy-async-";
+    }
+
+    @Getter
+    @Setter
+    public static class PythonService {
+        private String baseUrl = "http://127.0.0.1:8000";
+        private int connectTimeoutSeconds = 10;
+        private int readTimeoutSeconds = 180;
     }
 }

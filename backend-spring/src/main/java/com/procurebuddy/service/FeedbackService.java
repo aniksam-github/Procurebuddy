@@ -6,6 +6,7 @@ import com.procurebuddy.repository.FeedbackRepository;
 import com.procurebuddy.util.UserResolver;
 import java.time.LocalDateTime;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -54,5 +55,16 @@ public class FeedbackService {
             case "down", "dislike", "thumbs_down" -> "down";
             default -> throw new ApiException(HttpStatus.BAD_REQUEST, "Feedback type must be 'up' or 'down'.");
         };
+    }
+
+    public record FeedbackAwareChatContext(
+            boolean bypassCache,
+            List<Integer> blockedChunkIds,
+            List<String> blockedResponseHashes
+    ) {
+        public FeedbackAwareChatContext {
+            blockedChunkIds = blockedChunkIds == null ? List.of() : List.copyOf(blockedChunkIds);
+            blockedResponseHashes = blockedResponseHashes == null ? List.of() : List.copyOf(blockedResponseHashes);
+        }
     }
 }
