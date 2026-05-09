@@ -68,6 +68,10 @@ procurebuddy:
   admin-email: ${PROCUREBUDDY_ADMIN_EMAIL:aniksam2000@outlook.com}
   data-dir: ${PROCUREBUDDY_DATA_DIR:../data}
   repo-root: ${PROCUREBUDDY_REPO_ROOT:..}
+  python-service:
+    base-url: ${AI_SERVICE_BASE_URL:http://127.0.0.1:8000}
+    connect-timeout-seconds: ${AI_SERVICE_CONNECT_TIMEOUT_SECONDS:10}
+    read-timeout-seconds: ${AI_SERVICE_READ_TIMEOUT_SECONDS:180}
   python-executable: ${PROCUREBUDDY_PYTHON:}
   python-bridge-script: ${PROCUREBUDDY_PYTHON_BRIDGE:python_bridge.py}
   ai-timeout-seconds: ${PROCUREBUDDY_AI_TIMEOUT_SECONDS:90}

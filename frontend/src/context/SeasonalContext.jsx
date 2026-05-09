@@ -366,15 +366,26 @@ function createFestivalEvent({
   };
 }
 
+function createAnnualFoundationDayEvents(startYear, endYear) {
+  const events = [];
+  for (let year = startYear; year <= endYear; year += 1) {
+    events.push(
+      createFestivalEvent({
+        id: `cbri-foundation-${year}`,
+        theme: CBRI_FOUNDATION_THEME,
+        startDate: `${year}-02-10`,
+        priority: 95,
+        noticeTitle: 'CBRI Foundation Day is today.',
+        noticeBody:
+          'Today marks CBRI Foundation Day, honoring the institute’s foundation in 1951 and its shared community spirit.',
+      })
+    );
+  }
+  return events;
+}
+
 const FESTIVAL_EVENTS = [
-  createFestivalEvent({
-    id: 'cbri-foundation-2025',
-    theme: CBRI_FOUNDATION_THEME,
-    startDate: '2025-02-10',
-    priority: 95,
-    noticeTitle: 'CBRI Foundation Day is today.',
-    noticeBody: 'Today marks CBRI Foundation Day, honoring the institute’s foundation in 1951 and its shared community spirit.',
-  }),
+  ...createAnnualFoundationDayEvents(2025, 2035),
   createFestivalEvent({
     id: 'harvest-2025',
     theme: HARVEST_THEME,
@@ -536,14 +547,6 @@ const FESTIVAL_EVENTS = [
     priority: 68,
     noticeTitle: 'Christmas is today.',
     noticeBody: 'Christmas is being celebrated today. Wishing everyone joy, peace, and togetherness.',
-  }),
-  createFestivalEvent({
-    id: 'cbri-foundation-2026',
-    theme: CBRI_FOUNDATION_THEME,
-    startDate: '2026-02-10',
-    priority: 95,
-    noticeTitle: 'CBRI Foundation Day is today.',
-    noticeBody: 'Today marks CBRI Foundation Day, honoring the institute’s foundation in 1951 and its shared community spirit.',
   }),
   createFestivalEvent({
     id: 'harvest-2026',
@@ -733,14 +736,6 @@ const FESTIVAL_EVENTS = [
     priority: 68,
     noticeTitle: 'Christmas is today.',
     noticeBody: 'Christmas is being celebrated today. Wishing everyone joy, peace, and togetherness.',
-  }),
-  createFestivalEvent({
-    id: 'cbri-foundation-2027',
-    theme: CBRI_FOUNDATION_THEME,
-    startDate: '2027-02-10',
-    priority: 95,
-    noticeTitle: 'CBRI Foundation Day is today.',
-    noticeBody: 'Today marks CBRI Foundation Day, honoring the institute’s foundation in 1951 and its shared community spirit.',
   }),
   createFestivalEvent({
     id: 'harvest-2027',

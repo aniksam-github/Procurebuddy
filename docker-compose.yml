@@ -49,7 +49,7 @@ services:
     env_file:
       - .env
     environment:
-      SERVER_PORT: 2002
+      SERVER_PORT: 8080
       AI_SERVICE_BASE_URL: http://python-ai-service:8000
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/${DB_NAME:-procurebuddy}
       SPRING_DATASOURCE_USERNAME: ${DB_USER:-procurebuddy}
@@ -59,7 +59,7 @@ services:
       PROCUREBUDDY_AI_TIMEOUT_SECONDS: ${AI_TIMEOUT:-60}
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000}
     ports:
-      - "2002:2002"
+      - "2002:8080"
     volumes:
       - ./data:/app/data
     depends_on:
