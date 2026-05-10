@@ -1,6 +1,7 @@
 package com.procurebuddy.service;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.procurebuddy.security.JwtService;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.client.j2se.MatrixToImageWriter;
 import com.google.zxing.common.BitMatrix;
@@ -39,8 +40,12 @@ public class AuthService {
     private final ProcureBuddyProperties properties;
     private final OtpMailService otpMailService;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
     private final GoogleAuthenticator googleAuthenticator = new GoogleAuthenticator();
     private final SecureRandom secureRandom = new SecureRandom();
+
+    private static final String CHALLENGE_PURPOSE_TOTP = "totp";
+    private static final String CHALLENGE_PURPOSE_PASSWORD_CHANGE = "password_change";
 
     @Transactional
     public Map<String, Object> registerStart(String email) {
@@ -102,12 +107,28 @@ public class AuthService {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "Invalid email or password.");
         }
 
-        return LoginResponse.from(user, isAdminEmail(user.getEmail()));
+        boolean isAdmin = isAdminEmail(user.getEmail());
+        if (user.isMustChange()) {
+            return LoginResponse.passwordChangeRequired(
+                    user,
+                    isAdmin,
+                    jwtService.issueChallengeToken(user.getEmail(), CHALLENGE_PURPOSE_PASSWORD_CHANGE)
+            );
+        }
+        if (user.isTotpEnabled()) {
+            return LoginResponse.totpRequired(
+                    user,
+                    isAdmin,
+                    jwtService.issueChallengeToken(user.getEmail(), CHALLENGE_PURPOSE_TOTP)
+            );
+        }
+
+        return LoginResponse.authenticated(user, isAdmin, jwtService.issueAccessToken(user.getEmail(), isAdmin));
     }
 
     @Transactional(readOnly = true)
-    public Map<String, Object> authStatus(String email) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
+    public Map<String, Object> authStatus(String currentEmail) {
+        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(currentEmail))
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
 
         Map<String, Object> response = new LinkedHashMap<>();
@@ -124,14 +145,12 @@ public class AuthService {
     }
 
     @Transactional
-    public Map<String, Object> changePassword(String email, String newPassword) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
-                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User not found."));
-
+    public Map<String, Object> changePassword(String currentEmail, String newPassword, String loginToken) {
         if (!PasswordRules.isStrong(newPassword)) {
             throw new ApiException(HttpStatus.BAD_REQUEST, PasswordRules.REQUIREMENT_MESSAGE);
         }
 
+        UserEntity user = resolveUserForPasswordChange(currentEmail, loginToken);
         user.setPasswordHash(passwordEncoder.encode(newPassword));
         user.setMustChange(false);
         userRepository.save(user);
@@ -139,8 +158,8 @@ public class AuthService {
     }
 
     @Transactional
-    public Map<String, Object> updateProfile(String email, String displayName, String username, String avatarBase64) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
+    public Map<String, Object> updateProfile(String currentEmail, String displayName, String username, String avatarBase64) {
+        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(currentEmail))
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User not found."));
 
         String sanitizedDisplayName = sanitizeDisplayName(displayName);
@@ -164,19 +183,23 @@ public class AuthService {
 
     @Transactional
     public Map<String, Object> resetPassword(String email) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
-                .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
+        String normalizedEmail = UserResolver.normalizeEmail(email);
+        UserEntity user = userRepository.findByEmailIgnoreCase(normalizedEmail).orElse(null);
+        if (user == null) {
+            return Map.of("success", true, "message", "If an account exists for that email, a temporary password has been sent.");
+        }
 
         String tempPassword = generateTempPassword();
         user.setPasswordHash(passwordEncoder.encode(tempPassword));
         user.setMustChange(true);
         userRepository.save(user);
-        return Map.of("success", true, "temp_password", tempPassword);
+        otpMailService.sendTemporaryPassword(user.getEmail(), tempPassword);
+        return Map.of("success", true, "message", "If an account exists for that email, a temporary password has been sent.");
     }
 
     @Transactional
-    public Map<String, Object> setupTotp(String email) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
+    public Map<String, Object> setupTotp(String currentEmail) {
+        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(currentEmail))
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
 
         String secret = googleAuthenticator.createCredentials().getKey();
@@ -191,8 +214,8 @@ public class AuthService {
     }
 
     @Transactional
-    public Map<String, Object> enableTotp(String email, String secret, String code) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
+    public Map<String, Object> enableTotp(String currentEmail, String secret, String code) {
+        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(currentEmail))
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User not found."));
 
         String effectiveSecret = (secret != null && !secret.isBlank()) ? secret : user.getPendingTotpSecret();
@@ -209,22 +232,34 @@ public class AuthService {
     }
 
     @Transactional(readOnly = true)
-    public Map<String, Object> verifyTotp(String email, String code) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
-                .orElse(null);
-        boolean valid = user != null
-                && user.isTotpEnabled()
-                && user.getTotpSecret() != null
-                && verifyTotpCode(user.getTotpSecret(), code);
+    public LoginResponse verifyTotp(String email, String code, String loginToken) {
+        String normalizedEmail = UserResolver.normalizeEmail(email);
+        if (loginToken == null || loginToken.isBlank()) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "Login challenge expired. Please sign in again.");
+        }
+
+        String tokenEmail;
+        try {
+            tokenEmail = UserResolver.normalizeEmail(jwtService.extractChallengeSubject(loginToken, CHALLENGE_PURPOSE_TOTP));
+        } catch (Exception ex) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "Login challenge expired. Please sign in again.");
+        }
+        if (!tokenEmail.equals(normalizedEmail)) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "Login challenge does not match this account.");
+        }
+
+        UserEntity user = userRepository.findByEmailIgnoreCase(normalizedEmail).orElse(null);
+        boolean valid = user != null && user.isTotpEnabled() && user.getTotpSecret() != null && verifyTotpCode(user.getTotpSecret(), code);
         if (!valid) {
             throw new ApiException(HttpStatus.UNAUTHORIZED, "Invalid or expired TOTP code.");
         }
-        return Map.of("success", true, "message", "TOTP verified.");
+        boolean isAdmin = isAdminEmail(user.getEmail());
+        return LoginResponse.authenticated(user, isAdmin, jwtService.issueAccessToken(user.getEmail(), isAdmin));
     }
 
     @Transactional
-    public Map<String, Object> disableTotp(String email) {
-        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(email))
+    public Map<String, Object> disableTotp(String currentEmail) {
+        UserEntity user = userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(currentEmail))
                 .orElseThrow(() -> new ApiException(HttpStatus.NOT_FOUND, "User not found."));
 
         user.setTotpEnabled(false);
@@ -237,6 +272,24 @@ public class AuthService {
 
     public boolean isAdminEmail(String email) {
         return UserResolver.normalizeEmail(email).equals(UserResolver.normalizeEmail(properties.getAdminEmail()));
+    }
+
+    private UserEntity resolveUserForPasswordChange(String currentEmail, String loginToken) {
+        if (currentEmail != null && !currentEmail.isBlank()) {
+            return userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(currentEmail))
+                    .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User not found."));
+        }
+        if (loginToken == null || loginToken.isBlank()) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "Authentication required.");
+        }
+        String tokenEmail;
+        try {
+            tokenEmail = jwtService.extractChallengeSubject(loginToken, CHALLENGE_PURPOSE_PASSWORD_CHANGE);
+        } catch (Exception ex) {
+            throw new ApiException(HttpStatus.UNAUTHORIZED, "Password reset session expired. Please sign in again.");
+        }
+        return userRepository.findByEmailIgnoreCase(UserResolver.normalizeEmail(tokenEmail))
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User not found."));
     }
 
     private boolean isOfficialEmail(String email) {
@@ -286,9 +339,12 @@ public class AuthService {
             @JsonProperty("must_change") boolean mustChange,
             @JsonProperty("totp_required") boolean totpRequired,
             @JsonProperty("totp_enabled") boolean totpEnabled,
-            @JsonProperty("is_admin") boolean isAdmin
+            @JsonProperty("is_admin") boolean isAdmin,
+            String token,
+            @JsonProperty("access_token") String accessToken,
+            @JsonProperty("login_token") String loginToken
     ) {
-        public static LoginResponse from(UserEntity user, boolean isAdmin) {
+        public static LoginResponse authenticated(UserEntity user, boolean isAdmin, String token) {
             return new LoginResponse(
                     true,
                     user.getEmail(),
@@ -296,9 +352,46 @@ public class AuthService {
                     nullToEmpty(user.getUsername()),
                     nullToEmpty(user.getAvatarBase64()),
                     user.isMustChange(),
+                    false,
                     user.isTotpEnabled(),
+                    isAdmin,
+                    token,
+                    token,
+                    ""
+            );
+        }
+
+        public static LoginResponse totpRequired(UserEntity user, boolean isAdmin, String loginToken) {
+            return new LoginResponse(
+                    true,
+                    user.getEmail(),
+                    nullToEmpty(user.getDisplayName()),
+                    nullToEmpty(user.getUsername()),
+                    nullToEmpty(user.getAvatarBase64()),
+                    false,
+                    true,
+                    true,
+                    isAdmin,
+                    "",
+                    "",
+                    loginToken
+            );
+        }
+
+        public static LoginResponse passwordChangeRequired(UserEntity user, boolean isAdmin, String loginToken) {
+            return new LoginResponse(
+                    true,
+                    user.getEmail(),
+                    nullToEmpty(user.getDisplayName()),
+                    nullToEmpty(user.getUsername()),
+                    nullToEmpty(user.getAvatarBase64()),
+                    true,
+                    false,
                     user.isTotpEnabled(),
-                    isAdmin
+                    isAdmin,
+                    "",
+                    "",
+                    loginToken
             );
         }
     }

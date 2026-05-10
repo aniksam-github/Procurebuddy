@@ -5,6 +5,7 @@ import com.procurebuddy.dto.request.SendMessageRequest;
 import com.procurebuddy.service.ChatExportService;
 import com.procurebuddy.service.ChatService;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
@@ -31,64 +32,67 @@ public class ChatController {
 
     @GetMapping({"/api/chats", "/chats"})
     public Map<String, Object> listChats(
-            @RequestParam("user") String user,
             @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size
+            @RequestParam(value = "size", required = false) Integer size,
+            Principal principal
     ) {
-        return chatService.listChats(user, page, size);
+        return chatService.listChats(principal.getName(), page, size);
     }
 
     @GetMapping({"/api/chats/{chatId}", "/chats/{chatId}"})
     public Map<String, Object> getChat(
             @PathVariable String chatId,
-            @RequestParam("user") String user,
             @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size
+            @RequestParam(value = "size", required = false) Integer size,
+            Principal principal
     ) {
-        return chatService.getChat(chatId, user, page, size);
+        return chatService.getChat(chatId, principal.getName(), page, size);
     }
 
     @PostMapping({"/api/chats/{chatId}/message", "/chats/{chatId}/message"})
-    public CompletableFuture<Map<String, Object>> sendMessage(@PathVariable String chatId, @Valid @RequestBody SendMessageRequest request) {
-        return chatService.sendMessageAsync(chatId, request.getUser(), request.getMessage());
+    public CompletableFuture<Map<String, Object>> sendMessage(
+            @PathVariable String chatId,
+            @Valid @RequestBody SendMessageRequest request,
+            Principal principal
+    ) {
+        return chatService.sendMessageAsync(chatId, principal.getName(), request.getMessage());
     }
 
     @PostMapping({"/api/chats/{chatId}/regenerate", "/chats/{chatId}/regenerate"})
     public CompletableFuture<Map<String, Object>> regenerateResponse(
             @PathVariable String chatId,
-            @RequestParam("user") String user
+            Principal principal
     ) {
-        return chatService.regenerateLastResponseAsync(chatId, user);
+        return chatService.regenerateLastResponseAsync(chatId, principal.getName());
     }
 
     @PostMapping("/chat/regenerate")
     public CompletableFuture<Map<String, Object>> regenerateResponseCompat(
             @RequestParam("chatId") String chatId,
-            @RequestParam("user") String user
+            Principal principal
     ) {
-        return chatService.regenerateLastResponseAsync(chatId, user);
+        return chatService.regenerateLastResponseAsync(chatId, principal.getName());
     }
 
     @DeleteMapping({"/api/chats/{chatId}", "/chats/{chatId}"})
     public Map<String, Object> deleteChat(
             @PathVariable String chatId,
-            @RequestParam(value = "user", required = false) String user,
-            @RequestParam(value = "userId", required = false) Long userId
+            Principal principal
     ) {
-        return chatService.deleteChat(chatId, user, userId);
+        return chatService.deleteChat(chatId, principal.getName(), null);
     }
 
     @PostMapping({"/api/chats/pin", "/chats/pin"})
-    public Map<String, Object> pinChat(@RequestBody PinChatRequest request) {
-        return chatService.pinChat(request.getChatId(), request.getPinned(), request.getUser(), request.getUserId());
+    public Map<String, Object> pinChat(@RequestBody PinChatRequest request, Principal principal) {
+        return chatService.pinChat(request.getChatId(), request.getPinned(), principal.getName(), null);
     }
 
     @GetMapping(value = "/api/chats/{chatId}/export", produces = MediaType.APPLICATION_PDF_VALUE)
     public ResponseEntity<byte[]> exportChat(
             @PathVariable String chatId,
-            @RequestParam("user") String user
+            Principal principal
     ) {
-        ChatExportService.ChatExportResult result = chatExportService.exportChatPdf(chatId, user);
+        ChatExportService.ChatExportResult result = chatExportService.exportChatPdf(chatId, principal.getName());
         return ResponseEntity.ok()
                 .header(
                         HttpHeaders.CONTENT_DISPOSITION,

@@ -24,8 +24,8 @@ from models import Message
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = PROJECT_ROOT / "data"
-load_dotenv(dotenv_path=PROJECT_ROOT / ".env")
 load_dotenv(dotenv_path=PROJECT_ROOT / "backend" / ".env")
+load_dotenv(dotenv_path=PROJECT_ROOT / ".env", override=True)
 
 app = FastAPI(title="CBRI ProcureBuddy API")
 

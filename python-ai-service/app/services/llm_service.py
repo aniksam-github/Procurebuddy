@@ -18,7 +18,7 @@ import logging
 import os
 import time
 
-from groq import APIConnectionError, APITimeoutError, BadRequestError, Groq, RateLimitError
+from groq import APIConnectionError, APITimeoutError, BadRequestError, Groq, NotFoundError, RateLimitError
 
 from app.core.config import settings
 from app.core.constants import SYSTEM_PROMPT
@@ -27,16 +27,25 @@ logger = logging.getLogger("procurebuddy-ai")
 
 _client: Groq | None = None
 _client_api_key = ""
+_current_api_key_index = 0
 
 # ── Model cascade ──────────────────────────────────────────────────────
 # Order matters: first model is tried first; on rate-limit exhaustion the
 # next model in the list is attempted automatically.
 MODELS: tuple[str, ...] = (
-    "llama-3.3-70b-versatile",
-    "gpt-oss-120b",
-    "gpt-oss-20b",
     "llama-3.1-8b-instant",
+    "llama3-70b-8192",
+    "gemma2-9b-it",
 )
+
+INVALID_OR_UNSTABLE_MODELS = {
+    "gpt-oss-120b",
+    "openai/gpt-oss-120b",
+    "gpt-oss-20b",
+    "openai/gpt-oss-20b",
+    "llama-3.3-70b-versatile",
+    "llama3-8b-8192",
+}
 
 # ── Tuning knobs ───────────────────────────────────────────────────────
 RATE_LIMIT_MAX_RETRIES = int(os.getenv("PROCUREBUDDY_LLM_RATE_LIMIT_RETRIES", "2"))
@@ -54,6 +63,14 @@ def _candidate_models() -> list[str]:
     configured = (settings.llm_model or "").strip()
     candidates: list[str] = []
 
+    if configured in INVALID_OR_UNSTABLE_MODELS:
+        logger.warning(
+            "Configured Groq model '%s' is disabled; falling back to '%s'",
+            configured,
+            MODELS[0],
+        )
+        configured = MODELS[0]
+
     # If a model is explicitly configured, put it at the front.
     if configured and configured not in MODELS:
         candidates.append(configured)
@@ -69,15 +86,27 @@ def _candidate_models() -> list[str]:
 def _get_client() -> Groq:
     """Return a Groq client bound to the latest configured API key."""
 
-    global _client, _client_api_key
+    global _client, _client_api_key, _current_api_key_index
 
     settings.refresh_llm_settings()
-    current_api_key = settings.llm_api_key
+    if not settings.llm_api_keys:
+        raise RuntimeError("No Groq API keys configured.")
+    if _current_api_key_index >= len(settings.llm_api_keys):
+        _current_api_key_index = 0
+        
+    current_api_key = settings.llm_api_keys[_current_api_key_index]
     if _client is None or _client_api_key != current_api_key:
         _client = Groq(api_key=current_api_key)
         _client_api_key = current_api_key
-        logger.info("Rebound Groq client using the latest configured API key")
+        logger.info("Rebound Groq client using API key index %d", _current_api_key_index)
     return _client
+
+def _rotate_api_key() -> None:
+    global _current_api_key_index, _client
+    settings.refresh_llm_settings()
+    _current_api_key_index = (_current_api_key_index + 1) % len(settings.llm_api_keys)
+    logger.warning("Rotated to next Groq API key (index %d/%d)", _current_api_key_index + 1, len(settings.llm_api_keys))
+    _client = None  # Force re-initialization on next _get_client()
 
 
 def _rate_limit_backoff_seconds(attempt: int) -> float:
@@ -109,6 +138,10 @@ def generate_llm_response(
 
     global _rate_limit_cooldown_until
 
+    if not settings.llm_api_keys:
+        logger.warning("Skipping LLM call because no Groq API keys are configured; returning None for rule-based fallback.")
+        return None
+
     candidates = _candidate_models()
     total_models = len(candidates)
 
@@ -121,7 +154,8 @@ def generate_llm_response(
                 model_name, model_idx, total_models, len(prompt),
             )
 
-            for attempt in range(RATE_LIMIT_MAX_RETRIES + 1):
+            max_retries = max(RATE_LIMIT_MAX_RETRIES, len(settings.llm_api_keys) - 1)
+            for attempt in range(max_retries + 1):
                 try:
                     _wait_for_shared_cooldown()
                     response = _get_client().chat.completions.create(
@@ -145,17 +179,28 @@ def generate_llm_response(
                     return content
 
                 except RateLimitError as exc:
+                    if len(settings.llm_api_keys) > 1:
+                        _rotate_api_key()
+                        
+                        logger.warning("Rate limit hit; rotated to next key.")
+                        
+                        if attempt >= max_retries:
+                            remaining_models = total_models - model_idx
+                            if remaining_models > 0:
+                                logger.warning("Rate limit persisted on all keys; switching to next model.")
+                            break
+                        continue
+
                     backoff_seconds = _rate_limit_backoff_seconds(attempt)
                     _rate_limit_cooldown_until = time.monotonic() + backoff_seconds
                     logger.warning(
                         "Rate limit hit model='%s' attempt=%d/%d; backing off %.1fs",
                         model_name,
                         attempt + 1,
-                        RATE_LIMIT_MAX_RETRIES + 1,
+                        max_retries + 1,
                         backoff_seconds,
                     )
-                    if attempt >= RATE_LIMIT_MAX_RETRIES:
-                        # All retries exhausted for this model → switch to next
+                    if attempt >= max_retries:
                         remaining_models = total_models - model_idx
                         if remaining_models > 0:
                             logger.warning(
@@ -164,15 +209,11 @@ def generate_llm_response(
                                 model_name, remaining_models,
                             )
                         else:
-                            logger.error(
-                                "Rate limit persisted for model='%s' and no more "
-                                "fallback models available. Returning None.",
-                                model_name,
-                            )
-                        break  # break retry loop → continue to next model
+                            logger.error("Rate limit persisted for model='%s'. Returning None.", model_name)
+                        break
                     time.sleep(backoff_seconds)
 
-                except BadRequestError as exc:
+                except (BadRequestError, NotFoundError) as exc:
                     last_bad_request = exc
                     error_payload = getattr(exc, "body", {}) or {}
                     error_code = str((error_payload.get("error") or {}).get("code", "")).strip().lower()

@@ -1,6 +1,7 @@
 package com.procurebuddy.controller;
 
 import com.procurebuddy.service.PromptAnalyticsService;
+import java.security.Principal;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class AnalyticsController {
     private final PromptAnalyticsService promptAnalyticsService;
 
     @GetMapping("/prompts")
-    public Map<String, Object> listPromptStats(@RequestParam("email") String email) {
-        return promptAnalyticsService.listTopPrompts(email);
+    public Map<String, Object> listPromptStats(Principal principal) {
+        return promptAnalyticsService.listTopPrompts(principal.getName());
     }
 }

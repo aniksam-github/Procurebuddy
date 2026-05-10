@@ -4,23 +4,37 @@ const API_BASE = BASE_URL.replace(/\/$/, '');
 const SESSION_KEY = 'procurebuddy-session';
 const TOKEN_KEYS = ['token', 'accessToken', 'access_token', 'authToken', 'procurebuddy-token'];
 
+function hasAuthorizationHeader(headers) {
+  return Object.keys(headers).some((key) => key.toLowerCase() === 'authorization');
+}
+
 function getStoredToken() {
   if (typeof window === 'undefined') return '';
 
+  try {
+    const session = JSON.parse(window.localStorage.getItem(SESSION_KEY) || 'null');
+    const sessionToken = session?.token || session?.accessToken || session?.access_token;
+    if (typeof sessionToken === 'string' && sessionToken.trim()) {
+      return sessionToken.trim();
+    }
+  } catch {
+    // Fall through to legacy keys.
+  }
+
+  const preferredToken = window.localStorage.getItem('procurebuddy-token');
+  if (typeof preferredToken === 'string' && preferredToken.trim()) {
+    return preferredToken.trim();
+  }
+
   for (const key of TOKEN_KEYS) {
+    if (key === 'procurebuddy-token') continue;
     const value = window.localStorage.getItem(key);
     if (typeof value === 'string' && value.trim()) {
       return value.trim();
     }
   }
 
-  try {
-    const session = JSON.parse(window.localStorage.getItem(SESSION_KEY) || 'null');
-    const sessionToken = session?.token || session?.accessToken || session?.access_token;
-    return typeof sessionToken === 'string' ? sessionToken.trim() : '';
-  } catch {
-    return '';
-  }
+  return '';
 }
 
 function buildUrl(path, params) {
@@ -53,9 +67,19 @@ async function request(path, options = {}) {
 
   const requestHeaders = { ...headers };
   const token = getStoredToken();
+  const requestHasAuthorization = hasAuthorizationHeader(requestHeaders);
 
-  if (token && !requestHeaders.Authorization) {
+  if (token && !requestHasAuthorization) {
     requestHeaders.Authorization = `Bearer ${token}`;
+  }
+
+  if (import.meta.env.DEV && path.startsWith('/api/chats')) {
+    console.debug('[api request]', method, path, {
+      hasAuthorization: Boolean(requestHeaders.Authorization),
+      authorizationPrefix: requestHeaders.Authorization
+        ? `${String(requestHeaders.Authorization).slice(0, 16)}...`
+        : '',
+    });
   }
 
   let payload = body;
@@ -67,7 +91,6 @@ async function request(path, options = {}) {
 
   const response = await fetch(buildUrl(path, params), {
     method,
-    credentials: 'same-origin',
     headers: requestHeaders,
     body: payload,
   });
@@ -89,7 +112,10 @@ async function request(path, options = {}) {
       typeof data === 'string'
         ? data
         : data?.detail || data?.message || 'Request failed.';
-    throw new Error(detail);
+    const error = new Error(detail);
+    error.status = response.status;
+    error.payload = data;
+    throw error;
   }
 
   return data;
@@ -98,7 +124,7 @@ async function request(path, options = {}) {
 export const api = {
   health: () => request('/api/health'),
   login: (body) => request('/api/auth/login', { method: 'POST', body }),
-  getAuthStatus: (email) => request('/api/auth/status', { params: { email } }),
+  getAuthStatus: (email, options = {}) => request('/api/auth/status', { params: { email }, ...options }),
   updateProfile: (body) => request('/api/auth/profile', { method: 'POST', body }),
   registerStart: (body) => request('/api/auth/register/start', { method: 'POST', body }),
   registerVerify: (body) => request('/api/auth/register/verify', { method: 'POST', body }),
@@ -108,11 +134,11 @@ export const api = {
   enableTotp: (body) => request('/api/auth/totp/enable', { method: 'POST', body }),
   verifyTotp: (body) => request('/api/auth/totp/verify', { method: 'POST', body }),
   disableTotp: (body) => request('/api/auth/totp/disable', { method: 'POST', body }),
-  listChats: (user) => request('/api/chats', { params: { user } }),
-  getChat: (chatId, user) => request(`/api/chats/${chatId}`, { params: { user } }),
-  sendMessage: (chatId, body) => request(`/api/chats/${chatId}/message`, { method: 'POST', body }),
-  regenerateResponse: (chatId, user) => request(`/api/chats/${chatId}/regenerate`, { method: 'POST', params: { user } }),
-  exportChatPdf: (chatId, user) => request(`/api/chats/${chatId}/export`, { params: { user }, parseAs: 'blob' }),
+  listChats: (user, options = {}) => request('/api/chats', { params: { user }, ...options }),
+  getChat: (chatId, user, options = {}) => request(`/api/chats/${chatId}`, { params: { user }, ...options }),
+  sendMessage: (chatId, body, options = {}) => request(`/api/chats/${chatId}/message`, { method: 'POST', body, ...options }),
+  regenerateResponse: (chatId, user, options = {}) => request(`/api/chats/${chatId}/regenerate`, { method: 'POST', params: { user }, ...options }),
+  exportChatPdf: (chatId, user, options = {}) => request(`/api/chats/${chatId}/export`, { params: { user }, parseAs: 'blob', ...options }),
   sendFeedback: (body) => request('/api/feedback', { method: 'POST', body }),
   getPromptAnalytics: (email) => request('/api/analytics/prompts', { params: { email } }),
   listDocuments: (email) => request('/api/admin/documents', { params: { email } }),

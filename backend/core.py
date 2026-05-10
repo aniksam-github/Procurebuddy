@@ -1,5 +1,7 @@
 import os
 import re
+import time
+import logging
 from pathlib import Path
 from types import SimpleNamespace
 
@@ -17,11 +19,16 @@ CHROMA_DIR = PROJECT_ROOT / "chroma_db"
 DATA_DIR = PROJECT_ROOT / "data"
 EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
+logger = logging.getLogger("procurebuddy-legacy-ai")
+
 load_dotenv(dotenv_path=ENV_FILE)
 
-DEFAULT_GROQ_MODEL = os.getenv("GROQ_MODEL", "groq/compound")
-FALLBACK_GROQ_MODEL = os.getenv("GROQ_FALLBACK_MODEL", "groq/compound-mini")
-TRANSLATION_MODEL = os.getenv("GROQ_TRANSLATION_MODEL", FALLBACK_GROQ_MODEL)
+MODELS = (
+    "llama-3.1-8b-instant",
+    "gemma2-9b-it",
+)
+TRANSLATION_MODEL = os.getenv("GROQ_TRANSLATION_MODEL", MODELS[0]).strip() or MODELS[0]
+ROTATION_SLEEP_SECONDS = float(os.getenv("GROQ_ROTATION_SLEEP_SECONDS", "1"))
 NO_CONTEXT_MESSAGE = "This information is not found in the provided rules."
 MAX_DOCS = 8
 MAX_CHARS_PER_DOC = 1400
@@ -152,7 +159,27 @@ Generate a Markdown table only from the retrieved context.
 
 _embeddings = None
 _vector_db = None
-_client = None
+_clients_by_key = {}
+_active_key_index = 0
+
+
+def _load_api_keys():
+    keys = []
+    for index in range(1, 9):
+        value = (os.getenv(f"GROQ_API_KEY_{index}") or "").strip()
+        if value and value not in keys:
+            keys.append(value)
+
+    single_key = (os.getenv("GROQ_API_KEY") or "").strip()
+    if single_key and single_key not in keys:
+        keys.append(single_key)
+
+    if not keys:
+        raise RuntimeError("No Groq API key configured. Set GROQ_API_KEY or GROQ_API_KEY_1..8.")
+    return keys
+
+
+API_KEYS = _load_api_keys()
 
 
 def extract_amount(text: str):
@@ -267,21 +294,80 @@ def _extract_message_content(response):
     return ""
 
 
-def _chat_completion(client: Groq, messages: list[dict], *, temperature: float = 0.0):
-    try:
-        return client.chat.completions.create(
-            model=DEFAULT_GROQ_MODEL,
-            messages=messages,
-            temperature=temperature,
-        )
-    except Exception:
-        if FALLBACK_GROQ_MODEL == DEFAULT_GROQ_MODEL:
-            raise
-        return client.chat.completions.create(
-            model=FALLBACK_GROQ_MODEL,
-            messages=messages,
-            temperature=temperature,
-        )
+def _get_client_for_key(api_key: str):
+    client = _clients_by_key.get(api_key)
+    if client is None:
+        client = Groq(api_key=api_key)
+        _clients_by_key[api_key] = client
+    return client
+
+
+def _is_rate_limit_error(error_text: str):
+    return "rate_limit_exceeded" in error_text or "rate limit" in error_text
+
+
+def _is_minute_limit_error(error_text: str):
+    return "tokens per minute" in error_text or "requests per minute" in error_text
+
+
+def _ordered_models(preferred_models: list[str] | tuple[str, ...] | None = None):
+    candidates = []
+    for model_name in preferred_models or ():
+        cleaned = (model_name or "").strip()
+        if cleaned and cleaned not in candidates:
+            candidates.append(cleaned)
+    for model_name in MODELS:
+        if model_name not in candidates:
+            candidates.append(model_name)
+    return candidates
+
+
+def _chat_completion(messages: list[dict], *, temperature: float = 0.0, preferred_models=None):
+    global _active_key_index
+
+    model_candidates = _ordered_models(preferred_models)
+    last_exception = None
+    start_index = _active_key_index
+
+    for key_attempt in range(len(API_KEYS)):
+        key_index = (start_index + key_attempt) % len(API_KEYS)
+        current_key = API_KEYS[key_index]
+        client = _get_client_for_key(current_key)
+
+        for model_name in model_candidates:
+            try:
+                response = client.chat.completions.create(
+                    model=model_name,
+                    messages=messages,
+                    temperature=temperature,
+                    timeout=20.0,
+                )
+                _active_key_index = key_index
+                return response
+            except Exception as exc:
+                last_exception = exc
+                error_text = str(exc).lower()
+
+                if _is_rate_limit_error(error_text):
+                    if _is_minute_limit_error(error_text):
+                        logger.warning("Groq minute limit hit for model '%s'; trying next model on same key", model_name)
+                        continue
+
+                    logger.warning(
+                        "Groq daily/key limit hit for key %s; switching to next key",
+                        current_key[:10],
+                    )
+                    break
+
+                logger.warning("Groq call failed for model '%s': %s", model_name, exc)
+                continue
+
+        _active_key_index = (key_index + 1) % len(API_KEYS)
+        time.sleep(ROTATION_SLEEP_SECONDS)
+
+    if last_exception is not None:
+        raise last_exception
+    raise RuntimeError("All Groq keys and models were exhausted.")
 
 
 def _vector_db_ready():
@@ -289,7 +375,7 @@ def _vector_db_ready():
 
 
 def _get_resources():
-    global _embeddings, _vector_db, _client
+    global _embeddings, _vector_db
 
     if _embeddings is None:
         _embeddings = HuggingFaceEmbeddings(model_name=EMBEDDING_MODEL)
@@ -302,16 +388,10 @@ def _get_resources():
             embedding_function=_embeddings,
         )
 
-    if _client is None:
-        api_key = os.getenv("GROQ_API_KEY")
-        if not api_key:
-            raise RuntimeError("GROQ_API_KEY is not configured.")
-        _client = Groq(api_key=api_key)
-
-    return _vector_db.as_retriever(search_kwargs={"k": 6}), _client
+    return _vector_db.as_retriever(search_kwargs={"k": 6})
 
 
-def translate_query(user_text: str, client: Groq):
+def translate_query(user_text: str):
     messages = [
         {
             "role": "system",
@@ -324,10 +404,10 @@ def translate_query(user_text: str, client: Groq):
         {"role": "user", "content": user_text},
     ]
     try:
-        response = client.chat.completions.create(
-            model=TRANSLATION_MODEL,
-            messages=messages,
+        response = _chat_completion(
+            messages,
             temperature=0.0,
+            preferred_models=[TRANSLATION_MODEL],
         )
         translated = _extract_message_content(response)
         return translated or user_text
@@ -433,8 +513,8 @@ def _score_doc(user_text: str, doc):
     return score
 
 
-def _retrieve_docs(retriever, client: Groq, user_text: str):
-    translated_query = translate_query(user_text, client)
+def _retrieve_docs(retriever, user_text: str):
+    translated_query = translate_query(user_text)
     base_query = _build_search_query(translated_query)
     flags = _query_flags(user_text)
     queries = [base_query]
@@ -496,8 +576,8 @@ def _doc_is_applicable(user_text: str, doc):
     return True
 
 
-def _prepare_answer_docs(user_text: str, retriever, client: Groq, *, include_threshold_docs: bool = False):
-    doc_groups = [_retrieve_docs(retriever, client, user_text)]
+def _prepare_answer_docs(user_text: str, retriever, *, include_threshold_docs: bool = False):
+    doc_groups = [_retrieve_docs(retriever, user_text)]
     if include_threshold_docs:
         doc_groups.append(_load_threshold_docs_from_files())
 
@@ -1300,11 +1380,10 @@ def rag_answer(
     chat_history: list[dict] | None = None,
     docs: list | None = None,
 ):
-    retriever, client = _get_resources()
+    retriever = _get_resources()
     docs = docs or _prepare_answer_docs(
         user_text,
         retriever,
-        client,
         include_threshold_docs=_query_flags(user_text)["amount_process"],
     )
 
@@ -1355,7 +1434,7 @@ def rag_answer(
         },
     ]
 
-    response = _chat_completion(client, messages, temperature=0.0)
+    response = _chat_completion(messages, temperature=0.0)
     answer_text = _extract_message_content(response) or NO_CONTEXT_MESSAGE
 
     if answer_text == NO_CONTEXT_MESSAGE:
@@ -1374,24 +1453,24 @@ def handle_query(user_text: str, chat_history: list[dict] | None):
         return {"intent": intent, "amount": None, "answer": _build_help_answer()}
 
     if intent == "TABLE":
-        retriever, client = _get_resources()
-        docs = _prepare_answer_docs(user_text, retriever, client, include_threshold_docs=True)
+        retriever = _get_resources()
+        docs = _prepare_answer_docs(user_text, retriever, include_threshold_docs=True)
         table_answer = _build_table_answer(docs)
         return {"intent": intent, "amount": None, "answer": table_answer}
     else:
         system_prompt = PROCESS_PROMPT if intent == "PROCESS" else POLICY_PROMPT
 
     if intent == "PROCESS" and amount is not None:
-        retriever, client = _get_resources()
-        docs = _prepare_answer_docs(user_text, retriever, client, include_threshold_docs=True)
+        retriever = _get_resources()
+        docs = _prepare_answer_docs(user_text, retriever, include_threshold_docs=True)
         answer = rag_answer(system_prompt, user_text, chat_history, docs=docs)
         if wants_table:
             answer = _append_table_if_requested(answer, user_text, docs)
     else:
         answer = rag_answer(system_prompt, user_text, chat_history)
         if wants_table:
-            retriever, client = _get_resources()
-            docs = _prepare_answer_docs(user_text, retriever, client, include_threshold_docs=True)
+            retriever = _get_resources()
+            docs = _prepare_answer_docs(user_text, retriever, include_threshold_docs=True)
             answer = _append_table_if_requested(answer, user_text, docs)
     return {"intent": intent, "amount": amount, "answer": answer}
 

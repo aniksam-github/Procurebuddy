@@ -15,4 +15,7 @@ public class ChangePasswordRequest {
     @JsonAlias("new_password")
     @NotBlank
     private String newPassword;
+
+    @JsonAlias("login_token")
+    private String loginToken;
 }

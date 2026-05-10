@@ -489,7 +489,8 @@ def extract_amount_lakhs(message: str) -> float | None:
 
 def amount_to_context_keywords(amount_lakhs: float | None, query: str | None = None) -> tuple[str, ...]:
     """Return threshold-bracket keywords for a detected amount in lakhs."""
-    return gfr_keywords_for_amount(amount_lakhs, query)
+    del query
+    return gfr_keywords_for_amount(amount_lakhs)
 
 
 def format_lakh_amount(amount_lakhs: float) -> str:

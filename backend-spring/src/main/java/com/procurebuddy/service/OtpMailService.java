@@ -18,32 +18,45 @@ public class OtpMailService {
     private final Environment environment;
 
     public void sendRegistrationOtp(String email, String otp) {
+        String username = requireMailConfiguration();
+        sendPlainText(email, username, "ProcureBuddy registration OTP",
+                "Your ProcureBuddy registration OTP is:\n\n" + otp + "\n\n"
+                        + "It expires in 10 minutes. Do not share it with anyone.");
+    }
+
+    public void sendTemporaryPassword(String email, String tempPassword) {
+        String username = requireMailConfiguration();
+        sendPlainText(email, username, "ProcureBuddy temporary password",
+                "A temporary password was requested for your ProcureBuddy account.\n\n"
+                        + "Temporary password: " + tempPassword + "\n\n"
+                        + "Use it to sign in and change your password immediately.");
+    }
+
+    private String requireMailConfiguration() {
         String host = environment.getProperty("spring.mail.host", "");
         String username = environment.getProperty("spring.mail.username", "");
         String password = environment.getProperty("spring.mail.password", "");
-        String port = environment.getProperty("spring.mail.port", "587");
 
         if (host.isBlank() || username.isBlank() || password.isBlank()) {
             throw new ApiException(
                     HttpStatus.INTERNAL_SERVER_ERROR,
-                    "OTP email is not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS before registering."
+                    "Email is not configured. Set SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS before using email-based auth flows."
             );
         }
+        return username;
+    }
 
+    private void sendPlainText(String email, String from, String subject, String body) {
         try {
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false, StandardCharsets.UTF_8.name());
             helper.setTo(email);
-            helper.setFrom(username);
-            helper.setSubject("ProcureBuddy registration OTP");
-            helper.setText(
-                    "Your ProcureBuddy registration OTP is:\n\n" + otp + "\n\n"
-                            + "It expires in 10 minutes. Do not share it with anyone.",
-                    false
-            );
+            helper.setFrom(from);
+            helper.setSubject(subject);
+            helper.setText(body, false);
             mailSender.send(message);
         } catch (Exception ex) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to send OTP email to " + email + ".");
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to send email to " + email + ".");
         }
     }
 }

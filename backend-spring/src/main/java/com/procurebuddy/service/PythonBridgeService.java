@@ -8,172 +8,156 @@ import com.procurebuddy.exception.ApiException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
+import java.net.HttpURLConnection;
+import java.net.SocketTimeoutException;
+import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
 public class PythonBridgeService {
+
+    private static final String RATE_LIMIT_USER_MESSAGE =
+            "Groq API rate limit hit ho gayi hai. Please thodi der baad phir try karein.";
 
     private final ProcureBuddyProperties properties;
     private final ObjectMapper objectMapper;
 
+    public PythonBridgeService(ProcureBuddyProperties properties, ObjectMapper objectMapper) {
+        this.properties = properties;
+        this.objectMapper = objectMapper;
+    }
+
     public String askQuestion(String message, List<ChatMessageResponse> history) {
+        String baseUrl = properties.getPythonService().getBaseUrl();
+        int readTimeoutSeconds = properties.getPythonService().getReadTimeoutSeconds();
+
         Map<String, Object> payload = new HashMap<>();
         payload.put("message", message);
-        payload.put("history", history.stream()
-                .map(item -> Map.of("role", item.role(), "content", item.content()))
-                .toList());
+        payload.put("user", "spring-bridge");
 
-        Map<String, Object> result = run("ask", payload);
-        Object reply = result.get("reply");
-        if (reply == null) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Python bridge returned an empty reply.");
+        try {
+            String requestBody = objectMapper.writeValueAsString(payload);
+            log.debug("Sending payload to AI service: {}", requestBody);
+
+            log.info("Sending chat request to Python AI service: {}/chat (timeout={}s)", baseUrl, readTimeoutSeconds);
+            long start = System.currentTimeMillis();
+
+            HttpResponseData response = executeJsonPost(baseUrl + "/chat", requestBody, readTimeoutSeconds);
+
+            long elapsed = System.currentTimeMillis() - start;
+            log.info("Python AI service responded in {}ms with status {}", elapsed, response.statusCode());
+
+            if (response.statusCode() == 429) {
+                log.warn("Python AI service returned 429 rate limit");
+                throw new ApiException(HttpStatus.TOO_MANY_REQUESTS, RATE_LIMIT_USER_MESSAGE);
+            }
+
+            if (response.statusCode() >= 500) {
+                log.error("Python AI service returned server error {}: {}", response.statusCode(), response.body());
+                throw new ApiException(HttpStatus.BAD_GATEWAY, "AI service error: " + response.statusCode());
+            }
+
+            if (response.statusCode() != 200) {
+                log.error("Python AI service returned unexpected status {}: {}", response.statusCode(), response.body());
+                throw new ApiException(HttpStatus.BAD_GATEWAY, "AI service returned status " + response.statusCode());
+            }
+
+            Map<String, Object> result = objectMapper.readValue(response.body(), new TypeReference<>() {});
+
+            String answer = String.valueOf(result.getOrDefault("answer", result.getOrDefault("response", "")));
+            if (answer.isBlank() || "null".equals(answer)) {
+                log.warn("Python AI service returned empty answer");
+                throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "AI service returned an empty reply.");
+            }
+
+            return answer;
+
+        } catch (ApiException ex) {
+            throw ex;
+        } catch (SocketTimeoutException ex) {
+            log.error("Python AI service timed out after {}s", readTimeoutSeconds, ex);
+            throw new ApiException(HttpStatus.REQUEST_TIMEOUT, "AI response timed out.");
+        } catch (IOException | InterruptedException ex) {
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
+            }
+            log.error("Failed to connect to Python AI service at {}", baseUrl, ex);
+            throw new ApiException(
+                HttpStatus.BAD_GATEWAY,
+                "Could not reach AI service. Make sure the Python backend is running on " + baseUrl
+            );
         }
-        return reply.toString();
     }
 
     public Map<String, Object> reindexKnowledgeBase() {
-        return run("reindex", Map.of());
-    }
-
-    private Map<String, Object> run(String command, Map<String, Object> payload) {
+        String baseUrl = properties.getPythonService().getBaseUrl();
         try {
-            Path repoRoot = resolveRepoRoot();
-            ProcessBuilder builder = new ProcessBuilder(
-                    resolvePythonExecutable(repoRoot),
-                    resolveBridgeScript(repoRoot).toString(),
-                    command
-            );
-            builder.directory(repoRoot.toFile());
-            configurePythonEnvironment(builder, repoRoot);
+            HttpResponseData response = executeJsonPost(baseUrl + "/reload", "{}", 300);
 
-            Process process = builder.start();
-            CompletableFuture<String> stdoutFuture = readStreamAsync(process.getInputStream());
-            CompletableFuture<String> stderrFuture = readStreamAsync(process.getErrorStream());
-            try (OutputStream output = process.getOutputStream()) {
-                output.write(objectMapper.writeValueAsBytes(payload));
-                output.flush();
+            if (response.statusCode() != 200) {
+                throw new ApiException(HttpStatus.BAD_GATEWAY, "Reindex failed with status " + response.statusCode());
             }
 
-            boolean finished = process.waitFor(properties.getAiTimeoutSeconds(), TimeUnit.SECONDS);
-            if (!finished) {
-                process.destroyForcibly();
-                throw new ApiException(HttpStatus.REQUEST_TIMEOUT, "AI response timed out.");
-            }
+            return objectMapper.readValue(response.body(), new TypeReference<>() {});
 
-            String rawOutput = getStreamOutput(stdoutFuture, "stdout");
-            String rawError = getStreamOutput(stderrFuture, "stderr");
-            int exitCode = process.exitValue();
-            if (rawOutput.isBlank()) {
-                String detail = rawError.isBlank() ? "Python bridge returned no output." : rawError;
-                throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, detail);
+        } catch (ApiException ex) {
+            throw ex;
+        } catch (IOException | InterruptedException ex) {
+            if (ex instanceof InterruptedException) {
+                Thread.currentThread().interrupt();
             }
-
-            Map<String, Object> result;
-            try {
-                result = objectMapper.readValue(rawOutput, new TypeReference<>() {
-                });
-            } catch (IOException ex) {
-                log.error("Python bridge returned invalid JSON. stdout={}, stderr={}", rawOutput, rawError);
-                String detail = rawError.isBlank() ? rawOutput : rawError;
-                throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Python bridge returned invalid output: " + detail);
-            }
-
-            if (!rawError.isBlank()) {
-                log.warn("Python bridge stderr for command '{}': {}", command, rawError);
-            }
-            if (exitCode != 0 || result.containsKey("error")) {
-                String message = String.valueOf(result.getOrDefault("error", rawError.isBlank() ? rawOutput : rawError));
-                throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, message);
-            }
-            return result;
-        } catch (IOException ex) {
-            log.error("Failed to execute Python bridge process", ex);
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to execute Python bridge.");
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Python bridge execution was interrupted.");
+            log.error("Failed to call /reload on Python AI service", ex);
+            throw new ApiException(HttpStatus.BAD_GATEWAY, "Could not reach AI service for reindex.");
         }
     }
 
-    private Path resolveRepoRoot() {
-        return Path.of(properties.getRepoRoot()).toAbsolutePath().normalize();
-    }
+    private HttpResponseData executeJsonPost(String url, String requestBody, int timeoutSeconds)
+            throws IOException, InterruptedException {
+        HttpURLConnection connection = openConnection(url, "POST", timeoutSeconds);
+        connection.setDoOutput(true);
+        connection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
 
-    private Path resolveBridgeScript(Path repoRoot) {
-        Path script = repoRoot.resolve("backend-spring").resolve(properties.getPythonBridgeScript());
-        if (!Files.exists(script)) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Python bridge script is missing.");
-        }
-        return script;
-    }
-
-    private String resolvePythonExecutable(Path repoRoot) {
-        if (properties.getPythonExecutable() != null && !properties.getPythonExecutable().isBlank()) {
-            return properties.getPythonExecutable();
-        }
-
-        Path windowsVenv = repoRoot.resolve("venv").resolve("Scripts").resolve("python.exe");
-        if (Files.exists(windowsVenv)) {
-            return windowsVenv.toString();
-        }
-
-        Path unixVenv = repoRoot.resolve("venv").resolve("bin").resolve("python");
-        if (Files.exists(unixVenv)) {
-            return unixVenv.toString();
-        }
-
-        return "python";
-    }
-
-    private void configurePythonEnvironment(ProcessBuilder builder, Path repoRoot) throws IOException {
-        Map<String, String> environment = builder.environment();
-        Path cacheRoot = repoRoot.resolve(".cache");
-        Path hfHome = cacheRoot.resolve("huggingface");
-        Path transformersCache = cacheRoot.resolve("transformers");
-        Path sentenceTransformersHome = cacheRoot.resolve("sentence-transformers");
-        Files.createDirectories(hfHome);
-        Files.createDirectories(transformersCache);
-        Files.createDirectories(sentenceTransformersHome);
-
-        environment.putIfAbsent("HF_HOME", hfHome.toString());
-        environment.putIfAbsent("HUGGINGFACE_HUB_CACHE", hfHome.resolve("hub").toString());
-        environment.putIfAbsent("TRANSFORMERS_CACHE", transformersCache.toString());
-        environment.putIfAbsent("SENTENCE_TRANSFORMERS_HOME", sentenceTransformersHome.toString());
-        environment.putIfAbsent("PYTHONIOENCODING", StandardCharsets.UTF_8.name());
-    }
-
-    private CompletableFuture<String> readStreamAsync(InputStream stream) {
-        return CompletableFuture.supplyAsync(() -> {
-            try (InputStream input = stream) {
-                return new String(input.readAllBytes(), StandardCharsets.UTF_8).trim();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-        });
-    }
-
-    private String getStreamOutput(CompletableFuture<String> future, String label) {
         try {
-            return future.get();
-        } catch (InterruptedException ex) {
-            Thread.currentThread().interrupt();
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Python bridge " + label + " read was interrupted.");
-        } catch (ExecutionException ex) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Failed to read Python bridge " + label + ".");
+            byte[] bodyBytes = requestBody.getBytes(java.nio.charset.StandardCharsets.UTF_8);
+            connection.setFixedLengthStreamingMode(bodyBytes.length);
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                outputStream.write(bodyBytes);
+            }
+
+            int statusCode = connection.getResponseCode();
+            String responseBody = readResponseBody(connection, statusCode);
+            return new HttpResponseData(statusCode, responseBody);
+        } finally {
+            connection.disconnect();
         }
+    }
+
+    private HttpURLConnection openConnection(String url, String method, int timeoutSeconds) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) java.net.URI.create(url).toURL().openConnection();
+        int timeoutMillis = Math.toIntExact(Duration.ofSeconds(timeoutSeconds).toMillis());
+        connection.setRequestMethod(method);
+        connection.setConnectTimeout(timeoutMillis);
+        connection.setReadTimeout(timeoutMillis);
+        connection.setRequestProperty("Accept", "application/json");
+        return connection;
+    }
+
+    private String readResponseBody(HttpURLConnection connection, int statusCode) throws IOException {
+        InputStream stream = statusCode >= 400 ? connection.getErrorStream() : connection.getInputStream();
+        if (stream == null) {
+            return "";
+        }
+        try (InputStream inputStream = stream) {
+            return new String(inputStream.readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        }
+    }
+
+    private record HttpResponseData(int statusCode, String body) {
     }
 }

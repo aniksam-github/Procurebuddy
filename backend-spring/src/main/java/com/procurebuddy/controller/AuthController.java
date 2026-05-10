@@ -12,6 +12,7 @@ import com.procurebuddy.dto.request.TotpVerifyRequest;
 import com.procurebuddy.dto.request.UpdateProfileRequest;
 import com.procurebuddy.service.AuthService;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,19 +45,19 @@ public class AuthController {
     }
 
     @GetMapping("/status")
-    public Map<String, Object> status(@RequestParam String email) {
-        return authService.authStatus(email);
+    public Map<String, Object> status(Principal principal) {
+        return authService.authStatus(principal.getName());
     }
 
     @PostMapping("/change-password")
-    public Map<String, Object> changePassword(@Valid @RequestBody ChangePasswordRequest request) {
-        return authService.changePassword(request.getEmail(), request.getNewPassword());
+    public Map<String, Object> changePassword(@Valid @RequestBody ChangePasswordRequest request, Principal principal) {
+        return authService.changePassword(principal == null ? null : principal.getName(), request.getNewPassword(), request.getLoginToken());
     }
 
     @PostMapping("/profile")
-    public Map<String, Object> updateProfile(@Valid @RequestBody UpdateProfileRequest request) {
+    public Map<String, Object> updateProfile(@Valid @RequestBody UpdateProfileRequest request, Principal principal) {
         return authService.updateProfile(
-                request.getEmail(),
+                principal.getName(),
                 request.getDisplayName(),
                 request.getUsername(),
                 request.getAvatarBase64()
@@ -69,22 +70,22 @@ public class AuthController {
     }
 
     @PostMapping("/totp/setup")
-    public Map<String, Object> setupTotp(@Valid @RequestBody TotpSetupRequest request) {
-        return authService.setupTotp(request.getEmail());
+    public Map<String, Object> setupTotp(@Valid @RequestBody TotpSetupRequest request, Principal principal) {
+        return authService.setupTotp(principal.getName());
     }
 
     @PostMapping("/totp/enable")
-    public Map<String, Object> enableTotp(@Valid @RequestBody TotpEnableRequest request) {
-        return authService.enableTotp(request.getEmail(), request.getSecret(), request.getCode());
+    public Map<String, Object> enableTotp(@Valid @RequestBody TotpEnableRequest request, Principal principal) {
+        return authService.enableTotp(principal.getName(), request.getSecret(), request.getCode());
     }
 
     @PostMapping("/totp/verify")
-    public Map<String, Object> verifyTotp(@Valid @RequestBody TotpVerifyRequest request) {
-        return authService.verifyTotp(request.getEmail(), request.getCode());
+    public AuthService.LoginResponse verifyTotp(@Valid @RequestBody TotpVerifyRequest request) {
+        return authService.verifyTotp(request.getEmail(), request.getCode(), request.getLoginToken());
     }
 
     @PostMapping("/totp/disable")
-    public Map<String, Object> disableTotp(@Valid @RequestBody TotpDisableRequest request) {
-        return authService.disableTotp(request.getEmail());
+    public Map<String, Object> disableTotp(@Valid @RequestBody TotpDisableRequest request, Principal principal) {
+        return authService.disableTotp(principal.getName());
     }
 }

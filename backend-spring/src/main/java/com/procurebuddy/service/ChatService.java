@@ -42,6 +42,12 @@ public class ChatService {
 
     private static final String AI_FALLBACK_MESSAGE =
             "I could not process that request right now because the chatbot backend is not fully configured. Please check the server logs.";
+    private static final String AI_RATE_LIMIT_MESSAGE =
+            "Groq API rate limit hit ho gayi hai, isliye abhi answer generate nahi ho pa raha. Please thodi der baad phir try karein.";
+    private static final String AI_TIMEOUT_MESSAGE =
+            "AI response abhi timeout ho gaya. Please kuch der baad dubara try karein.";
+    private static final String AI_MODEL_UNAVAILABLE_MESSAGE =
+            "Configured AI model abhi available nahi hai. Please server model settings check karein.";
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
@@ -120,7 +126,7 @@ public class ChatService {
             reply = pythonBridgeService.askQuestion(text.trim(), history);
         } catch (Exception ex) {
             log.error("Chat reply generation failed", ex);
-            reply = AI_FALLBACK_MESSAGE;
+            reply = buildAssistantFallbackMessage(ex);
         }
 
         MessageEntity exchange = new MessageEntity();
@@ -173,7 +179,7 @@ public class ChatService {
             );
         } catch (Exception ex) {
             log.error("Chat reply regeneration failed", ex);
-            reply = AI_FALLBACK_MESSAGE;
+            reply = buildAssistantFallbackMessage(ex);
         }
 
         latestExchange.setResponse(reply);
@@ -257,6 +263,23 @@ public class ChatService {
                 .isPinned(chat.isPinned())
                 .folderId(chat.getFolder() == null ? null : chat.getFolder().getId())
                 .build();
+    }
+
+    private String buildAssistantFallbackMessage(Exception ex) {
+        if (ex instanceof ApiException apiException) {
+            HttpStatus status = apiException.getStatus();
+            if (status == HttpStatus.TOO_MANY_REQUESTS) {
+                return AI_RATE_LIMIT_MESSAGE;
+            }
+            if (status == HttpStatus.REQUEST_TIMEOUT || status == HttpStatus.GATEWAY_TIMEOUT) {
+                return AI_TIMEOUT_MESSAGE;
+            }
+            String detail = apiException.getMessage() == null ? "" : apiException.getMessage().toLowerCase();
+            if (detail.contains("model") && detail.contains("available")) {
+                return AI_MODEL_UNAVAILABLE_MESSAGE;
+            }
+        }
+        return AI_FALLBACK_MESSAGE;
     }
 
     private ChatEntity createChat(String chatId, UserEntity user) {

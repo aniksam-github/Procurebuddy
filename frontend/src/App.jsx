@@ -13,6 +13,7 @@ import './index.css';
 const SESSION_KEY = 'procurebuddy-session';
 const DRAFT_CHATS_KEY = 'procurebuddy-drafts';
 const SIDEBAR_COLLAPSED_KEY = 'procurebuddy-sidebar-collapsed';
+const TOKEN_KEYS = ['token', 'accessToken', 'access_token', 'authToken', 'procurebuddy-token'];
 
 function readJson(key, fallback) {
   try {
@@ -20,6 +21,107 @@ function readJson(key, fallback) {
     return raw ? JSON.parse(raw) : fallback;
   } catch {
     return fallback;
+  }
+}
+
+function getStoredToken() {
+  if (typeof window === 'undefined') return '';
+
+  const session = readJson(SESSION_KEY, null);
+  const sessionToken = session?.token || session?.accessToken || session?.access_token;
+  if (typeof sessionToken === 'string' && sessionToken.trim()) {
+    return sessionToken.trim();
+  }
+
+  const preferredToken = window.localStorage.getItem('procurebuddy-token');
+  if (typeof preferredToken === 'string' && preferredToken.trim()) {
+    return preferredToken.trim();
+  }
+
+  for (const key of TOKEN_KEYS) {
+    if (key === 'procurebuddy-token') continue;
+    const value = window.localStorage.getItem(key);
+    if (typeof value === 'string' && value.trim()) {
+      return value.trim();
+    }
+  }
+
+  return '';
+}
+
+function parseJwtPayload(token) {
+  if (typeof token !== 'string' || !token.trim()) return null;
+  const parts = token.split('.');
+  if (parts.length !== 3) return null;
+
+  try {
+    const normalized = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=');
+    return JSON.parse(window.atob(padded));
+  } catch {
+    return null;
+  }
+}
+
+function isUsableAccessToken(token) {
+  const payload = parseJwtPayload(token);
+  if (!payload || payload.type !== 'access') return false;
+  if (typeof payload.exp === 'number' && payload.exp <= Math.floor(Date.now() / 1000)) {
+    return false;
+  }
+  return true;
+}
+
+function readStoredSession() {
+  const session = readJson(SESSION_KEY, null);
+  if (!session?.email) return null;
+  const token = getStoredToken();
+  return isUsableAccessToken(token) ? session : null;
+}
+
+function isAuthError(message) {
+  return message?.status === 401 || message?.status === 403;
+}
+
+function extractSessionToken(session) {
+  return session?.token || session?.accessToken || session?.access_token || '';
+}
+
+function buildAuthRequestOptions(session) {
+  const token = extractSessionToken(session);
+  return isUsableAccessToken(token)
+    ? { headers: { Authorization: `Bearer ${token}` } }
+    : {};
+}
+
+function persistSession(session) {
+  if (typeof window === 'undefined') return;
+
+  if (!session) {
+    window.localStorage.removeItem(SESSION_KEY);
+    TOKEN_KEYS.forEach((key) => window.localStorage.removeItem(key));
+    return;
+  }
+
+  TOKEN_KEYS.forEach((key) => window.localStorage.removeItem(key));
+  window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+  const token = extractSessionToken(session);
+  if (isUsableAccessToken(token)) {
+    TOKEN_KEYS.forEach((key) => window.localStorage.setItem(key, token));
+    if (import.meta.env.DEV) {
+      const payload = parseJwtPayload(token);
+      console.debug('[auth] persisted session token', {
+        keys: TOKEN_KEYS,
+        tokenPrefix: `${token.slice(0, 16)}...`,
+        tokenType: payload?.type || '',
+        expiresAt: payload?.exp || '',
+      });
+    }
+  } else if (import.meta.env.DEV) {
+    console.warn('[auth] session persisted without a usable access token', {
+      email: session?.email || '',
+      tokenPreview: token ? `${token.slice(0, 16)}...` : '',
+    });
   }
 }
 
@@ -66,7 +168,7 @@ function mapMessages(messages = []) {
 }
 
 export default function App() {
-  const [session, setSession] = useState(() => readJson(SESSION_KEY, null));
+  const [session, setSession] = useState(() => readStoredSession());
   const [view, setView] = useState('chat');
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -87,8 +189,7 @@ export default function App() {
 
   // Persist session
   useEffect(() => {
-    if (session) window.localStorage.setItem(SESSION_KEY, JSON.stringify(session));
-    else window.localStorage.removeItem(SESSION_KEY);
+    persistSession(session);
   }, [session]);
 
   useEffect(() => { window.localStorage.setItem(SIDEBAR_COLLAPSED_KEY, JSON.stringify(sidebarCollapsed)); }, [sidebarCollapsed]);
@@ -106,7 +207,7 @@ export default function App() {
     let cancelled = false;
     async function sync() {
       try {
-        const status = await api.getAuthStatus(session.email);
+        const status = await api.getAuthStatus(session.email, buildAuthRequestOptions(session));
         if (cancelled) return;
         setSession((s) => s ? {
           ...s,
@@ -119,7 +220,7 @@ export default function App() {
         setAuthError('');
       } catch (err) {
         if (cancelled) return;
-        if (err.message === 'User not found.') handleLogout();
+        if (isAuthError(err)) handleLogout();
         else setAuthError(err.message);
       }
     }
@@ -148,13 +249,14 @@ export default function App() {
     async function load() {
       setChatLoading(true);
       try {
-        const data = await api.getChat(activeChatId, session.email);
+        const data = await api.getChat(activeChatId, session.email, buildAuthRequestOptions(session));
         if (cancelled) return;
         setMessages(mapMessages(data.messages));
         setChatTitle(data.title || 'New Chat');
         setChatError('');
       } catch (err) {
-        if (!cancelled) setChatError(err.message);
+        if (cancelled) return;
+        setChatError(err.message);
       } finally {
         if (!cancelled) setChatLoading(false);
       }
@@ -166,7 +268,7 @@ export default function App() {
   async function refreshChats(preferredChatId = null) {
     if (!session?.email) return;
     try {
-      const data = await api.listChats(session.email);
+      const data = await api.listChats(session.email, buildAuthRequestOptions(session));
       const serverChats = data.chats || [];
       const storedDrafts = readDraftChats(session.email);
       const inMemoryDrafts = chats.filter((c) => c.isDraft);
@@ -183,15 +285,23 @@ export default function App() {
         const draft = createDraftChat();
         setChats([draft]); setActiveChatId(draft.chat_id); setMessages([]); setChatTitle(draft.title);
       }
-    } catch (err) { setChatError(err.message); }
+    } catch (err) {
+      if (isAuthError(err)) {
+        handleLogout();
+        return;
+      }
+      setChatError(err.message);
+    }
   }
 
   function handleAuthenticated(s) {
+    persistSession(s);
     setSession(s); setView('chat'); setChats([]); setMessages([]);
     setChatTitle('New Chat'); setActiveChatId(null); setChatError(''); setAuthError(''); setSettingsOpen(false); setProfileOpen(false);
   }
 
   function handleLogout() {
+    persistSession(null);
     setSession(null); setView('chat'); setChats([]); setMessages([]);
     setChatTitle('New Chat'); setActiveChatId(null); setChatError(''); setAuthError(''); setSettingsOpen(false); setProfileOpen(false);
   }
@@ -214,7 +324,11 @@ export default function App() {
     setChatTitle((t) => t === 'New Chat' ? text.trim().slice(0, 60) : t);
     setSending(true); setChatError('');
     try {
-      const data = await api.sendMessage(chatId, { user: session.email, message: text.trim() });
+      const data = await api.sendMessage(
+        chatId,
+        { user: session.email, message: text.trim() },
+        buildAuthRequestOptions(session)
+      );
       setMessages(mapMessages(data.messages));
       setChatTitle(data.chat?.title || text.trim().slice(0, 60));
       setChats((cur) => {
@@ -226,7 +340,13 @@ export default function App() {
       });
       setActiveChatId(chatId);
       await refreshChats(chatId);
-    } catch (err) { setChatError(err.message); }
+    } catch (err) {
+      if (isAuthError(err)) {
+        handleLogout();
+        return;
+      }
+      setChatError(err.message);
+    }
     finally { setSending(false); }
   }
 
@@ -235,7 +355,7 @@ export default function App() {
     setSending(true);
     setChatError('');
     try {
-      const data = await api.regenerateResponse(activeChatId, session.email);
+      const data = await api.regenerateResponse(activeChatId, session.email, buildAuthRequestOptions(session));
       setMessages(mapMessages(data.messages));
       setChatTitle(data.chat?.title || chatTitle);
       setChats((cur) => {
@@ -244,6 +364,10 @@ export default function App() {
       });
       await refreshChats(activeChatId);
     } catch (err) {
+      if (isAuthError(err)) {
+        handleLogout();
+        return;
+      }
       setChatError(err.message);
     } finally {
       setSending(false);
@@ -273,7 +397,7 @@ export default function App() {
     setExporting(true);
     setChatError('');
     try {
-      const file = await api.exportChatPdf(activeChatId, session.email);
+      const file = await api.exportChatPdf(activeChatId, session.email, buildAuthRequestOptions(session));
       const url = window.URL.createObjectURL(file);
       const link = document.createElement('a');
       const fallbackTitle = (chatTitle || 'procurebuddy-chat').replace(/[^a-zA-Z0-9_ -]/g, '').trim() || 'procurebuddy-chat';
@@ -284,6 +408,10 @@ export default function App() {
       link.remove();
       window.URL.revokeObjectURL(url);
     } catch (err) {
+      if (isAuthError(err)) {
+        handleLogout();
+        return;
+      }
       setChatError(err.message);
     } finally {
       setExporting(false);

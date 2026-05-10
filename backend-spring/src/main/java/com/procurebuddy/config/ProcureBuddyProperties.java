@@ -17,6 +17,7 @@ public class ProcureBuddyProperties {
     private String adminEmail;
     private String dataDir;
     private PythonService pythonService = new PythonService();
+    private Jwt jwt = new Jwt();
     private String repoRoot;
     private String pythonExecutable;
     private String pythonBridgeScript;
@@ -45,5 +46,13 @@ public class ProcureBuddyProperties {
         private String baseUrl = "http://127.0.0.1:8000";
         private int connectTimeoutSeconds = 10;
         private int readTimeoutSeconds = 180;
+    }
+
+    @Getter
+    @Setter
+    public static class Jwt {
+        private String secret;
+        private int accessTokenMinutes = 720;
+        private int challengeTokenMinutes = 10;
     }
 }

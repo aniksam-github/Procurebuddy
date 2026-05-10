@@ -83,6 +83,33 @@ function buildSession(primary = {}, fallback = {}) {
   };
 }
 
+function parseJwtPayload(token) {
+  if (typeof token !== 'string' || !token.trim()) return null;
+  const parts = token.split('.');
+  if (parts.length !== 3) return null;
+
+  try {
+    const normalized = parts[1].replace(/-/g, '+').replace(/_/g, '/');
+    const padded = normalized.padEnd(Math.ceil(normalized.length / 4) * 4, '=');
+    return JSON.parse(window.atob(padded));
+  } catch {
+    return null;
+  }
+}
+
+function requireAuthenticatedSession(data, fallback = {}) {
+  const session = buildSession(data, fallback);
+  const token = session.token || session.accessToken || session.access_token || '';
+  const payload = parseJwtPayload(token);
+  if (!token || !payload || payload.type !== 'access') {
+    throw new Error('Login succeeded but no usable access token was returned.');
+  }
+  if (typeof payload.exp === 'number' && payload.exp <= Math.floor(Date.now() / 1000)) {
+    throw new Error('Login returned an expired access token.');
+  }
+  return session;
+}
+
 export default function LoginPage({ onAuthenticated }) {
   const navigate = useNavigate();
   const { setTheme, resolvedTheme } = useTheme();
@@ -98,6 +125,7 @@ export default function LoginPage({ onAuthenticated }) {
   const [verificationKey, setVerificationKey] = useState(0);
   const [loading, setLoading] = useState(false);
   const [pendingEmail, setPendingEmail] = useState('');
+  const [pendingLoginToken, setPendingLoginToken] = useState('');
   const [showPassword, setShowPassword] = useState({
     login: false,
     create: false,
@@ -175,6 +203,9 @@ export default function LoginPage({ onAuthenticated }) {
       newPassword: false,
       newConfirm: false,
     });
+    if (nextMode !== 'totp' && nextMode !== 'password') {
+      setPendingLoginToken('');
+    }
     resetVerification();
   }
 
@@ -196,6 +227,7 @@ export default function LoginPage({ onAuthenticated }) {
 
       if (data.must_change) {
         setPendingEmail(data.email);
+        setPendingLoginToken(data.login_token || '');
         switchMode('password');
         setMessage('Password reset required before continuing.');
         return;
@@ -203,12 +235,13 @@ export default function LoginPage({ onAuthenticated }) {
 
       if (data.totp_required) {
         setPendingEmail(data.email);
+        setPendingLoginToken(data.login_token || '');
         switchMode('totp');
         setMessage('Enter the authenticator code to finish sign in.');
         return;
       }
 
-      onAuthenticated(buildSession(data));
+      onAuthenticated(requireAuthenticatedSession(data));
     } catch (err) {
       setError(err.message);
       setMessage('');
@@ -267,9 +300,9 @@ export default function LoginPage({ onAuthenticated }) {
     setLoading(true);
     try {
       const targetEmail = pendingEmail || email.trim();
-      const verification = await api.verifyTotp({ email: targetEmail, code: totpCode.trim() });
-      const status = await api.getAuthStatus(targetEmail);
-      onAuthenticated(buildSession(status, verification));
+      const data = await api.verifyTotp({ email: targetEmail, code: totpCode.trim(), login_token: pendingLoginToken });
+      setPendingLoginToken('');
+      onAuthenticated(requireAuthenticatedSession(data));
     } catch (err) {
       setError(err.message);
       setMessage('');
@@ -292,9 +325,14 @@ export default function LoginPage({ onAuthenticated }) {
     setLoading(true);
     try {
       const targetEmail = pendingEmail || email.trim();
-      const data = await api.changePassword({ email: targetEmail, new_password: password.trim() });
+      const data = await api.changePassword({
+        email: targetEmail,
+        new_password: password.trim(),
+        login_token: pendingLoginToken,
+      });
       setEmail(targetEmail);
       setPendingEmail('');
+      setPendingLoginToken('');
       switchMode('login');
       setMessage(`${data.message || 'Password updated.'} Sign in with your new password.`);
     } catch (err) {
@@ -311,8 +349,8 @@ export default function LoginPage({ onAuthenticated }) {
     try {
       const data = await api.resetPassword({ email: email.trim() });
       switchMode('login');
-      setPassword(data.temp_password || '');
-      setMessage(`Temporary password: ${data.temp_password}`);
+      setPassword('');
+      setMessage(data.message || 'If an account exists for that email, a temporary password has been sent.');
     } catch (err) {
       setError(err.message);
       setMessage('');

@@ -548,7 +548,7 @@ def _rule_priority_line(message: str) -> str:
     return "GFR 2025 controls over older conflicting guidance for this question."
 
 
-def _gfr_amount_search_suffix(amount_lakhs: float | None) -> str:
+def _gfr_amount_search_suffix(amount_lakhs: float | None, query: str | None = None) -> str:
     slab = gfr_slab_for_amount(amount_lakhs, query)
     if not slab:
         return ""
@@ -557,7 +557,7 @@ def _gfr_amount_search_suffix(amount_lakhs: float | None) -> str:
 
 
 def _rewrite_query_for_gfr_slab(query: str, amount_lakhs: float | None) -> str:
-    suffix = _gfr_amount_search_suffix(amount_lakhs)
+    suffix = _gfr_amount_search_suffix(amount_lakhs, query)
     if not suffix:
         return query.strip()
     return f"{query.strip()} {suffix}".strip()

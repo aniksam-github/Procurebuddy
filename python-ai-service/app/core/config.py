@@ -13,6 +13,16 @@ from dotenv import load_dotenv
 
 logger = logging.getLogger("procurebuddy-ai")
 
+DEFAULT_GROQ_MODEL = "llama-3.1-8b-instant"
+DISABLED_GROQ_MODELS = {
+    "gpt-oss-120b",
+    "openai/gpt-oss-120b",
+    "gpt-oss-20b",
+    "openai/gpt-oss-20b",
+    "llama-3.3-70b-versatile",
+    "llama3-8b-8192",
+}
+
 # ── Load environment ────────────────────────────────────────────────────────
 BASE_DIR = Path(__file__).resolve().parent.parent.parent  # python-ai-service/
 ROOT_DIR = BASE_DIR.parent  # project root
@@ -21,10 +31,13 @@ load_dotenv(BASE_DIR / ".env", override=True)
 load_dotenv(ROOT_DIR / ".env", override=True)
 
 # ── Mask and validate API key ───────────────────────────────────────────────
-_raw_key = os.getenv("GROQ_API_KEY") or ""
+_keys = [os.getenv(f"GROQ_API_KEY_{i}") for i in range(1, 20) if os.getenv(f"GROQ_API_KEY_{i}")]
+if os.getenv("GROQ_API_KEY") and os.getenv("GROQ_API_KEY") not in _keys:
+    _keys.insert(0, os.getenv("GROQ_API_KEY"))
+
 print("ENV BASE:", BASE_DIR)
 print("ENV ROOT:", ROOT_DIR)
-print("GROQ_API_KEY:", f"****{_raw_key[-4:]}" if len(_raw_key) > 4 else "<NOT SET>")
+print("GROQ_API_KEYS:", f"{len(_keys)} keys loaded" if _keys else "<NOT SET>")
 
 
 def reload_runtime_env() -> None:
@@ -32,6 +45,20 @@ def reload_runtime_env() -> None:
 
     load_dotenv(BASE_DIR / ".env", override=True)
     load_dotenv(ROOT_DIR / ".env", override=True)
+
+
+def normalize_groq_model(configured_model: str | None) -> str:
+    """Map disabled or risky Groq model selections to the stable default."""
+
+    model_name = (configured_model or DEFAULT_GROQ_MODEL).strip()
+    if model_name in DISABLED_GROQ_MODELS:
+        logger.warning(
+            "Configured Groq model '%s' is disabled; using '%s' instead",
+            model_name,
+            DEFAULT_GROQ_MODEL,
+        )
+        return DEFAULT_GROQ_MODEL
+    return model_name
 
 
 def resolve_data_dir() -> Path:
@@ -70,25 +97,43 @@ class Settings:
         self.min_score = float(os.getenv("PROCUREBUDDY_MIN_SCORE", "0.10"))
         self.answer_cache_size = max(100, int(os.getenv("PROCUREBUDDY_ANSWER_CACHE_SIZE", "500")))
         self.answer_cache_ttl_seconds = max(60, int(os.getenv("PROCUREBUDDY_ANSWER_CACHE_TTL_SECONDS", "3600")))
-        self.llm_api_key = os.getenv("GROQ_API_KEY")
-        if not self.llm_api_key:
-            raise RuntimeError("GROQ_API_KEY is not loaded. Check .env file path.")
-        configured_model = (os.getenv("GROQ_MODEL") or "llama-3.1-8b-instant").strip()
-        if configured_model in ("llama3-8b-8192", "llama-3.3-70b-versatile"):
-            configured_model = "llama-3.1-8b-instant"
-        self.llm_model = configured_model
+        self.llm_api_keys: list[str] = []
+        main_key = os.getenv("GROQ_API_KEY")
+        if main_key:
+            self.llm_api_keys.append(main_key)
+            
+        for i in range(1, 20):
+            key = os.getenv(f"GROQ_API_KEY_{i}")
+            if key and key not in self.llm_api_keys:
+                self.llm_api_keys.append(key)
+
+        if not self.llm_api_keys:
+            logger.warning("No GROQ_API_KEY or GROQ_API_KEY_1..19 found. LLM features will fall back to rule-based responses.")
+            self.llm_api_key = ""
+        else:
+            self.llm_api_key = self.llm_api_keys[0]
+        self.llm_model = normalize_groq_model(os.getenv("GROQ_MODEL"))
 
     def refresh_llm_settings(self) -> None:
         """Refresh LLM-related settings from the latest environment values."""
 
         reload_runtime_env()
-        self.llm_api_key = os.getenv("GROQ_API_KEY")
-        if not self.llm_api_key:
-            raise RuntimeError("GROQ_API_KEY is not loaded. Check .env file path.")
-        configured_model = (os.getenv("GROQ_MODEL") or "llama-3.1-8b-instant").strip()
-        if configured_model in ("llama3-8b-8192", "llama-3.3-70b-versatile"):
-            configured_model = "llama-3.1-8b-instant"
-        self.llm_model = configured_model
+        self.llm_api_keys = []
+        main_key = os.getenv("GROQ_API_KEY")
+        if main_key:
+            self.llm_api_keys.append(main_key)
+            
+        for i in range(1, 20):
+            key = os.getenv(f"GROQ_API_KEY_{i}")
+            if key and key not in self.llm_api_keys:
+                self.llm_api_keys.append(key)
+
+        if not self.llm_api_keys:
+            logger.warning("No GROQ_API_KEY or GROQ_API_KEY_1..19 found after refresh. LLM features will stay in rule-based mode.")
+            self.llm_api_key = ""
+        else:
+            self.llm_api_key = self.llm_api_keys[0]
+        self.llm_model = normalize_groq_model(os.getenv("GROQ_MODEL"))
 
 
 # ── Singleton ───────────────────────────────────────────────────────────────

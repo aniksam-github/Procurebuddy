@@ -3,6 +3,7 @@ package com.procurebuddy.controller;
 import com.procurebuddy.dto.request.FeedbackRequest;
 import com.procurebuddy.service.FeedbackService;
 import jakarta.validation.Valid;
+import java.security.Principal;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,9 +18,9 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
 
     @PostMapping({"/api/feedback", "/feedback"})
-    public Map<String, Object> submitFeedback(@Valid @RequestBody FeedbackRequest request) {
+    public Map<String, Object> submitFeedback(@Valid @RequestBody FeedbackRequest request, Principal principal) {
         return feedbackService.submitFeedback(
-                request.getUser(),
+                principal.getName(),
                 request.getMessageId(),
                 request.getType(),
                 request.getChatId()

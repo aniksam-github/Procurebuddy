@@ -160,7 +160,7 @@ PROCUREMENT_SOURCE_PRIORITY: tuple[str, ...] = (
 )
 
 
-def gfr_slab_for_amount(amount_lakhs: float | None) -> dict[str, Any] | None:
+def gfr_slab_for_amount(amount_lakhs: float | None, query: str | None = None) -> dict[str, Any] | None:
     """Return the controlling GFR 2025 slab for an amount expressed in lakhs."""
     if amount_lakhs is None:
         return None
